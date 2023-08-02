@@ -50,13 +50,13 @@ public class Group {
 		String ied = Helper.readString("Enter group id  > ");
 		for (int i = 0; i < groupList.size(); i++) {
 			if (ied.equalsIgnoreCase(groupList.get(i).getId())) {
-				System.out.println("Group has been created!");
+				System.out.println("Group has already been created!");
 				isFound = true;
 
 			} else {
-				String name = Helper.readString("Enter event name > ");
-				int participants = Helper.readInt("Enter event number of participant > ");
-				String description = Helper.readString("Enter event description > ");
+				String name = Helper.readString("Enter group name > ");
+				int participants = Helper.readInt("Enter group number of participant > ");
+				String description = Helper.readString("Enter group description > ");
 
 				Group newGroup = new Group(ied, name, participants, description);
 				groupList.add(newGroup);
@@ -73,7 +73,7 @@ public class Group {
 
 		while (true) {
 			Helper.line(50,"-");
-			System.out.println("\nMenu");
+			System.out.println("Menu");
 			Helper.line(50,"-");
 			System.out.println("1. View All Groups");
 			System.out.println("2. View a Specific Group");
@@ -82,10 +82,10 @@ public class Group {
 			int choice = Helper.readInt("Enter your choice:");
 
 			if (choice == 1) {
-				String output = String.format("%-10s %-10s %-10s %-10s\n", "ID", "NAME", "PARTICIPANTS", "DESCRIPTION");
+				String output = String.format("%-5s %-10s %-15s %s\n", "ID", "NAME", "PARTICIPANTS", "DESCRIPTION");
 
 				for (Group group : groupList) {
-					output += String.format("%-10s %-10s %-10d %-10s\n", group.getId(), group.getName(),
+					output += String.format("%-5s %-10s %-15d %s\n", group.getId(), group.getName(),
 							group.getParticipants(), group.getDescription());
 				}
 
@@ -94,7 +94,7 @@ public class Group {
 			}
 
 			else if (choice == 2) {
-				String groupName = Helper.readString("\nPlease enter the name of the group to view");
+				String groupName = Helper.readString("\nPlease enter the name of the group to view:\n");
 
 				boolean foundGroup = false;
 				for (Group group : groupList) {
@@ -144,5 +144,7 @@ public class Group {
 			System.out.println("Group was not found.");
 		}
 	}
+
+
 
 }
