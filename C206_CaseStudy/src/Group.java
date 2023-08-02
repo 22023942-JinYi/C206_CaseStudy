@@ -131,7 +131,7 @@ public class Group {
 				found = true;
 				char confirm = Helper.readChar("Are you sure you want to delete the group (y/n) > ");
 				if (Character.toLowerCase(confirm) == 'y') {
-					groupList.remove(idDel);
+					groupList.remove(group);
 					System.out.println("Group has been deleted successfully.");
 				} else {
 					System.out.println("Group has not been deleted");
