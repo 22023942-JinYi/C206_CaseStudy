@@ -34,7 +34,7 @@ public class Event {
 	}
 
 	public String getVenue() {
-		return name;
+		return venue;
 	}
 
 	public void setVenue(String venue) {
@@ -90,7 +90,7 @@ public class Event {
 	            "PARTICIPANTS", "DESCRIPTION");
 
 	    for (Event event : eventList) {
-	        output += String.format("%-10s %-10s %-10 %-10s %-10 %-10d %-10s\n", event.getId(), event.getName(),
+	        output += String.format("%-10s %-10s %-10 %-10s %-10d %-10s\n", event.getId(), event.getName(),
 	                event.getVenue(), event.getEventDate(), event.getParticipants(), event.getDescription());
 	    }
 
