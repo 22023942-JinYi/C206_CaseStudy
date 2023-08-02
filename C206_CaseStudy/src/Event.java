@@ -94,6 +94,7 @@ public class Event {
 	                event.getVenue(), event.getEventDate(), event.getParticipants(), event.getDescription());
 	    }
 
+	    
 	    System.out.println(output);
 	}
 	public static void deleteEvent(ArrayList<Event> eventList) {
