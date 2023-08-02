@@ -86,11 +86,11 @@ public class Event {
 
 	public static void viewAllEvent(ArrayList<Event> eventList) {
 
-	    String output = String.format("%-10s %-10s %-10 %-10s %-10 %-10s %-10s\n", "ID", "NAME", "VENUE", "EVENT DATE",
+	    String output = String.format("%-10s %-10s %-10s %-10s %-10s %-10s\n", "ID", "NAME", "VENUE", "EVENT DATE",
 	            "PARTICIPANTS", "DESCRIPTION");
 
 	    for (Event event : eventList) {
-	        output += String.format("%-10s %-10s %-10 %-10s %-10d %-10s\n", event.getId(), event.getName(),
+	        output += String.format("%-10s %-10s %-10s %-10s %-10d %-10s\n", event.getId(), event.getName(),
 	                event.getVenue(), event.getEventDate(), event.getParticipants(), event.getDescription());
 	    }
 
