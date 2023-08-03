@@ -4,14 +4,14 @@ import java.time.format.DateTimeFormatter;
 
 public class Event {
 
-	private String id;
+	private int id;
 	private String name;
 	private String venue;
 	private LocalDate eventDate;
 	private int participants;
 	private String description;
 
-	public Event(String id, String name, String venue, LocalDate eventDate, int participants, String description) {
+	public Event(int id, String name, String venue, LocalDate eventDate, int participants, String description) {
 		this.id = id;
 		this.name = name;
 		this.venue = venue;
@@ -21,7 +21,7 @@ public class Event {
 
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -66,7 +66,7 @@ public class Event {
 	}
 
 	public static void addEvent(ArrayList<Event> eventList) {
-		String id = Helper.readString("Enter event id  > ");
+		int id = Helper.readInt("Enter event id  > ");
 		String name = Helper.readString("Enter event name > ");
 		String venue = Helper.readString("Enter event venue > ");
 		String eventDate = Helper.readString("Enter event date (yyyy-MM-dd) > ");
@@ -82,31 +82,33 @@ public class Event {
 
 		System.out.println("New Event successfully added.");
 
-	}
-
-	public static void viewAllEvent(ArrayList<Event> eventList) {
-
-	    String output = String.format("%-10s %-10s %-10s %-10s %-10s %-10s\n", "ID", "NAME", "VENUE", "EVENT DATE",
-	            "PARTICIPANTS", "DESCRIPTION");
+	}public static void viewAllEvent(ArrayList<Event> eventList) {
+	    System.out.println("-----------------------------------------------------------------------------------------------");
+	    String header = String.format("| %-5s | %-20s | %-20s | %-12s | %-12s | %-30s |%n", 
+	                         "ID", "NAME", "VENUE", "EVENT DATE", "PARTICIPANTS", "DESCRIPTION");
+	    System.out.println(header);
+	    System.out.println("-----------------------------------------------------------------------------------------------");
 
 	    for (Event event : eventList) {
-	        output += String.format("%-10s %-10s %-10s %-10s %-10d %-10s\n", event.getId(), event.getName(),
-	                event.getVenue(), event.getEventDate(), event.getParticipants(), event.getDescription());
+	        String row = String.format("| %-5d | %-20s | %-20s | %-12s | %12d | %-30s |%n", 
+	                      event.getId(), event.getName(), event.getVenue(), event.getEventDate(),
+	                      event.getParticipants(), event.getDescription());
+	        System.out.println(row);
 	    }
-
 	    
-	    System.out.println(output);
+	    System.out.println("-----------------------------------------------------------------------------------------------");
 	}
+
 	public static void deleteEvent(ArrayList<Event> eventList) {
-	    String id = Helper.readString("Enter id to delete > ");
+	    int id = Helper.readInt("Enter id to delete > ");
 	    boolean found = false; 
 
 	    for (Event event: eventList) {
-	        if (event.getId().equals(id)) {
+	        if (event.getId()==id) {
 	            found = true;
 	            char confirm = Helper.readChar("Are you sure you want to delete the event (y/n) > ");
 	            if (Character.toLowerCase(confirm) == 'y') {
-	            	eventList.remove(eventList);
+	            	eventList.remove(event);
 	                System.out.println("Event has been deleted successfully.");
 	            } else {
 	                System.out.println("hi.");
