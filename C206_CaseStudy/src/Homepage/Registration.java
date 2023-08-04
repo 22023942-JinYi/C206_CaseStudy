@@ -91,4 +91,4 @@ public class Registration {
         // Assuming you have a User class that stores user information
         user.removeEvent(this);
     }
-}
+} 
