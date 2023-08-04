@@ -1,4 +1,4 @@
-package UserAccess;
+package Homepage;
 
 public class User {
 		

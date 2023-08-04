@@ -1,9 +1,12 @@
-package UserAccess;
+package Homepage;
 
 import Helper.Helper;
+import Homepage.Bike;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+
 
 public class HomePage{
 	
