@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.regex.Pattern;
+
+import Helper.Helper;
 public class Bike {
 	private int id;
 	private String model;

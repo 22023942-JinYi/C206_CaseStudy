@@ -1,6 +1,8 @@
 
 import java.util.ArrayList;
 
+import Helper.Helper;
+
 public class Group {
 
 	private String id;
