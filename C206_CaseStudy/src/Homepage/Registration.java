@@ -1,94 +1,94 @@
 package Homepage;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.ArrayList;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import Helper.Helper;
 
 public class Registration {
-    private int id;
-    private String name;
-    private String venue;
-    private LocalDate eventDate;
-    private int participants;
-    private String description;
-    private List <Registration> signedUpForEvents;
-    
 
-	public Registration(int id, String name, String venue, LocalDate eventDate, int participants, String description) {
-        this.id = id;
-       this.name = name;
-        this.venue = venue;
-        this.eventDate = eventDate;
-        this.participants = participants;
-        this.description = description;
-        this.signedUpForEvents = new ArrayList<>();
-    }
-    public int getId() {
-		return id;
+	private String event;
+	private LocalDateTime registrationDateTime;
+	private int eventRegisteredID;
+
+	public Registration(String event) {
+
+		this.event = event;
+
+	}
+
+	public String getEvent() {
+		return event;
+	}
+
+	public LocalDateTime getRegistrationDateTime() {
+		return registrationDateTime;
 	}
 
 	public String getName() {
-		return name;
+		return null;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void display() {
+		System.out.println("Events Registered: " + event);
+	}
+	
+	
+	public int getEventRegisteredID() {
+		return eventRegisteredID;
+		
+	}
+	private static void displayAllRegistration (ArrayList <Registration> registrationsList) {
+		// TODO Auto-generated method stub
+		if (registrationsList.isEmpty()) {
+			System.out.println("No registrations in the list.");
+		} else {
+			System.out.println("All Registrations:");
+			for (Registration r : registrationsList) {
+				r.display();
+
+			}
+		}
+
 	}
 
-	public String getVenue() {
-		return venue;
+	public static void addEventRegistrations(ArrayList<Event> events, ArrayList<Registration> registrationsList) {
+		Helper.line(70, "-");
+		String name = Helper.readString("Enter Event Name > ");
+
+		// Check if the event with the same name already exists
+
+		boolean register = false;
+		for (Event event : events) {
+			if (event.getName().equalsIgnoreCase(name)) {
+				registrationsList.add(new Registration(event.getName()));
+				register = true;
+				break;
+			}
+		}
+
+		if (register == true) {
+			System.out.println("Event Registered!");
+		} else {
+			System.out.println("Invalid event registered!");
+		}
 	}
+	 public static void deleteEventRegistration(ArrayList<Registration> registrationsList) {
+	        // Implement method to delete a bike
+	        int registeredEventID = Helper.readInt("Enter the registeredEventID to delete: ");
+	        boolean found = false;
 
-	public void setVenue(String venue) {
-		this.venue = venue;
-	}
+	        for (Registration r : registrationsList) {
+	            if (r.getEventRegisteredID() == registeredEventID) {
+	                registrationsList.remove(r);
+	                System.out.println("Event Registration deleted successfully!");
+	                found = true;
+	                break;
+	            }
+	        }
 
-	public LocalDate getEventDate() {
-		return eventDate;
-	}
-
-	public void setEventDate(LocalDate eventDate) {
-		this.eventDate = eventDate;
-	}
-
-	public int getParticipants() {
-		return participants;
-	}
-
-	public void setParticipants(int participants) {
-		this.participants = participants;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-
-
-
-    // Method to sign up for an event
-    public void signUpForEvent(User user) {
-        if (!user.LoggedIn()) {
-            System.out.println("Please log in to sign up for the event.");
-            return;
-        }
-        user.addEvent(this);
-    }
-    
-    //Method to view all registration of participants
-    public List<Registration> getSignedUpForEvents(User user) {
-        return user.getSignedUpForEvents();
-    }
-
-    // Method to remove a signed-up event
-    public void removeSignedUpEvent(User user) {
-        // Assuming you have a User class that stores user information
-        user.removeEvent(this);
-    }
-} 
+	        if (!found) {
+	            System.out.println("Registered event not found with the given ID!");
+	        }
+	    }
+}
