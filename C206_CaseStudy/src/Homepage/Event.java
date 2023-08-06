@@ -87,21 +87,19 @@ public class Event {
 		System.out.println("New Event successfully added.");
 
 	}public static void viewAllEvent(ArrayList<Event> eventList) {
-	    System.out.println("-----------------------------------------------------------------------------------------------");
-	    String header = String.format("| %-5s | %-20s | %-20s | %-12s | %-12s | %-30s |%n", 
-	                         "ID", "NAME", "VENUE", "EVENT DATE", "PARTICIPANTS", "DESCRIPTION");
-	    System.out.println(header);
-	    System.out.println("-----------------------------------------------------------------------------------------------");
+	    String output = String.format("%-10s %-20s %-20s %-12s %-12s %-30s%n", "ID", "NAME", "VENUE", "EVENT DATE",
+	            "PARTICIPANTS", "DESCRIPTION");
 
 	    for (Event event : eventList) {
-	        String row = String.format("| %-5d | %-20s | %-20s | %-12s | %12d | %-30s |%n", 
-	                      event.getId(), event.getName(), event.getVenue(), event.getEventDate(),
-	                      event.getParticipants(), event.getDescription());
-	        System.out.println(row);
+	        output += String.format("%-10d %-20s %-20s %-12s %-12d %-30s%n",
+	                event.getId(), event.getName(), event.getVenue(), event.getEventDate(),
+	                event.getParticipants(), event.getDescription());
 	    }
-	    
-	    System.out.println("-----------------------------------------------------------------------------------------------");
+
+	    System.out.println(output);
 	}
+
+	
 
 	public static void deleteEvent(ArrayList<Event> eventList) {
 	    int id = Helper.readInt("Enter id to delete > ");

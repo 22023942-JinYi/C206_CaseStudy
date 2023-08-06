@@ -62,10 +62,10 @@ public class Bike {
 
 	public static void viewAllBike(ArrayList<Bike> bikeList) {
 
-		String output = String.format("%-10s %-10s %-10 %-10s\n", "ID", "MODEL", "COLOUR", "WEIGHT");
+		String output = String.format("%-10s %-10s %-10s %-10s\n", "ID", "MODEL", "COLOUR", "WEIGHT");
 
 		for (Bike bike : bikeList) {
-			output += String.format("%-10d %-10s %-10 %-10.2f\n", bike.getId(), bike.getModel(),
+			output += String.format("%-10d %-10s %-10s %-10.2f\n", bike.getId(), bike.getModel(),
 					bike.getColour(), bike.getWeight());
 		}
 
@@ -82,7 +82,7 @@ public class Bike {
 				found = true;
 				char confirm = Helper.readChar("Are you sure you want to delete the event (y/n) > ");
 				if (Character.toLowerCase(confirm) == 'y') {
-					bikeList.remove(bike.getId());
+					bikeList.remove(bike);
 					System.out.println("Event has been deleted successfully.");
 				} else {
 					System.out.println("hi.");

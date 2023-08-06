@@ -38,7 +38,7 @@ public class Registration {
     return eventRegisteredID;
     
   }
-  private static void displayAllRegistration (ArrayList <Registration> registrationsList) {
+  public static void displayAllRegistration (ArrayList <Registration> registrationsList) {
     // TODO Auto-generated method stub
     if (registrationsList.isEmpty()) {
       System.out.println("No registrations in the list.");
