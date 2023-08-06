@@ -22,6 +22,7 @@ public class User {
 			this.username = username;
 			this.id = id;
 		}
+
 		/**
 		 * @return the id
 		 */

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-public class Registration {
+public class Registration extends User{
     private int id;
     private String name;
     private String venue;
@@ -15,26 +15,14 @@ public class Registration {
     private List <Registration> signedUpForEvents;
     
 
-	public Registration(int id, String name, String venue, LocalDate eventDate, int participants, String description) {
-        this.id = id;
-       this.name = name;
+	public Registration(int id, String username, String venue, LocalDate eventDate, int participants, String description) {
+        super(username,id);
         this.venue = venue;
         this.eventDate = eventDate;
         this.participants = participants;
         this.description = description;
         this.signedUpForEvents = new ArrayList<>();
     }
-    public int getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public String getVenue() {
 		return venue;
