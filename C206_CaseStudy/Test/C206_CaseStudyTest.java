@@ -63,25 +63,15 @@ public class C206_CaseStudyTest {
         assertEquals(expectedOutput, actualOutput);
 }
 
-
-
-
     @Test
     public void testDeleteDiscussion() {
         // Test that discussion deleted is of ID that user input
     	int input1 = 1;
-    	 for (Discussion discussion: discussionList) {
-		        if (discussion.getId() == input1) {
-		        	discussionList.remove(0);
-		        }
-	        	assertEquals(input1, discussionList.get(0).getId());
+	    assertEquals(input1, discussionList.get(0).getId());
 
-
-		        
-    	 }
-		    	
-    	
         // After deletion, the size of the list should be 1 (since we only removed one discussion)
+	    int removal = discussionList.get(0).getId();
+	    discussionList.remove(removal);
         int expectedSizeAfterDeletion = 1;
         assertEquals(expectedSizeAfterDeletion, discussionList.size());
     }
