@@ -9,10 +9,13 @@ import org.junit.Test;
 
 import Homepage.*;
 
+
+
 public class C206_CaseStudyTest {
 
 	private ArrayList<Discussion> discussionList;
 	private ArrayList<Event> eventList;
+	private ArrayList<Group> groupList;
 	private Bike bike1;
 	private Bike bike2;
 	private Bike bike3;
@@ -22,6 +25,7 @@ public class C206_CaseStudyTest {
 	public void setUp() {
 		discussionList = new ArrayList<>();
 		eventList = new ArrayList<>();
+		groupList = new ArrayList<>();
 		// Add some sample discussions to the list for testing
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate discussionDate1 = LocalDate.parse("2023-08-06", dtf);
@@ -35,6 +39,8 @@ public class C206_CaseStudyTest {
 		bike1 = new Bike(1, "gg", "red", 69);
 		bike2 = new Bike(2, "we", "blue", 70);
 		bikeList = new ArrayList<Bike>();
+		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
+		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
 	}
 
 	@Test
@@ -88,25 +94,23 @@ public class C206_CaseStudyTest {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	 @Test
-	    public void testViewAllEvent() {
-	        ArrayList<Event> eventList = new ArrayList<>();
-	        Event event1 = new Event(1, "Event 1", "Venue 1",
-	                                 LocalDate.now(), 50, "Description 1");
-	        Event event2 = new Event(2, "Event 2", "Venue 2",
-	                                 LocalDate.now().plusDays(1), 75, "Description 2");
-	        eventList.add(event1);
-	        eventList.add(event2);
+	@Test
+	public void testViewAllEvent() {
+		ArrayList<Event> eventList = new ArrayList<>();
+		Event event1 = new Event(1, "Event 1", "Venue 1", LocalDate.now(), 50, "Description 1");
+		Event event2 = new Event(2, "Event 2", "Venue 2", LocalDate.now().plusDays(1), 75, "Description 2");
+		eventList.add(event1);
+		eventList.add(event2);
 
-	        // Perform the viewAllEvent method
-	        // Since this method only prints the events, it's hard to write a direct test for its output
+		// Perform the viewAllEvent method
+		// Since this method only prints the events, it's hard to write a direct test
+		// for its output
 
-	        // Check that the events were not modified
-	        assertEquals(2, eventList.size());
-	        assertTrue(eventList.contains(event1));
-	        assertTrue(eventList.contains(event2));
-	    }
-	
+		// Check that the events were not modified
+		assertEquals(2, eventList.size());
+		assertTrue(eventList.contains(event1));
+		assertTrue(eventList.contains(event2));
+	}
 
 	@Test
 	public void testDeleteDiscussion() {
@@ -121,19 +125,20 @@ public class C206_CaseStudyTest {
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, discussionList.size());
 	}
+
 	@Test
-    public void testDeleteEvent() {
-        ArrayList<Event> eventList = new ArrayList<>();
-        Event event = new Event(1, "Test Event", "Test Venue",
-                                LocalDate.now(), 100, "Test Description");
-        eventList.add(event);
+	public void testDeleteEvent() {
+		ArrayList<Event> eventList = new ArrayList<>();
+		Event event = new Event(1, "Test Event", "Test Venue", LocalDate.now(), 100, "Test Description");
+		eventList.add(event);
 
-        // Delete the event
-        Event.deleteEvent(eventList);
+		// Delete the event
+		Event.deleteEvent(eventList);
 
-        // Check if the event was deleted
-        assertEquals(0, eventList.size());
-    }
+		// Check if the event was deleted
+		assertEquals(0, eventList.size());
+	}
+
 	@Test
 	public void testAddBike() {
 		// bike list is not null and it is empty
@@ -152,15 +157,17 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testViewAllBike() {
-		String actualOutput=Bike.viewAllBike(bikeList);
-		String expected=String.format("%-10s %-10s %-10s %-10s\n", "ID", "MODEL", "COLOUR", "WEIGHT");;
-		for(Bike b:bikeList) {
-			expected+=String.format("%-10d %-10s %-10s %-10.2f\n", b.getId(), b.getModel(),
-					b.getColour(), b.getWeight());
+		String actualOutput = Bike.viewAllBike(bikeList);
+		String expected = String.format("%-10s %-10s %-10s %-10s\n", "ID", "MODEL", "COLOUR", "WEIGHT");
+		;
+		for (Bike b : bikeList) {
+			expected += String.format("%-10d %-10s %-10s %-10.2f\n", b.getId(), b.getModel(), b.getColour(),
+					b.getWeight());
 		}
-		assertEquals(expected,actualOutput);
+		assertEquals(expected, actualOutput);
 	}
-	@Test 
+
+	@Test
 	public void testDeleteBike() {
 		bikeList.add(bike1);
 		bikeList.add(bike2);
@@ -174,6 +181,34 @@ public class C206_CaseStudyTest {
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, bikeList.size());
 	}
+
+	@Test
+	public void testAddGroup() {
+		groupList.add(new Group("3", "Biking", 30, "A group for Biking"));
+		assertEquals(3, groupList.size());
+	}
+
+	@Test
+	public void testAddGroup_DupID() {
+		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
+		String duplicateID = groupList.get(2).getId();
+		assertEquals("1", duplicateID);
+	}
+
+	@Test
+	public void testViewAllGroup() {
+		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
+		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
+
+		assertEquals(4, groupList.size());
+	}
+
+	@Test
+	public void testDeleteGroup() {
+		groupList.remove(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
+		assertEquals(2, groupList.size());
+	}
+
 	@After
 	public void tearDown() throws Exception {
 		bike1 = null;
