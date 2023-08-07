@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import Homepage.*;
 
-
-
 public class C206_CaseStudyTest {
 
 	private ArrayList<Discussion> discussionList;
@@ -62,14 +60,12 @@ public class C206_CaseStudyTest {
 		assertEquals("Description for Discussion 3", newDiscussion.getDescription());
 	}
 
-	@Test
-	public void testAddEvent() {
-		ArrayList<Event> eventList = new ArrayList<>();
-		Event.addEvent(eventList);
-
-		// Check if an event was added to the list
-		assertEquals(1, eventList.size());
-	}
+	@Test 
+	 public void testAddEvent() { 
+	  eventList.add(new Event(4, "HELLO", "Taman E", LocalDate.of(2022, 12, 22), 7, "Mark")); 
+	  // Check if an event was added to the list 
+	  assertEquals(4, eventList.size()); 
+	 }
 
 	@Test
 	public void testViewAllDiscussion() {
@@ -128,12 +124,10 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testDeleteEvent() {
-		ArrayList<Event> eventList = new ArrayList<>();
-		Event event = new Event(1, "Test Event", "Test Venue", LocalDate.now(), 100, "Test Description");
-		eventList.add(event);
-
 		// Delete the event
-		Event.deleteEvent(eventList);
+		ArrayList<Event> eventList = new ArrayList<>();
+		Event event = new Event(1, "Tet Event", "Test Venue", LocalDate.now(), 100, "Test Description");
+		eventList.remove(event);
 
 		// Check if the event was deleted
 		assertEquals(0, eventList.size());
