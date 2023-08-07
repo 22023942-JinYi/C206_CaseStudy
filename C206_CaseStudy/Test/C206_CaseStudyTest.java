@@ -69,26 +69,24 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testViewAllDiscussion() {
-		// Test that the discussions are formatted neatly
-		String actualOutput = Discussion.viewAllDiscussion(discussionList);
-		String expectedOutput = "";
+        // Test that the discussions are formatted neatly
+        String actualOutput = Discussion.viewAllDiscussion(discussionList);
+        String expectedOutput = "";
+        String header = "-".repeat(150);
+	    for (Discussion discussion : discussionList) {
+	    	expectedOutput += header;
+	    	expectedOutput += String.format("\n%-20s%-30s%-20s\n", "Id:", "Title of Discussion:", "Date of Discussion:");
+	    	expectedOutput += header;
+	    	expectedOutput += String.format("\n%-20s%-30s%-20s", discussion.getId(), discussion.getTitle(), discussion.getDiscussionDate());
+	    	expectedOutput += "\n";
+	    	expectedOutput += String.format("%-20s%-80s", "Description:", discussion.getDescription());
+	    	expectedOutput += "\n";
+	    	expectedOutput += "\n";
 
-		for (Discussion discussion : discussionList) {
-			expectedOutput += " ------------------------------------------------------------------------------------------------------------------------------------------------------";
-			expectedOutput += String.format("\n%-20s%-30s%-20s\n", "Id:", "Title of Discussion:",
-					"Date of Discussion:");
-			expectedOutput += " ------------------------------------------------------------------------------------------------------------------------------------------------------";
-			expectedOutput += String.format("\n%-20s%-30s%-20s", discussion.getId(), discussion.getTitle(),
-					discussion.getDiscussionDate());
-			expectedOutput += "\n";
-			expectedOutput += String.format("%-20s%-80s", "Description:", discussion.getDescription());
-			expectedOutput += "\n";
-			expectedOutput += "\n";
+	    }
 
-		}
-
-		assertEquals(expectedOutput, actualOutput);
-	}
+        assertEquals(expectedOutput, actualOutput);
+}
 
 	@Test
 	public void testViewAllEvent() {

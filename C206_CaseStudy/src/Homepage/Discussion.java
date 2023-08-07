@@ -85,10 +85,11 @@ public class Discussion {
 		
 
 		   String output = "";
+		   String header = "-".repeat(150);
 		    for (Discussion discussion : discussionList) {
-		        output += " ------------------------------------------------------------------------------------------------------------------------------------------------------";
+		    	output += header;
 		        output += String.format("\n%-20s%-30s%-20s\n", "Id:", "Title of Discussion:", "Date of Discussion:");
-		        output += " ------------------------------------------------------------------------------------------------------------------------------------------------------";
+		    	output += header;
 		        output += String.format("\n%-20s%-30s%-20s", discussion.getId(), discussion.getTitle(), discussion.getDiscussionDate());
 		        output += "\n";
 		        output += String.format("%-20s%-80s", "Description:", discussion.getDescription());
