@@ -126,7 +126,7 @@ public class HomePage {
 
 	public static void dismenu() {
 		Helper.line(40, "=");
-		System.out.println("Event");
+		System.out.println("Discussion");
 		Helper.line(40, "=");
 		System.out.println("1. Add Discussion");
 		System.out.println("2. View Discussion");
@@ -148,7 +148,7 @@ public class HomePage {
 
 	public static void regmenu() {
 		Helper.line(40, "=");
-		System.out.println("Event");
+		System.out.println("Registration");
 		Helper.line(40, "=");
 		System.out.println("1. Add Registration");
 		System.out.println("2. View Registration");
