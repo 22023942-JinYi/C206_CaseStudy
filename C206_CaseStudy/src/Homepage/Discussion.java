@@ -85,7 +85,6 @@ public class Discussion {
 		
 
 		   String output = "";
-
 		    for (Discussion discussion : discussionList) {
 		        output += " ------------------------------------------------------------------------------------------------------------------------------------------------------";
 		        output += String.format("\n%-20s%-30s%-20s\n", "Id:", "Title of Discussion:", "Date of Discussion:");
