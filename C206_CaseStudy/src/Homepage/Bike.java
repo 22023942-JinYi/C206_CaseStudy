@@ -60,7 +60,7 @@ public class Bike {
 
 	}
 
-	public static void viewAllBike(ArrayList<Bike> bikeList) {
+	public static String viewAllBike(ArrayList<Bike> bikeList) {
 
 		String output = String.format("%-10s %-10s %-10s %-10s\n", "ID", "MODEL", "COLOUR", "WEIGHT");
 
@@ -70,6 +70,7 @@ public class Bike {
 		}
 
 		System.out.println(output);
+		return output;
 	}
 
 	public static void deleteBike(ArrayList<Bike> bikeList) {

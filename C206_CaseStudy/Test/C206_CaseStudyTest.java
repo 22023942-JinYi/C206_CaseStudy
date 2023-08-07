@@ -3,16 +3,20 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import Homepage.Discussion;
-import Homepage.Event;
+import Homepage.*;
 
 public class C206_CaseStudyTest {
 
 	private ArrayList<Discussion> discussionList;
 	private ArrayList<Event> eventList;
+	private Bike bike1;
+	private Bike bike2;
+	private Bike bike3;
+	private ArrayList<Bike> bikeList;
 
 	@Before
 	public void setUp() {
@@ -28,7 +32,9 @@ public class C206_CaseStudyTest {
 		eventList.add(new Event(1, "HI", "Taman U", LocalDate.of(2022, 8, 8), 2, "Tom")); // year, month, day
 		eventList.add(new Event(2, "BYE", "Taman P", LocalDate.of(2022, 10, 23), 5, "Amy"));
 		eventList.add(new Event(3, "HELLO", "Taman E", LocalDate.of(2022, 12, 22), 7, "Mark"));
-
+		bike1 = new Bike(1, "gg", "red", 69);
+		bike2 = new Bike(2, "we", "blue", 70);
+		bikeList = new ArrayList<Bike>();
 	}
 
 	@Test
@@ -128,5 +134,51 @@ public class C206_CaseStudyTest {
         // Check if the event was deleted
         assertEquals(0, eventList.size());
     }
+	@Test
+	public void testAddBike() {
+		// bike list is not null and it is empty
+		assertNotNull("Test if there is valid Bike arraylist to add to", bikeList);
+		assertEquals("Test that the Bike arraylist is empty.", 0, bikeList.size());
+		// Given an empty list, after adding 1 item, the size of the list is 1
+		bikeList.add(bike1);
+		assertEquals("Test that the Bike arraylist size is 1.", 1, bikeList.size());
 
+		// Add an item
+		bikeList.add(bike2);
+		assertEquals("Test that the Bike arraylist size is now 2.", 2, bikeList.size());
+		// The bike just added is as same as the last item in the list
+		assertSame("Test that Bike is added to the end of the list.", bike2, bikeList.get(1));
+	}
+
+	@Test
+	public void testViewAllBike() {
+		String actualOutput=Bike.viewAllBike(bikeList);
+		String expected=String.format("%-10s %-10s %-10s %-10s\n", "ID", "MODEL", "COLOUR", "WEIGHT");;
+		for(Bike b:bikeList) {
+			expected+=String.format("%-10d %-10s %-10s %-10.2f\n", b.getId(), b.getModel(),
+					b.getColour(), b.getWeight());
+		}
+		assertEquals(expected,actualOutput);
+	}
+	@Test 
+	public void testDeleteBike() {
+		bikeList.add(bike1);
+		bikeList.add(bike2);
+		int input1 = 1;
+		assertEquals(input1, bikeList.get(0).getId());
+
+		// After deletion, the size of the list should be 1 (since we only removed one
+		// discussion)
+		int removal = bikeList.get(0).getId();
+		bikeList.remove(removal);
+		int expectedSizeAfterDeletion = 1;
+		assertEquals(expectedSizeAfterDeletion, bikeList.size());
+	}
+	@After
+	public void tearDown() throws Exception {
+		bike1 = null;
+		bike2 = null;
+		bike3 = null;
+		bikeList = null;
+	}
 }
