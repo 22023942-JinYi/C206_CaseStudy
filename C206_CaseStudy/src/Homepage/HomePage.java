@@ -283,15 +283,15 @@ public class HomePage {
 						Bike.viewAllBike(bikeList);
 					} else if (opt == 3) {
 						Bike.deleteBike(bikeList);
-					} else if (opt == 4) {
-						System.out.println("See you next time!!");
-					} else {
+					}  else {
 						System.out.println("Invalid input");
 					}
 					// Prompt for the next option within the loop
 					bikemenu();
 					opt = Helper.readInt("Choose your option: ");
-				}
+				}if (opt == 4) {
+						System.out.println("See you next time!!");
+					}
 
 			} else if (option == 6) {// discussion
 				ArrayList<Discussion> discussionList = new ArrayList<Discussion>();
@@ -304,15 +304,15 @@ public class HomePage {
 						Discussion.viewAllDiscussion(discussionList);
 					} else if (opt == 3) {
 						Discussion.deleteDiscussion(discussionList);
-					} else if (opt == 4) {
-						System.out.println("See you next time!!");
 					} else {
 						System.out.println("Invalid input");
 					}
 					// Prompt for the next option within the loop
 					dismenu();
 					opt = Helper.readInt("Choose your option: ");
-				}
+				}if (opt == 4) {
+						System.out.println("See you next time!!");
+					}
 				
 
 			} else if (option == 7) {// group
@@ -326,15 +326,15 @@ public class HomePage {
 						Group.viewAllGroup(groupList);
 					} else if (opt == 3) {
 						Group.deleteGroup(groupList);
-					} else if (opt == 4) {
-						System.out.println("See you next time!!");
 					} else {
 						System.out.println("Invalid input");
 					}
 					// Prompt for the next option within the loop
 					groupmenu();
 					opt = Helper.readInt("Choose your option: ");
-				}
+				}if (opt == 4) {
+						System.out.println("See you next time!!");
+					}
 
 			} else if (option == 8) {// event
 				Event e1 = new Event(1, "HI", "Taman U", LocalDate.of(2022, 8, 8), 2, "You");
@@ -352,15 +352,15 @@ public class HomePage {
 						Event.viewAllEvent(eventList);
 					} else if (opt == 3) {
 						Event.deleteEvent(eventList);
-					} else if (opt == 4) {
-						System.out.println("See you next time!!");
 					} else {
 						System.out.println("Invalid input");
 					}
 					// Prompt for the next option within the loop
 					eventmenu();
 					opt = Helper.readInt("Choose your option: ");
-				}
+				}if (opt == 4) {
+						System.out.println("See you next time!!");
+					}
 
 			} else if (option == 9) {// registration
 				ArrayList<Registration> registrationsList = new ArrayList<Registration>();
@@ -375,15 +375,15 @@ public class HomePage {
 						Registration.displayAllRegistration(registrationsList);
 					} else if (opt == 3) {
 						Registration.deleteEventRegistration(registrationsList);
-					} else if (opt == 4) {
-						System.out.println("See you next time!!");
 					} else {
 						System.out.println("Invalid input");
 					}
 					// Prompt for the next option within the loop
 					regmenu();
 					opt = Helper.readInt("Choose your option: ");
-				}
+				}if (opt == 4) {
+						System.out.println("See you next time!!");
+					}
 				
 
 			}
