@@ -137,7 +137,7 @@ public class HomePage {
 
 	public static void groupmenu() {
 		Helper.line(40, "=");
-		System.out.println("Event");
+		System.out.println("Group");
 		Helper.line(40, "=");
 		System.out.println("1. Add Group");
 		System.out.println("2. View Group");

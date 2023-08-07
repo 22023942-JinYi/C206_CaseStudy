@@ -48,29 +48,33 @@ public class Group {
 	}
 
 	public static boolean addGroup(ArrayList<Group> groupList) {
-		boolean isFound = false;
+	    boolean isFound = false;
 
-		String ied = Helper.readString("Enter group id  > ");
-		for (int i = 0; i < groupList.size(); i++) {
-			if (ied.equalsIgnoreCase(groupList.get(i).getId())) {
-				System.out.println("Group has already been created!");
-				isFound = true;
+	    String groupId = Helper.readString("Enter group id  > ");
+	    
+	    // Check if the group with the provided ID already exists
+	    for (Group group : groupList) {
+	        if (groupId.equalsIgnoreCase(group.getId())) {
+	            System.out.println("Group has already been created!");
+	            isFound = true;
+	            break;
+	        }
+	    }
 
-			} else {
-				String name = Helper.readString("Enter group name > ");
-				int participants = Helper.readInt("Enter group number of participant > ");
-				String description = Helper.readString("Enter group description > ");
+	    if (!isFound) {
+	        String name = Helper.readString("Enter group name > ");
+	        int participants = Helper.readInt("Enter group number of participant > ");
+	        String description = Helper.readString("Enter group description > ");
 
-				Group newGroup = new Group(ied, name, participants, description);
-				groupList.add(newGroup);
+	        Group newGroup = new Group(groupId, name, participants, description);
+	        groupList.add(newGroup);
 
-				System.out.println("New Group has been successfully added.");
-			}
+	        System.out.println("New Group has been successfully added.");
+	    }
 
-		}
-		return isFound;
-
+	    return isFound;
 	}
+
 
 	public static void viewAllGroup(ArrayList<Group> groupList) {
 
