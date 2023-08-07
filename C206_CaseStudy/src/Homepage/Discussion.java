@@ -1,4 +1,5 @@
 package Homepage;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -6,13 +7,13 @@ import java.util.ArrayList;
 import Helper.Helper;
 
 public class Discussion {
-	private String id;
+	private int id;
 	private String title;
 	private LocalDate discussionDate;
 	private String description;
 
 	
-	public Discussion(String id, String title, LocalDate discussionDate, String description) {
+	public Discussion(int id, String title, LocalDate discussionDate, String description) {
 		this.id = id;
 		this.title = title;
 		this.discussionDate = discussionDate;
@@ -21,9 +22,15 @@ public class Discussion {
 	}
 
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
+	
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 
 	public String getTitle() {
 		return title;
@@ -56,7 +63,7 @@ public class Discussion {
 	
 	
 	public static void addDiscussion(ArrayList<Discussion> discussionList) {
-		String id = Helper.readString("Enter discussion id  > ");
+		int id = Helper.readInt("Enter discussion id  > ");
 		String title = Helper.readString("Enter discussion title > ");
 		String discussionDate = Helper.readString("Enter discussion date (yyyy-MM-dd) > ");
 		String description = Helper.readString("Enter discussion description > ");
@@ -74,28 +81,30 @@ public class Discussion {
 		}
 		
 		
-		public static void viewAllDiscussion(ArrayList<Discussion> discussionList) {
+	public static String viewAllDiscussion(ArrayList<Discussion> discussionList) {
 		
 
+		   String output = "";
 
 		    for (Discussion discussion : discussionList) {
-		    	Helper.line(150, "-");
-				System.out.println(String.format("%-20s%-30s%-20s", "Id:", "Title of Discussion:", "Date of Discussion:"));
-				Helper.line(150, "-");
-		        System.out.println(String.format("%-20s%-30s%-20s", discussion.getId(), discussion.getTitle(), discussion.getDiscussionDate()));
-				System.out.println(" ");
-
-		    System.out.println(String.format("%-20s%-80s", "Description:", discussion.getDescription()));
-			System.out.println(" ");
-
+		        output += " ------------------------------------------------------------------------------------------------------------------------------------------------------";
+		        output += String.format("\n%-20s%-30s%-20s\n", "Id:", "Title of Discussion:", "Date of Discussion:");
+		        output += " ------------------------------------------------------------------------------------------------------------------------------------------------------";
+		        output += String.format("\n%-20s%-30s%-20s", discussion.getId(), discussion.getTitle(), discussion.getDiscussionDate());
+		        output += "\n";
+		        output += String.format("%-20s%-80s", "Description:", discussion.getDescription());
+		        output += "\n";
+		        output += "\n";
 		    }
+		    System.out.println(output);
+		    return output;
 		}
 		public static void deleteDiscussion(ArrayList<Discussion> discussionList) {
-		    String id = Helper.readString("Enter id to delete > ");
+		    int id = Helper.readInt("Enter id to delete > ");
 		    boolean found = false; 
 
 		    for (Discussion discussion: discussionList) {
-		        if (discussion.getId().equals(id)) {
+		        if (discussion.getId()== (id)) {
 		            found = true;
 		            char confirm = Helper.readChar("Are you sure you want to delete the discussion (y/n) > ");
 		            if (Character.toLowerCase(confirm) == 'y') {
