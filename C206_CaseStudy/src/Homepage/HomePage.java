@@ -370,31 +370,32 @@ public class HomePage {
 				}
 
 			} else if (option == 9) {// registration
-				ArrayList<Registration> registrationsList = new ArrayList<Registration>();
-				ArrayList<Event> eventList = new ArrayList<Event>();
+		        ArrayList<Registration> registrationsList = new ArrayList<Registration>();
+		        ArrayList<Event> eventList = new ArrayList<Event>();
+		        
+		        regmenu();
+		        int opt = Helper.readInt("Choose your option: ");
+		        while (opt != 4) {
+		          if (opt == 1) {
+		            Registration.addEventRegistrations(registrationsList);
+		          } else if (opt == 2) {
+		            Registration.displayAllRegistration(registrationsList);
+		          } else if (opt == 3) {
+		            Registration.deleteEventRegistration(registrationsList);
+		          } else {
+		            System.out.println("Invalid input");
+		          }
+		          // Prompt for the next option within the loop
+		          regmenu();
+		          opt = Helper.readInt("Choose your option: ");
+		        }if (opt == 4) {
+		            System.out.println("See you next time!!");
+		          }
+		        
 
-				regmenu();
-				int opt = Helper.readInt("Choose your option: ");
-				while (opt != 4) {
-					if (opt == 1) {
-						Registration.addEventRegistrations(eventList, registrationsList);
-					} else if (opt == 2) {
-						Registration.displayAllRegistration(registrationsList);
-					} else if (opt == 3) {
-						Registration.deleteEventRegistration(registrationsList);
-					} else {
-						System.out.println("Invalid input");
-					}
-					// Prompt for the next option within the loop
-					regmenu();
-					opt = Helper.readInt("Choose your option: ");
-				}
-				if (opt == 4) {
-					System.out.println("See you next time!!");
-				}
-
-			}
-		} while (option != 10);
+		      }
+		    } while (option != 10);
+		  
 	}
 
 	public static void adminlogin(ArrayList<User> users, int myid, ArrayList<Friend> friends, String uuser) {
