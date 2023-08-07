@@ -18,6 +18,18 @@ public class C206_CaseStudyTest {
 	private Bike bike2;
 	private Bike bike3;
 	private ArrayList<Bike> bikeList;
+	private User u1;
+	private User u2;
+	private User u3;
+	private Friend f1;
+	private Friend f2;
+	   	
+	   	private ArrayList<User> users;
+	   	private ArrayList<Friend> friends;
+	   	
+	   	public C206_CaseStudyTest() {
+	   		super();
+	   	}
 
 	@Before
 	public void setUp() {
@@ -39,6 +51,14 @@ public class C206_CaseStudyTest {
 		bikeList = new ArrayList<Bike>();
 		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
 		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
+		u1 = new User(1, "jin", "password", true);
+		u2 = new User(2, "jake", "pass1", false);
+		u3 = new User(3, "fin", "pass2", false);
+
+		Friend f1 = new Friend("jake", 1, true);
+		Friend f2 = new Friend("jin", 2, true);
+		users = new ArrayList<User>();
+		friends = new ArrayList<Friend>();
 	}
 
 	@Test
@@ -200,6 +220,69 @@ public class C206_CaseStudyTest {
 		groupList.remove(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
 		assertEquals(2, groupList.size());
 	}
+	@Test
+	public void AddUser() {
+		// Item list is not null, so that can add a new item - boundary
+		assertNotNull("Check if there is valid users arraylist to add to", users);
+		//Given an empty list, after adding 1 item, the size of the list is 1 - normal
+		//The item just added is as same as the first item of the list
+		HomePage.adduser(users, u1);
+		assertEquals("Check that users arraylist size is 1", 1, users.size());
+		assertSame("Check that user is added", u1, users.get(0));
+		
+		//Add another item. test The size of the list is 2? -normal
+		//The item just added is as same as the second item of the list
+		HomePage.adduser(users, u2);
+		assertEquals("Check that users arraylist size is 2", 2, users.size());
+		assertSame("Check that user is added", u2, users.get(1));
+	}
+	@Test
+	public void testsignup() {
+	    assertNotNull("Check if there is valid users arraylist to add to", users);
+
+	    String user = "Hmm";
+	    String password = "123";
+	    HomePage.signup(users, user, password);
+	    for (User u : users) {
+	        if (u.getUsername().equals(user)) {
+	            assertEquals("Check that users arraylist size is 1", 1, users.size());
+	            assertSame("Check that user is added", u, users.get(0));
+	            break;
+	        }
+	    }
+	}
+	
+	@Test
+	public void viewall() {
+	    // Test if User list is not null but empty - boundary
+	    assertNotNull("Check if there is a valid users arraylist to add to", users);
+	    
+	    // Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
+	    HomePage.adduser(users, u1);
+	    HomePage.adduser(users, u2);
+	    assertEquals("Test that users arraylist size is 2", 2, users.size());
+	    
+	    assertNotNull("Check if there are users in the users arraylist to add to", users);
+	    
+	    String userslist = HomePage.viewUsers(users);
+	    String testOutput = "jin\njake\n"; // Correctly formatted output of users
+	    assertEquals("Test that ViewAllUsers list", testOutput, userslist);
+	}
+	@Test
+	public void checkdeleteUser() {
+		assertNotNull("Check if there is a valid users arraylist to add to", users);
+		HomePage.adduser(users, u1);
+	    HomePage.adduser(users, u2);
+	    
+	    assertEquals("Test that users arraylist size is 2", 2, users.size());
+	    for (User u: users) {
+		        if (u.getId() == 1) {
+		        	HomePage.deleteuser(users,1);
+		        }     
+   	 	}
+	    int expectedSizeAfterDeletion = 1;
+        assertEquals(expectedSizeAfterDeletion, users.size());
+	}
 
 	@After
 	public void tearDown() throws Exception {
@@ -207,5 +290,12 @@ public class C206_CaseStudyTest {
 		bike2 = null;
 		bike3 = null;
 		bikeList = null;
+		u1 = null;
+		u2 = null;
+		u3 = null;
+		f1 = null;
+		f2 = null;
+		users = null;
+		friends = null;
 	}
 }

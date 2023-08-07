@@ -60,8 +60,10 @@ public class HomePage {
 				if (!found) {
 					System.out.println("User not found.");
 				}
-			} else if (option == 2) {
-				signup(users);
+			}  else if (option == 2) {
+				String user = Helper.readString("Enter your username: ");
+				String password = Helper.readString("Enter your password: ");
+				signup(users, user, password);
 			}
 			menu();
 			option = Helper.readInt("Choose your option: ");
@@ -160,12 +162,14 @@ public class HomePage {
 		System.out.println("4. Exit");
 		Helper.line(40, "=");
 	}
-
-	public static void signup(ArrayList<User> users) {
+	public static void adduser(ArrayList<User> users, User u) {
+		users.add(u);
+	}
+	
+	public static void signup(ArrayList<User> users, String user, String password) {
 		Random random = new Random();
 		int x = random.nextInt(99) + 1;
 
-		String user = Helper.readString("Enter your username: ");
 		boolean usernameExists = false;
 		for (User u : users) {
 			if (u.getUsername().equals(user)) {
@@ -175,13 +179,25 @@ public class HomePage {
 		}
 
 		if (!usernameExists) {
-			String password = Helper.readString("Enter your password: ");
-			users.add(new User(x, user, password, false));
+			User u = (new User(x, user, password, false));
+			adduser(users, u);
 		} else {
 			System.out.println("Choose another username.");
 		}
 	}
-
+	public static void deleteuser(ArrayList<User> users, int uindex) {
+		// Remove the user from users list
+		users.remove(uindex);
+		System.out.println("User deleted");
+	}
+	public static String viewUsers(ArrayList<User> users) {
+		String output = "";
+	    for (User u : users) {
+	    	output += u.getUsername() + "\n";
+	    }
+	    return output;
+	}
+	
 	public static void login(ArrayList<User> users, int myid, ArrayList<Friend> friends, String uuser) {
 		int option;
 		do {
@@ -191,9 +207,7 @@ public class HomePage {
 				Helper.line(40, "-");
 				System.out.println("Users");
 				Helper.line(40, "-");
-				for (User u : users) {
-					System.out.println(u.getUsername());
-				}
+				System.out.println(viewUsers(users));
 			} else if (option == 2) {
 				Helper.line(40, "-");
 				System.out.println("Friend List");
@@ -255,8 +269,7 @@ public class HomePage {
 
 					if (uindex > 0) {
 						// Remove the user from users list
-						users.remove(uindex);
-						System.out.println("User deleted");
+						deleteuser(users, uindex);
 
 						// Find and remove friends associated with the deleted user
 						for (int i = friends.size() - 1; i >= 0; i--) {
@@ -264,7 +277,7 @@ public class HomePage {
 							if ((f.getUsername().equals(uuser) && f.getFriend())
 									|| (f.getId() == myid && f.getFriend())) {
 								friends.remove(i);
-								option = 5;
+								option = 10;
 								break;
 							}
 						}
@@ -407,9 +420,7 @@ public class HomePage {
 				Helper.line(40, "-");
 				System.out.println("Users");
 				Helper.line(40, "-");
-				for (User u : users) {
-					System.out.println(u.getUsername());
-				}
+				System.out.println(viewUsers(users));
 			} else if (option == 2) {
 				String user = Helper.readString("Search username: ");
 				char choose = Helper.readChar("Delete user? (y/n)");
