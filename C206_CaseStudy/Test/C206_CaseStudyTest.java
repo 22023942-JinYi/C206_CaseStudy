@@ -77,7 +77,7 @@ public class C206_CaseStudyTest {
 		// Verify that a new discussion is added to the list
 		assertEquals(3, discussionList.size());
 
-		// Verify that the details of the new discussion match with the user input
+		// Verify that the details of the new discussion matches with the user input
 		Discussion newDiscussion = discussionList.get(2);
 		assertEquals(3, newDiscussion.getId());
 		assertEquals("Discussion 3", newDiscussion.getTitle());
@@ -105,8 +105,15 @@ public class C206_CaseStudyTest {
 			expectedOutput += "\n";
 
 		}
-
 		assertEquals(expectedOutput, actualOutput);
+		
+		//Test that nothing would be displayed if the list is empty.
+		discussionList.clear();
+		String empty = Discussion.viewAllDiscussion(discussionList);
+		String emptyOutput = "";
+		assertEquals(empty, emptyOutput);
+		
+
 	}
 
 	@Test

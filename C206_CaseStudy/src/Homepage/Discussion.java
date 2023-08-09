@@ -37,7 +37,7 @@ public class Discussion {
 	}
 
 
-	public void setTitle(String title) {
+	public void setTitle(String title) {	
 		this.title = title;
 	}
 
@@ -67,8 +67,8 @@ public class Discussion {
 		String title = Helper.readString("Enter discussion title > ");
 		String discussionDate = Helper.readString("Enter discussion date (yyyy-MM-dd) > ");
 		String description = Helper.readString("Enter discussion description > ");
-		while(description.length() > 120) {
-			System.out.println("Discussion have to be less than 120 characters.");
+		while(description.length() > 200) {
+			System.out.println("Discussion have to be less than 200 characters.");
 			description = Helper.readString("Enter discussion description > ");
 		}
 
