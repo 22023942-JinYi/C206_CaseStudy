@@ -198,49 +198,72 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testAddGroup() {
-		groupList.add(new Group("3", "Biking", 30, "A group for Biking"));
-		assertEquals(3, groupList.size());
+		String newGroupId = "3";
+		String newGroupName = "RoadBike";
+		int newGroupParticipants = 12;
+		String newGroupDescription = "Conquering roads on two wheels.";
+
+		// Check for duplicate ID
+		boolean isDuplicateId = false;
+		for (Group group : groupList) {
+			if (group.getId().equals(newGroupId)) {
+				isDuplicateId = true;
+				break;
+			}
+		}
+
+		assertFalse(isDuplicateId);
+
+		// Add the new group if ID is not duplicate
+		if (!isDuplicateId) {
+			Group newGroup = new Group(newGroupId, newGroupName, newGroupParticipants, newGroupDescription);
+			groupList.add(newGroup);
+		}
+
+		// Verify that the group is created
+		boolean isCreated = false;
+		for (Group group : groupList) {
+			if (group.getId().equals(newGroupId) && group.getName().equals(newGroupName)
+					&& group.getParticipants() == newGroupParticipants
+					&& group.getDescription().equals(newGroupDescription)) {
+				isCreated = true;
+				break;
+			}
+		}
+
+		assertTrue(isCreated);
 	}
 
 	@Test
 	public void testAddGroup_DupID() {
-		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
-		String duplicateID = groupList.get(2).getId();
-		assertEquals("1", duplicateID);
+
+		// Simulate creating a new group with a duplicate ID
+		String newid = "2"; // This ID already exists
+		String newGroupName = "Road Warriors";
+		int newGroupParticipants = 15;
+		String newGroupDescription = "Conquering roads.";
+
+		boolean isDuplicateId = false;
+		for (Group group : groupList) {
+			if (group.getId().equals(newid)) {
+				isDuplicateId = true;
+				break;
+			}
+		}
+
+		assertTrue(isDuplicateId); // The ID is indeed a duplicate
 	}
 
 	@Test
 	public void testViewAllGroup() {
-		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
-		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
 
-		assertEquals(4, groupList.size());
-	}
-
-	@Test
-	public void testDeleteGroup() {
-		groupList.remove(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
-		assertEquals(2, groupList.size());
-	}
-
-	@Test
-	public void testShowDeleteGroup() {
-		String groupNameToDelete = "MountBike";
-		boolean deleted = false;
-
-		for (int i = 0; i < groupList.size(); i++) {
-			if (groupList.get(i).getName().equalsIgnoreCase(groupNameToDelete)) {
-				groupList.remove(i);
-				deleted = true;
-				break;
-			}
-		}
-		assertTrue(deleted);
-
-		// Verify that the group is deleted
+		StringBuilder output = new StringBuilder();
 		for (Group group : groupList) {
-			assertNotEquals(groupNameToDelete, group.getName());
+			output.append(group.getName()).append("\n");
 		}
+
+		String expectedOutput = "Bikers\nMountBike\n";
+		assertEquals(expectedOutput, output.toString());
 	}
 
 	@Test
@@ -267,6 +290,54 @@ public class C206_CaseStudyTest {
 			}
 		}
 		assertNull(notFoundGroup);
+	}
+
+	@Test
+	public void testDeleteGroup() {
+
+		String groupNameToDelete = "MountBike";
+		Group groupToDelete = null;
+
+		for (Group group : groupList) {
+			if (group.getName().equalsIgnoreCase(groupNameToDelete)) {
+				groupToDelete = group;
+				break;
+			}
+		}
+
+		assertNotNull(groupToDelete);
+		groupList.remove(groupToDelete);
+
+		// Verify that the group is deleted
+		boolean isDeleted = true;
+		for (Group group : groupList) {
+			if (group.getName().equalsIgnoreCase(groupNameToDelete)) {
+				isDeleted = false;
+				break;
+			}
+		}
+
+		assertTrue(isDeleted);
+	}
+
+	@Test
+	public void testShowDeleteGroup() {
+		String groupNameToDelete = "MountBike";
+		boolean deleted = false;
+
+		for (int i = 0; i < groupList.size(); i++) {
+			if (groupList.get(i).getName().equalsIgnoreCase(groupNameToDelete)) {
+				groupList.remove(i);
+				deleted = true;
+				break;
+			}
+		}
+		assertTrue(deleted);
+
+		// Verify that the group is deleted
+		for (Group group : groupList) {
+			assertNotEquals(groupNameToDelete, group.getName());
+		}
 	}
 
 	@Test
