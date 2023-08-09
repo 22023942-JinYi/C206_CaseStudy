@@ -13,6 +13,12 @@ public class HomePage {
 	private static final int ADD_GROUP = 1;
 	private static final int VIEW_GROUP = 2;
 	private static final int DELETE_GROUP = 3;
+	private static final int ADD_EVENT = 1;
+	private static final int VIEW_EVENT = 2;
+	private static final int DELETE_EVENT = 3;
+	private static final int ADD_DIS = 1;
+	private static final int VIEW_DIS = 2;
+	private static final int DELETE_DIS = 3;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -316,11 +322,11 @@ public class HomePage {
 				dismenu();
 				int opt = Helper.readInt("Choose your option: ");
 				while (opt != 4) {
-					if (opt == 1) {
+					if (opt == ADD_DIS) {
 						Discussion.addDiscussion(discussionList);
-					} else if (opt == 2) {
+					} else if (opt == VIEW_DIS) {
 						Discussion.viewAllDiscussion(discussionList);
-					} else if (opt == 3) {
+					} else if (opt == DELETE_DIS) {
 						Discussion.deleteDiscussion(discussionList);
 					} else {
 						System.out.println("Invalid input");
@@ -365,11 +371,11 @@ public class HomePage {
 				eventmenu();
 				int opt = Helper.readInt("Choose your option: ");
 				while (opt != 4) {
-					if (opt == 1) {
+					if (opt == ADD_EVENT) {
 						Event.addEvent(eventList);
-					} else if (opt == 2) {
+					} else if (opt == VIEW_EVENT) {
 						Event.viewAllEvent(eventList);
-					} else if (opt == 3) {
+					} else if (opt == DELETE_EVENT) {
 						Event.deleteEvent(eventList);
 					} else {
 						System.out.println("Invalid input");
