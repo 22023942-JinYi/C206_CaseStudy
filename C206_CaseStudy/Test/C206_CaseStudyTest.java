@@ -130,7 +130,7 @@ public class C206_CaseStudyTest {
 	    eventList.add(new Event(3, "HELLO", "Taman E", eventDate3, 7, "Mark"));
 
 	    // Check if the size of the eventList increased by 1
-	    assertEquals( 3, eventList.size());
+	    assertTrue(eventList.size() == 3);
 
 	    // Check if the added event has the expected properties
 	    Event addedEvent = eventList.get(2);
@@ -140,6 +140,11 @@ public class C206_CaseStudyTest {
 	    assertEquals("Test the date of the added event.", LocalDate.of(2022, 12, 22), addedEvent.getEventDate());
 	    assertEquals("Test the duration of the added event.", 7, addedEvent.getParticipants());
 	    assertEquals("Test the organizer of the added event.", "Mark", addedEvent.getDescription());
+	    LocalDate eventDate2 = LocalDate.parse("2023-01-15", dtf);
+	    eventList.add(new Event(4, "Meeting", "Conference Room", eventDate2, 12, "Jane"));
+	    
+	    // Check if the size of the eventList increased by the number of added events
+	    assertEquals(4, eventList.size()); // The initial size was 2, so 2 + 2 = 4
 	}
 
 
@@ -354,13 +359,13 @@ public class C206_CaseStudyTest {
 	}
 	@Test
 	public void testAddRegistration() {
-	    // Add an event to the list
+	    // Add an reg to the list
 		registrationsList.add(new Registration(3, "HELLO"));
 
-	    // Check if the size of the eventList increased by 1
+	    // Check if the size of the registrationsList increased by 1
 	    assertEquals( 3, registrationsList.size());
 
-	    // Check if the added event has the expected properties
+	    // Check if the added REG has the expected properties
 	    Registration addedEvent = registrationsList.get(2);
 	    assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
 	    assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
@@ -370,7 +375,7 @@ public class C206_CaseStudyTest {
 	@Test
 	public void testViewAllRegistration() {
 
-		// Perform the viewAllEvent method and capture the actual output
+		// Perform the ViewAllRegistrationv method and capture the actual output
 	    String actualOutput = Registration.displayAllRegistration(registrationsList);
 	 // Build the expected output using a StringBuilder
 	    String expectedOutput=String.format("%-10s %-20s", "ID", "NAME");
@@ -381,12 +386,12 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testDeleteRegistration() {
-		// Delete the event
+		// Delete the REG
 		ArrayList<Registration> registrationsList = new ArrayList<>();
 		Registration Registration = new Registration(1, "Test Event");
 		registrationsList.remove(Registration);
 
-		// Check if the event was deleted
+		// Check if the REG was deleted
 		assertEquals(0, registrationsList.size());
 	}
 
