@@ -86,7 +86,7 @@ public class Event {
 
 		System.out.println("New Event successfully added.");
 
-	}public static void viewAllEvent(ArrayList<Event> eventList) {
+	}public static String viewAllEvent(ArrayList<Event> eventList) {
 	    String output = String.format("%-10s %-20s %-20s %-12s %-12s %-30s%n", "ID", "NAME", "VENUE", "EVENT DATE",
 	            "PARTICIPANTS", "DESCRIPTION");
 
@@ -97,6 +97,7 @@ public class Event {
 	    }
 
 	    System.out.println(output);
+		return output;
 	}
 
 	

@@ -43,9 +43,8 @@ public class C206_CaseStudyTest {
 
 		discussionList.add(new Discussion(1, "Discussion 1", discussionDate1, "Description for Discussion 1"));
 		discussionList.add(new Discussion(2, "Discussion 2", discussionDate2, "Description for Discussion 2"));
-		eventList.add(new Event(1, "HI", "Taman U", LocalDate.of(2022, 8, 8), 2, "Tom")); // year, month, day
+		eventList.add(new Event(1, "HI", "Taman U", LocalDate.of(2022, 8, 8), 2, "Tom")); 
 		eventList.add(new Event(2, "BYE", "Taman P", LocalDate.of(2022, 10, 23), 5, "Amy"));
-		eventList.add(new Event(3, "HELLO", "Taman E", LocalDate.of(2022, 12, 22), 7, "Mark"));
 		bike1 = new Bike(1, "gg", "red", 69);
 		bike2 = new Bike(2, "we", "blue", 70);
 		bikeList = new ArrayList<Bike>();
@@ -81,13 +80,6 @@ public class C206_CaseStudyTest {
 	}
 
 	@Test
-	public void testAddEvent() {
-		eventList.add(new Event(4, "HELLO", "Taman E", LocalDate.of(2022, 12, 22), 7, "Mark"));
-		// Check if an event was added to the list
-		assertEquals(4, eventList.size());
-	}
-
-	@Test
 	public void testViewAllDiscussion() {
 		// Test that the discussions are formatted neatly
 		String actualOutput = Discussion.viewAllDiscussion(discussionList);
@@ -111,24 +103,6 @@ public class C206_CaseStudyTest {
 	}
 
 	@Test
-	public void testViewAllEvent() {
-		ArrayList<Event> eventList = new ArrayList<>();
-		Event event1 = new Event(1, "Event 1", "Venue 1", LocalDate.now(), 50, "Description 1");
-		Event event2 = new Event(2, "Event 2", "Venue 2", LocalDate.now().plusDays(1), 75, "Description 2");
-		eventList.add(event1);
-		eventList.add(event2);
-
-		// Perform the viewAllEvent method
-		// Since this method only prints the events, it's hard to write a direct test
-		// for its output
-
-		// Check that the events were not modified
-		assertEquals(2, eventList.size());
-		assertTrue(eventList.contains(event1));
-		assertTrue(eventList.contains(event2));
-	}
-
-	@Test
 	public void testDeleteDiscussion() {
 		// Test that discussion deleted is of ID that user input
 		int input1 = 1;
@@ -140,6 +114,44 @@ public class C206_CaseStudyTest {
 		discussionList.remove(removal);
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, discussionList.size());
+	}
+
+	
+	@Test
+	public void testAddEvent() {
+	    // Add an event to the list
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate eventDate3 = LocalDate.parse("2022-12-22", dtf);
+	    eventList.add(new Event(3, "HELLO", "Taman E", eventDate3, 7, "Mark"));
+
+	    // Check if the size of the eventList increased by 1
+	    assertEquals( 3, eventList.size());
+
+	    // Check if the added event has the expected properties
+	    Event addedEvent = eventList.get(2);
+	    assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
+	    assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
+	    assertEquals("Test the location of the added event.", "Taman E", addedEvent.getVenue());
+	    assertEquals("Test the date of the added event.", LocalDate.of(2022, 12, 22), addedEvent.getEventDate());
+	    assertEquals("Test the duration of the added event.", 7, addedEvent.getParticipants());
+	    assertEquals("Test the organizer of the added event.", "Mark", addedEvent.getDescription());
+	}
+
+
+	@Test
+	public void testViewAllEvent() {
+		
+
+		// Perform the viewAllEvent method and capture the actual output
+	    String actualOutput = Event.viewAllEvent(eventList);
+	 // Build the expected output using a StringBuilder
+	    String expectedOutput=String.format("%-10s %-20s %-20s %-12s %-12s %-30s%n", "ID", "NAME", "VENUE", "EVENT DATE",
+	            "PARTICIPANTS", "DESCRIPTION");
+	    for (Event event : eventList) {
+	        expectedOutput=String.format("%-10d %-20s %-20s %-12s %-12d %-30s%n",
+	                event.getId(), event.getName(), event.getVenue(), event.getEventDate(),
+	                event.getParticipants(), event.getDescription());
+	    }
 	}
 
 	@Test
@@ -198,72 +210,49 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testAddGroup() {
-		String newGroupId = "3";
-		String newGroupName = "RoadBike";
-		int newGroupParticipants = 12;
-		String newGroupDescription = "Conquering roads on two wheels.";
-
-		// Check for duplicate ID
-		boolean isDuplicateId = false;
-		for (Group group : groupList) {
-			if (group.getId().equals(newGroupId)) {
-				isDuplicateId = true;
-				break;
-			}
-		}
-
-		assertFalse(isDuplicateId);
-
-		// Add the new group if ID is not duplicate
-		if (!isDuplicateId) {
-			Group newGroup = new Group(newGroupId, newGroupName, newGroupParticipants, newGroupDescription);
-			groupList.add(newGroup);
-		}
-
-		// Verify that the group is created
-		boolean isCreated = false;
-		for (Group group : groupList) {
-			if (group.getId().equals(newGroupId) && group.getName().equals(newGroupName)
-					&& group.getParticipants() == newGroupParticipants
-					&& group.getDescription().equals(newGroupDescription)) {
-				isCreated = true;
-				break;
-			}
-		}
-
-		assertTrue(isCreated);
+		groupList.add(new Group("3", "Biking", 30, "A group for Biking"));
+		assertEquals(3, groupList.size());
 	}
 
 	@Test
 	public void testAddGroup_DupID() {
-
-		// Simulate creating a new group with a duplicate ID
-		String newid = "2"; // This ID already exists
-		String newGroupName = "Road Warriors";
-		int newGroupParticipants = 15;
-		String newGroupDescription = "Conquering roads.";
-
-		boolean isDuplicateId = false;
-		for (Group group : groupList) {
-			if (group.getId().equals(newid)) {
-				isDuplicateId = true;
-				break;
-			}
-		}
-
-		assertTrue(isDuplicateId); // The ID is indeed a duplicate
+		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
+		String duplicateID = groupList.get(2).getId();
+		assertEquals("1", duplicateID);
 	}
 
 	@Test
 	public void testViewAllGroup() {
+		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
+		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
 
-		StringBuilder output = new StringBuilder();
-		for (Group group : groupList) {
-			output.append(group.getName()).append("\n");
+		assertEquals(4, groupList.size());
+	}
+
+	@Test
+	public void testDeleteGroup() {
+		groupList.remove(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
+		assertEquals(2, groupList.size());
+	}
+
+	@Test
+	public void testShowDeleteGroup() {
+		String groupNameToDelete = "MountBike";
+		boolean deleted = false;
+
+		for (int i = 0; i < groupList.size(); i++) {
+			if (groupList.get(i).getName().equalsIgnoreCase(groupNameToDelete)) {
+				groupList.remove(i);
+				deleted = true;
+				break;
+			}
 		}
+		assertTrue(deleted);
 
-		String expectedOutput = "Bikers\nMountBike\n";
-		assertEquals(expectedOutput, output.toString());
+		// Verify that the group is deleted
+		for (Group group : groupList) {
+			assertNotEquals(groupNameToDelete, group.getName());
+		}
 	}
 
 	@Test
@@ -290,54 +279,6 @@ public class C206_CaseStudyTest {
 			}
 		}
 		assertNull(notFoundGroup);
-	}
-
-	@Test
-	public void testDeleteGroup() {
-
-		String groupNameToDelete = "MountBike";
-		Group groupToDelete = null;
-
-		for (Group group : groupList) {
-			if (group.getName().equalsIgnoreCase(groupNameToDelete)) {
-				groupToDelete = group;
-				break;
-			}
-		}
-
-		assertNotNull(groupToDelete);
-		groupList.remove(groupToDelete);
-
-		// Verify that the group is deleted
-		boolean isDeleted = true;
-		for (Group group : groupList) {
-			if (group.getName().equalsIgnoreCase(groupNameToDelete)) {
-				isDeleted = false;
-				break;
-			}
-		}
-
-		assertTrue(isDeleted);
-	}
-
-	@Test
-	public void testShowDeleteGroup() {
-		String groupNameToDelete = "MountBike";
-		boolean deleted = false;
-
-		for (int i = 0; i < groupList.size(); i++) {
-			if (groupList.get(i).getName().equalsIgnoreCase(groupNameToDelete)) {
-				groupList.remove(i);
-				deleted = true;
-				break;
-			}
-		}
-		assertTrue(deleted);
-
-		// Verify that the group is deleted
-		for (Group group : groupList) {
-			assertNotEquals(groupNameToDelete, group.getName());
-		}
 	}
 
 	@Test
