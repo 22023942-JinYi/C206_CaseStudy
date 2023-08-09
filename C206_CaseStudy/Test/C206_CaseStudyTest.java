@@ -12,9 +12,11 @@ import Homepage.*;
 public class C206_CaseStudyTest {
 
 	private ArrayList<Discussion> discussionList;
-	private ArrayList<Event> eventList;
 	private ArrayList<Group> groupList;
 	private ArrayList<Registration> registrationsList;
+	private Event event1;
+	private Event event2;
+	private ArrayList<Event> eventList;
 	private Bike bike1;
 	private Bike bike2;
 	private Bike bike3;
@@ -45,8 +47,8 @@ public class C206_CaseStudyTest {
 
 		discussionList.add(new Discussion(1, "Discussion 1", discussionDate1, "Description for Discussion 1"));
 		discussionList.add(new Discussion(2, "Discussion 2", discussionDate2, "Description for Discussion 2"));
-		eventList.add(new Event(1, "HI", "Taman U", LocalDate.of(2022, 8, 8), 2, "Tom")); 
-		eventList.add(new Event(2, "BYE", "Taman P", LocalDate.of(2022, 10, 23), 5, "Amy"));
+		event1 = new Event(1, "HI", "Taman U", LocalDate.of(2022, 8, 8), 2, "Tom");
+		event2 = new Event(2, "BYE", "Taman P", LocalDate.of(2022, 10, 23), 5, "Amy");
 		bike1 = new Bike(1, "gg", "red", 69);
 		bike2 = new Bike(2, "we", "blue", 70);
 		bikeList = new ArrayList<Bike>();
@@ -55,7 +57,7 @@ public class C206_CaseStudyTest {
 		u1 = new User(1, "jin", "password", true);
 		u2 = new User(2, "jake", "pass1", false);
 		u3 = new User(3, "fin", "pass2", false);
-		
+
 		registrationsList.add(new Registration(1, "HI"));
 		registrationsList.add(new Registration(2, "BYE"));
 
@@ -121,58 +123,79 @@ public class C206_CaseStudyTest {
 		assertEquals(expectedSizeAfterDeletion, discussionList.size());
 	}
 
-	
 	@Test
 	public void testAddEvent() {
-	    // Add an event to the list
+		// Add an event to the list
+		eventList.add(event1);
+		eventList.add(event2);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate eventDate3 = LocalDate.parse("2022-12-22", dtf);
-	    eventList.add(new Event(3, "HELLO", "Taman E", eventDate3, 7, "Mark"));
+		eventList.add(new Event(3, "HELLO", "Taman E", eventDate3, 7, "Mark"));
 
-	    // Check if the size of the eventList increased by 1
-	    assertTrue(eventList.size() == 3);
+		// Check if the size of the eventList increased by 1
+		assertTrue(eventList.size() == 3);
 
-	    // Check if the added event has the expected properties
-	    Event addedEvent = eventList.get(2);
-	    assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
-	    assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
-	    assertEquals("Test the location of the added event.", "Taman E", addedEvent.getVenue());
-	    assertEquals("Test the date of the added event.", LocalDate.of(2022, 12, 22), addedEvent.getEventDate());
-	    assertEquals("Test the duration of the added event.", 7, addedEvent.getParticipants());
-	    assertEquals("Test the organizer of the added event.", "Mark", addedEvent.getDescription());
-	    LocalDate eventDate2 = LocalDate.parse("2023-01-15", dtf);
-	    eventList.add(new Event(4, "Meeting", "Conference Room", eventDate2, 12, "Jane"));
-	    
-	    // Check if the size of the eventList increased by the number of added events
-	    assertEquals(4, eventList.size()); // The initial size was 2, so 2 + 2 = 4
+		// Check if the added event has the expected properties
+		Event addedEvent = eventList.get(2);
+		assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
+		assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
+		assertEquals("Test the location of the added event.", "Taman E", addedEvent.getVenue());
+		assertEquals("Test the date of the added event.", LocalDate.of(2022, 12, 22), addedEvent.getEventDate());
+		assertEquals("Test the duration of the added event.", 7, addedEvent.getParticipants());
+		assertEquals("Test the organizer of the added event.", "Mark", addedEvent.getDescription());
+		LocalDate eventDate2 = LocalDate.parse("2023-01-15", dtf);
+		eventList.add(new Event(4, "Meeting", "Conference Room", eventDate2, 12, "Jane"));
+
+		// Check if the size of the eventList increased by the number of added events
+		assertEquals(4, eventList.size()); // The initial size was 2, so 2 + 2 = 4
 	}
-
 
 	@Test
 	public void testViewAllEvent() {
-		
+		// Perform the viewAllEvent method and capture the actual output
+		String actualOutput1 = Event.viewAllEvent(eventList);
+
+		// Build the expected output, which contains only the header line
+		String expectedOutput1 = String.format("%-10s %-20s %-20s %-12s %-12s %-30s%n", "ID", "NAME", "VENUE",
+				"EVENT DATE", "PARTICIPANTS", "DESCRIPTION");
+
+		// Check if the actual output matches the expected output
+		// Check if the view was empty
+		assertEquals(expectedOutput1, actualOutput1);
 
 		// Perform the viewAllEvent method and capture the actual output
-	    String actualOutput = Event.viewAllEvent(eventList);
-	 // Build the expected output using a StringBuilder
-	    String expectedOutput=String.format("%-10s %-20s %-20s %-12s %-12s %-30s%n", "ID", "NAME", "VENUE", "EVENT DATE",
-	            "PARTICIPANTS", "DESCRIPTION");
-	    for (Event event : eventList) {
-	        expectedOutput=String.format("%-10d %-20s %-20s %-12s %-12d %-30s%n",
-	                event.getId(), event.getName(), event.getVenue(), event.getEventDate(),
-	                event.getParticipants(), event.getDescription());
-	    }
+		String actualOutput = Event.viewAllEvent(eventList);
+		// Build the expected output using a StringBuilder
+		String expectedOutput = String.format("%-10s %-20s %-20s %-12s %-12s %-30s%n", "ID", "NAME", "VENUE",
+				"EVENT DATE", "PARTICIPANTS", "DESCRIPTION");
+		for (Event event : eventList) {
+			expectedOutput = String.format("%-10d %-20s %-20s %-12s %-12d %-30s%n", event.getId(), event.getName(),
+					event.getVenue(), event.getEventDate(), event.getParticipants(), event.getDescription());
+		}
 	}
 
 	@Test
 	public void testDeleteEvent() {
-		// Delete the event
+		Event eventToDelete = new Event(1, "Test Event", "Test Venue", 
+				LocalDate.now(), 100, "Test Description");
+
+		// Create an event list
 		ArrayList<Event> eventList = new ArrayList<>();
-		Event event = new Event(1, "Tet Event", "Test Venue", LocalDate.now(), 100, "Test Description");
-		eventList.remove(event);
+		eventList.add(eventToDelete);
+
+		// Delete the event
+		boolean removed = eventList.remove(eventToDelete);
 
 		// Check if the event was deleted
-		assertEquals(0, eventList.size());
+		assertTrue("Existing event should be deleted", removed);
+		assertFalse("Event should not exist in the list", eventToDelete );
+		assertEquals("Event list should be empty after deletion", 0, eventList.size());
+
+	}
+
+	private void assertFalse(String string, Event eventToDelete) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Test
@@ -357,31 +380,31 @@ public class C206_CaseStudyTest {
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, users.size());
 	}
+
 	@Test
 	public void testAddRegistration() {
-	    // Add an reg to the list
+		// Add an reg to the list
 		registrationsList.add(new Registration(3, "HELLO"));
 
-	    // Check if the size of the registrationsList increased by 1
-	    assertEquals( 3, registrationsList.size());
+		// Check if the size of the registrationsList increased by 1
+		assertEquals(3, registrationsList.size());
 
-	    // Check if the added REG has the expected properties
-	    Registration addedEvent = registrationsList.get(2);
-	    assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
-	    assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
+		// Check if the added REG has the expected properties
+		Registration addedEvent = registrationsList.get(2);
+		assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
+		assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
 	}
-
 
 	@Test
 	public void testViewAllRegistration() {
 
 		// Perform the ViewAllRegistrationv method and capture the actual output
-	    String actualOutput = Registration.displayAllRegistration(registrationsList);
-	 // Build the expected output using a StringBuilder
-	    String expectedOutput=String.format("%-10s %-20s", "ID", "NAME");
-	    for (Registration Registration : registrationsList) {
-	        expectedOutput=String.format("%-10d %-20s",Registration.getId(), Registration.getName());
-	    }
+		String actualOutput = Registration.displayAllRegistration(registrationsList);
+		// Build the expected output using a StringBuilder
+		String expectedOutput = String.format("%-10s %-20s", "ID", "NAME");
+		for (Registration Registration : registrationsList) {
+			expectedOutput = String.format("%-10d %-20s", Registration.getId(), Registration.getName());
+		}
 	}
 
 	@Test
@@ -397,6 +420,8 @@ public class C206_CaseStudyTest {
 
 	@After
 	public void tearDown() throws Exception {
+		event1 = null;
+		event2 = null;
 		bike1 = null;
 		bike2 = null;
 		bike3 = null;
