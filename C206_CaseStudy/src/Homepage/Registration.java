@@ -49,7 +49,7 @@ public class Registration {
     return eventRegisteredID;
     
   }
-  public static void displayAllRegistration (ArrayList <Registration> registrationsList) {
+  public static String displayAllRegistration (ArrayList <Registration> registrationsList) {
     // TODO Auto-generated method stub
     String output = String.format("%-10s %-20s", "ID", "NAME");
 
@@ -58,6 +58,7 @@ public class Registration {
       }
 
       System.out.println(output);
+	return output;
   }
 
 

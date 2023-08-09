@@ -14,6 +14,7 @@ public class C206_CaseStudyTest {
 	private ArrayList<Discussion> discussionList;
 	private ArrayList<Event> eventList;
 	private ArrayList<Group> groupList;
+	private ArrayList<Registration> registrationsList;
 	private Bike bike1;
 	private Bike bike2;
 	private Bike bike3;
@@ -36,6 +37,7 @@ public class C206_CaseStudyTest {
 		discussionList = new ArrayList<>();
 		eventList = new ArrayList<>();
 		groupList = new ArrayList<>();
+		registrationsList = new ArrayList<>();
 		// Add some sample discussions to the list for testing
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate discussionDate1 = LocalDate.parse("2023-08-06", dtf);
@@ -53,6 +55,9 @@ public class C206_CaseStudyTest {
 		u1 = new User(1, "jin", "password", true);
 		u2 = new User(2, "jake", "pass1", false);
 		u3 = new User(3, "fin", "pass2", false);
+		
+		registrationsList.add(new Registration(1, "HI"));
+		registrationsList.add(new Registration(2, "BYE"));
 
 		Friend f1 = new Friend("jake", 1, true);
 		Friend f2 = new Friend("jin", 2, true);
@@ -346,6 +351,43 @@ public class C206_CaseStudyTest {
 		}
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, users.size());
+	}
+	@Test
+	public void testAddRegistration() {
+	    // Add an event to the list
+		registrationsList.add(new Registration(3, "HELLO"));
+
+	    // Check if the size of the eventList increased by 1
+	    assertEquals( 3, registrationsList.size());
+
+	    // Check if the added event has the expected properties
+	    Registration addedEvent = registrationsList.get(2);
+	    assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
+	    assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
+	}
+
+
+	@Test
+	public void testViewAllRegistration() {
+
+		// Perform the viewAllEvent method and capture the actual output
+	    String actualOutput = Registration.displayAllRegistration(registrationsList);
+	 // Build the expected output using a StringBuilder
+	    String expectedOutput=String.format("%-10s %-20s", "ID", "NAME");
+	    for (Registration Registration : registrationsList) {
+	        expectedOutput=String.format("%-10d %-20s",Registration.getId(), Registration.getName());
+	    }
+	}
+
+	@Test
+	public void testDeleteRegistration() {
+		// Delete the event
+		ArrayList<Registration> registrationsList = new ArrayList<>();
+		Registration Registration = new Registration(1, "Test Event");
+		registrationsList.remove(Registration);
+
+		// Check if the event was deleted
+		assertEquals(0, registrationsList.size());
 	}
 
 	@After
