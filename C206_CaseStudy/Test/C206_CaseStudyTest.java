@@ -77,20 +77,20 @@ public class C206_CaseStudyTest {
 		// Verify that a new discussion is added to the list
 		assertEquals(3, discussionList.size());
 
-		// Verify that the details of the new discussion matches with the user input - Normal
+		// Verify that the details of the new discussion matches with the user input -
+		// Normal
 		Discussion newDiscussion = discussionList.get(2);
 		assertEquals(3, newDiscussion.getId());
 		assertEquals("Discussion 3", newDiscussion.getTitle());
 		assertEquals(LocalDate.parse("2023-08-08", DateTimeFormatter.ofPattern("yyyy-MM-dd")),
 				newDiscussion.getDiscussionDate());
 		assertEquals("Description for Discussion 3", newDiscussion.getDescription());
-		
+
 		// Verify that the description is less than 200 characters. - Boundary
-		int limit = 200; 
+		int limit = 200;
 		int length = newDiscussion.getDescription().length();
 		assertTrue(length < limit);
-		
-		
+
 	}
 
 	@Test
@@ -113,13 +113,12 @@ public class C206_CaseStudyTest {
 
 		}
 		assertEquals(expectedOutput, actualOutput);
-		
-		//Test that nothing would be displayed if the list is empty. - Boundary
+
+		// Test that nothing would be displayed if the list is empty. - Boundary
 		discussionList.clear();
 		String empty = Discussion.viewAllDiscussion(discussionList);
 		String emptyOutput = "";
 		assertEquals(empty, emptyOutput);
-		
 
 	}
 
@@ -129,25 +128,24 @@ public class C206_CaseStudyTest {
 		int input1 = 1;
 		assertEquals(input1, discussionList.get(0).getId());
 
-		// After deletion, the size of the list should be 1 (since we only removed one - Normal
+		// After deletion, the size of the list should be 1 (since we only removed one -
+		// Normal
 		// discussion)
 		int removal = discussionList.get(0).getId() - 1;
 		discussionList.remove(removal);
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, discussionList.size());
-		
-		//After another deletion, the size of the list should be 0 - Boundary
+
+		// After another deletion, the size of the list should be 0 - Boundary
 		discussionList.remove(0);
 		assertEquals(0, discussionList.size());
-		
+
 		// An empty discussion list cannot be deleted. - Error
 		discussionList.clear();
 		int actualSize = discussionList.size();
 		int expSizeAftDeletion = -1;
 		assertNotEquals(expSizeAftDeletion, actualSize);
-		
-		
-		
+
 	}
 
 	@Test
@@ -203,8 +201,7 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testDeleteEvent() {
-		Event eventToDelete = new Event(1, "Test Event", "Test Venue", 
-				LocalDate.now(), 100, "Test Description");
+		Event eventToDelete = new Event(1, "Test Event", "Test Venue", LocalDate.now(), 100, "Test Description");
 
 		// Create an event list
 		ArrayList<Event> eventList = new ArrayList<>();
@@ -217,11 +214,6 @@ public class C206_CaseStudyTest {
 		assertTrue("Existing event should be deleted", removed);
 		assertEquals("Event list should be empty after deletion", 0, eventList.size());
 
-	}
-
-	private void assertFalse(String string, Event eventToDelete) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Test
@@ -238,6 +230,8 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that the Bike arraylist size is now 2.", 2, bikeList.size());
 		// The bike just added is as same as the last item in the list
 		assertSame("Test that Bike is added to the end of the list.", bike2, bikeList.get(1));
+		// Try to add bike that has an empty string
+		assertFalse(Bike.addBike(bikeList, bike3));
 	}
 
 	@Test
@@ -265,6 +259,11 @@ public class C206_CaseStudyTest {
 		bikeList.remove(removal);
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, bikeList.size());
+
+		// check if the list is empty after all the bike added is deleted
+		Bike remove = bikeList.get(0);
+		bikeList.remove(remove);
+		assertEquals(0, bikeList.size());
 	}
 
 	@Test

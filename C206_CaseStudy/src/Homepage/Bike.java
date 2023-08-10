@@ -45,20 +45,32 @@ public class Bike {
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
-
-	public static void addBike(ArrayList<Bike> bikeList) {
-		String check= "[a-zA-z_0-9]+";
-		int id=bikeList.size()+1;
-		String model = Helper.readStringRegEx("Enter bike model > ", check);
-		String colour = Helper.readStringRegEx("Enter bike's colour > ", check);
-		String weight = Helper.readStringRegEx("Enter bike's weight > ", check);
-		double weights=Double.parseDouble(weight);
-		Bike newBike = new Bike(id,model, colour,weights);
-		bikeList.add(newBike);
-
-		System.out.println("Bike has been successfully added");
-
+	public static Bike inputBike() {
+		int id= Helper.readInt("Enter bike id > ");
+		String model = Helper.readString("Enter bike model > ");
+		String colour = Helper.readString("Enter bike's colour > ");
+		double weight = Helper.readDouble("Enter bike's weight > ");
+		Bike x = new Bike(id,model, colour,weight);
+		return x;
 	}
+	public static boolean addBike(ArrayList<Bike> bikeList,Bike x) {
+		Bike bike;
+		for(int i = 0; i < bikeList.size(); i++) {
+			bike=bikeList.get(i);
+			if(bike.getId()==x.getId()) {
+				return false;
+			}
+		}
+		if(x.getId()==0||x.getModel().isEmpty()||x.getColour().isEmpty()||x.getWeight()==0) {
+			return false;
+		}
+		else {
+		bikeList.add(x);
+		System.out.println("Bike has been successfully added");
+		return true;
+		}
+		}
+		
 
 	public static String viewAllBike(ArrayList<Bike> bikeList) {
 
