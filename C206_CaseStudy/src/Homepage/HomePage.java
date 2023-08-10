@@ -301,7 +301,8 @@ public class HomePage {
 				int opt = Helper.readInt("Choose your option: ");
 				while (opt != 4) {
 					if (opt == 1) {
-						Bike.addBike(bikeList);
+						
+						Bike.addBike(bikeList,Bike.inputBike());
 					} else if (opt == 2) {
 						Bike.viewAllBike(bikeList);
 					} else if (opt == 3) {

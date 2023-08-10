@@ -1,8 +1,10 @@
 package Homepage;
+
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import Helper.Helper;
+
 public class Bike {
 	private int id;
 	private String model;
@@ -40,45 +42,44 @@ public class Bike {
 	public double getWeight() {
 		return weight;
 	}
-	
 
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
+
 	public static Bike inputBike() {
-		int id= Helper.readInt("Enter bike id > ");
+		int id = Helper.readInt("Enter bike id > ");
 		String model = Helper.readString("Enter bike model > ");
 		String colour = Helper.readString("Enter bike's colour > ");
 		double weight = Helper.readDouble("Enter bike's weight > ");
-		Bike x = new Bike(id,model, colour,weight);
+		Bike x = new Bike(id, model, colour, weight);
 		return x;
 	}
-	public static boolean addBike(ArrayList<Bike> bikeList,Bike x) {
+
+	public static boolean addBike(ArrayList<Bike> bikeList, Bike x) {
 		Bike bike;
-		for(int i = 0; i < bikeList.size(); i++) {
-			bike=bikeList.get(i);
-			if(bike.getId()==x.getId()) {
+		for (int i = 0; i < bikeList.size(); i++) {
+			bike = bikeList.get(i);
+			if (bike.getId() == x.getId()) {
 				return false;
 			}
 		}
-		if(x.getId()==0||x.getModel().isEmpty()||x.getColour().isEmpty()||x.getWeight()==0) {
+		if (x.getId() == 0 || x.getModel().isEmpty() || x.getColour().isEmpty() || x.getWeight() == 0) {
 			return false;
+		} else {
+			bikeList.add(x);
+			System.out.println("Bike has been successfully added");
+			return true;
 		}
-		else {
-		bikeList.add(x);
-		System.out.println("Bike has been successfully added");
-		return true;
-		}
-		}
-		
+	}
 
 	public static String viewAllBike(ArrayList<Bike> bikeList) {
 
 		String output = String.format("%-10s %-10s %-10s %-10s\n", "ID", "MODEL", "COLOUR", "WEIGHT");
 
 		for (Bike bike : bikeList) {
-			output += String.format("%-10d %-10s %-10s %-10.2f\n", bike.getId(), bike.getModel(),
-					bike.getColour(), bike.getWeight());
+			output += String.format("%-10d %-10s %-10s %-10.2f\n", bike.getId(), bike.getModel(), bike.getColour(),
+					bike.getWeight());
 		}
 
 		System.out.println(output);
