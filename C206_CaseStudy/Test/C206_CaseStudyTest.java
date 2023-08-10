@@ -234,6 +234,8 @@ public class C206_CaseStudyTest {
 		assertSame("Test that Bike is added to the end of the list.", bike2, bikeList.get(1));
 		// Try to add bike that has an empty string
 		assertFalse(Bike.addBike(bikeList, bike3));
+		//Add the same bike
+		assertFalse(Bike.addBike(bikeList, bike1));
 	}
 
 	@Test
