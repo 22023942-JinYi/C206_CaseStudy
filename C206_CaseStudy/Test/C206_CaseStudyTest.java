@@ -52,7 +52,7 @@ public class C206_CaseStudyTest {
 		event2 = new Event(2, "BYE", "Taman P", LocalDate.of(2022, 10, 23), 5, "Amy");
 		bike1 = new Bike(1, "gg", "red", 69);
 		bike2 = new Bike(2, "we", "blue", 70);
-		bike3 = new Bike(3,"","blue",71);
+		bike3 = new Bike(3, "", "blue", 71);
 		bikeList = new ArrayList<Bike>();
 		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
 		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
@@ -151,6 +151,8 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testAddEvent() {
+		// Item list is not null, so that can add a new item - boundary
+		assertNotNull("Check if there is valid Camcorder arraylist to add to", eventList);
 		// Add an event to the list
 		eventList.add(event1);
 		eventList.add(event2);
@@ -178,6 +180,9 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testViewAllEvent() {
+		// Test if Item list is not null but empty -boundary
+		assertNotNull("Test if there is valid Camcorder arraylist to retrieve item", eventList);
+		
 		// Perform the viewAllEvent method and capture the actual output
 		String actualOutput1 = Event.viewAllEvent(eventList);
 
@@ -187,21 +192,12 @@ public class C206_CaseStudyTest {
 
 		// Check if the actual output matches the expected output
 		// Check if the view was empty
-		assertEquals(expectedOutput1, actualOutput1);
-
-		// Perform the viewAllEvent method and capture the actual output
-		String actualOutput = Event.viewAllEvent(eventList);
-		// Build the expected output using a StringBuilder
-		String expectedOutput = String.format("%-10s %-20s %-20s %-12s %-12s %-30s%n", "ID", "NAME", "VENUE",
-				"EVENT DATE", "PARTICIPANTS", "DESCRIPTION");
-		for (Event event : eventList) {
-			expectedOutput = String.format("%-10d %-20s %-20s %-12s %-12d %-30s%n", event.getId(), event.getName(),
-					event.getVenue(), event.getEventDate(), event.getParticipants(), event.getDescription());
-		}
+		assertEquals(expectedOutput1, actualOutput1);//-normal
 	}
 
 	@Test
 	public void testDeleteEvent() {
+		
 		Event eventToDelete = new Event(1, "Test Event", "Test Venue", LocalDate.now(), 100, "Test Description");
 
 		// Create an event list
@@ -211,12 +207,23 @@ public class C206_CaseStudyTest {
 		// Delete the event
 		boolean removed = eventList.remove(eventToDelete);
 
-		// Check if the event was deleted
+		// Check if the event was deleted.-Normal
 		assertTrue("Existing event should be deleted", removed);
 		assertEquals("Event list should be empty after deletion", 0, eventList.size());
+		
+		// Attempt to delete the event again. -Boundry
+	    boolean removedAgain = eventList.remove(eventToDelete);
+
+	    // Check that no event was removed again
+	    assertFalse(removedAgain);
+	    assertEquals("Event list should still be empty", 0, eventList.size());
+		// Check discussion list cannot be deleted. - Error
+		eventList.clear();
+		int x = eventList.size();
+		int y = -1;
+		assertNotEquals(y, x);
 
 	}
-
 
 	@Test
 	public void testAddBike() {
@@ -234,7 +241,7 @@ public class C206_CaseStudyTest {
 		assertSame("Test that Bike is added to the end of the list.", bike2, bikeList.get(1));
 		// Try to add bike that has an empty string
 		assertFalse(Bike.addBike(bikeList, bike3));
-		//Add the same bike
+		// Add the same bike
 		assertFalse(Bike.addBike(bikeList, bike1));
 	}
 
@@ -263,58 +270,83 @@ public class C206_CaseStudyTest {
 		bikeList.remove(removal);
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, bikeList.size());
-		
-		//check if the list is empty after all the bike added is deleted
-				Bike remove = bikeList.get(0);
-				bikeList.remove(remove);
-				assertEquals(0,bikeList.size());
+
+		// check if the list is empty after all the bike added is deleted
+		Bike remove = bikeList.get(0);
+		bikeList.remove(remove);
+		assertEquals(0, bikeList.size());
 	}
 
 	@Test
 	public void testAddGroup() {
-		groupList.add(new Group("3", "Biking", 30, "A group for Biking"));
-		assertEquals(3, groupList.size());
+		String newGroupId = "3";
+		String newGroupName = "RoadBike";
+		int newGroupParticipants = 12;
+		String newGroupDescription = "Conquering roads on two wheels.";
+
+		// Check for duplicate ID
+		boolean isDuplicateId = false;
+		for (Group group : groupList) {
+			if (group.getId().equals(newGroupId)) {
+				isDuplicateId = true;
+				break;
+			}
+		}
+
+		assertFalse(isDuplicateId);
+
+		// Add the new group if ID is not duplicate
+		if (!isDuplicateId) {
+			Group newGroup = new Group(newGroupId, newGroupName, newGroupParticipants, newGroupDescription);
+			groupList.add(newGroup);
+		}
+
+		// Verify that the group is created
+		boolean isCreated = false;
+		for (Group group : groupList) {
+			if (group.getId().equals(newGroupId) && group.getName().equals(newGroupName)
+					&& group.getParticipants() == newGroupParticipants
+					&& group.getDescription().equals(newGroupDescription)) {
+				isCreated = true;
+				break;
+			}
+		}
+
+		assertTrue(isCreated);
 	}
+
+	
 
 	@Test
 	public void testAddGroup_DupID() {
-		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
-		String duplicateID = groupList.get(2).getId();
-		assertEquals("1", duplicateID);
+
+		// Simulate creating a new group with a duplicate ID
+		String newid = "2"; // This ID already exists
+		String newGroupName = "Road Warriors";
+		int newGroupParticipants = 15;
+		String newGroupDescription = "Conquering roads.";
+
+		boolean isDuplicateId = false;
+		for (Group group : groupList) {
+			if (group.getId().equals(newid)) {
+				isDuplicateId = true;
+				break;
+			}
+		}
+
+		assertTrue(isDuplicateId); // The ID is indeed a duplicate
 	}
 
 	@Test
 	public void testViewAllGroup() {
-		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
-		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
 
-		assertEquals(4, groupList.size());
-	}
-
-	@Test
-	public void testDeleteGroup() {
-		groupList.remove(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
-		assertEquals(2, groupList.size());
-	}
-
-	@Test
-	public void testShowDeleteGroup() {
-		String groupNameToDelete = "MountBike";
-		boolean deleted = false;
-
-		for (int i = 0; i < groupList.size(); i++) {
-			if (groupList.get(i).getName().equalsIgnoreCase(groupNameToDelete)) {
-				groupList.remove(i);
-				deleted = true;
-				break;
-			}
-		}
-		assertTrue(deleted);
-
-		// Verify that the group is deleted
+		StringBuilder output = new StringBuilder();
 		for (Group group : groupList) {
-			assertNotEquals(groupNameToDelete, group.getName());
+			output.append(group.getName()).append("\n");
 		}
+
+		String expectedOutput = "Bikers\nMountBike\n";
+		assertEquals(expectedOutput, output.toString());
 	}
 
 	@Test
@@ -342,6 +374,55 @@ public class C206_CaseStudyTest {
 		}
 		assertNull(notFoundGroup);
 	}
+
+	@Test
+	public void testDeleteGroup() {
+
+		String groupNameToDelete = "MountBike";
+		Group groupToDelete = null;
+
+		for (Group group : groupList) {
+			if (group.getName().equalsIgnoreCase(groupNameToDelete)) {
+				groupToDelete = group;
+				break;
+			}
+		}
+
+		assertNotNull(groupToDelete);
+		groupList.remove(groupToDelete);
+
+		// Verify that the group is deleted
+		boolean isDeleted = true;
+		for (Group group : groupList) {
+			if (group.getName().equalsIgnoreCase(groupNameToDelete)) {
+				isDeleted = false;
+				break;
+			}
+		}
+
+		assertTrue(isDeleted);
+	}
+
+	@Test
+	public void testShowDeleteGroup() {
+		String groupNameToDelete = "MountBike";
+		boolean deleted = false;
+
+		for (int i = 0; i < groupList.size(); i++) {
+			if (groupList.get(i).getName().equalsIgnoreCase(groupNameToDelete)) {
+				groupList.remove(i);
+				deleted = true;
+				break;
+			}
+		}
+		assertTrue(deleted);
+
+		// Verify that the group is deleted
+		for (Group group : groupList) {
+			assertNotEquals(groupNameToDelete, group.getName());
+		}
+	}
+
 
 	@Test
 	public void AddUser() {
