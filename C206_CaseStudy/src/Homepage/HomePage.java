@@ -19,6 +19,9 @@ public class HomePage {
 	private static final int ADD_DIS = 1;
 	private static final int VIEW_DIS = 2;
 	private static final int DELETE_DIS = 3;
+	private static final int ADD_BIKE = 1;
+	private static final int VIEW_BIKE = 2;
+	private static final int DELETE_BIKE = 3;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -300,12 +303,12 @@ public class HomePage {
 				bikemenu();
 				int opt = Helper.readInt("Choose your option: ");
 				while (opt != 4) {
-					if (opt == 1) {
+					if (opt == ADD_BIKE) {
 						
 						Bike.addBike(bikeList,Bike.inputBike());
-					} else if (opt == 2) {
+					} else if (opt == VIEW_BIKE) {
 						Bike.viewAllBike(bikeList);
-					} else if (opt == 3) {
+					} else if (opt == DELETE_BIKE) {
 						Bike.deleteBike(bikeList);
 					} else {
 						System.out.println("Invalid input");
