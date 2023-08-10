@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -264,7 +265,7 @@ public class C206_CaseStudyTest {
 			}
 		}
 
-		assertFalse(isDuplicateId);
+		Assert.assertFalse(isDuplicateId);
 
 		// Add the new group if ID is not duplicate
 		if (!isDuplicateId) {
@@ -284,11 +285,6 @@ public class C206_CaseStudyTest {
 		}
 
 		assertTrue(isCreated);
-	}
-
-	private void assertFalse(boolean isDuplicateId) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Test
