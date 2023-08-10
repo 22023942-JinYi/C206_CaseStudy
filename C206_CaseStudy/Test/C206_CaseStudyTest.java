@@ -239,11 +239,11 @@ public class C206_CaseStudyTest {
 		assertNotNull("Test if there is valid Bike arraylist to add to", bikeList);
 		assertEquals("Test that the Bike arraylist is empty.", 0, bikeList.size());
 		// Given an empty list, after adding 1 item, the size of the list is 1
-		bikeList.add(bike1);
+		Bike.addBike(bikeList, bike1);
 		assertEquals("Test that the Bike arraylist size is 1.", 1, bikeList.size());
 
 		// Add an item
-		bikeList.add(bike2);
+		Bike.addBike(bikeList, bike2);
 		assertEquals("Test that the Bike arraylist size is now 2.", 2, bikeList.size());
 		// The bike just added is as same as the last item in the list
 		assertSame("Test that Bike is added to the end of the list.", bike2, bikeList.get(1));
@@ -255,36 +255,44 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testViewAllBike() {
+		// view empty list
 		String actualOutput = Bike.viewAllBike(bikeList);
 		String expected = String.format("%-10s %-10s %-10s %-10s\n", "ID", "MODEL", "COLOUR", "WEIGHT");
-		;
 		for (Bike b : bikeList) {
 			expected += String.format("%-10d %-10s %-10s %-10.2f\n", b.getId(), b.getModel(), b.getColour(),
 					b.getWeight());
 		}
 		assertEquals(expected, actualOutput);
+		// View list with item
+		Bike.addBike(bikeList, bike1);
+		Bike.addBike(bikeList, bike2);
+		String actualOutput1 = Bike.viewAllBike(bikeList);
+		String expected1 = String.format("%-10s %-10s %-10s %-10s\n", "ID", "MODEL", "COLOUR", "WEIGHT");
+		for (Bike b : bikeList) {
+			expected1 += String.format("%-10d %-10s %-10s %-10.2f\n", b.getId(), b.getModel(), b.getColour(),
+					b.getWeight());
+		}
+		assertEquals(expected1, actualOutput1);
 	}
 
 	@Test
 	public void testDeleteBike() {
-		bikeList.add(bike1);
-		bikeList.add(bike2);
-		int input1 = 1;
-		assertEquals(input1, bikeList.get(0).getId());
+		Bike.addBike(bikeList, bike1);
+		Bike.addBike(bikeList, bike2);
+		assertEquals(2, bikeList.size());
 
 		// After deletion, the size of the list should be 1 (since we only removed one
 		// discussion)
 		int removal = bikeList.get(0).getId();
-		bikeList.remove(removal);
-		int expectedSizeAfterDeletion = 1;
-		assertEquals(expectedSizeAfterDeletion, bikeList.size());
+		Bike.deleteBike(bikeList, removal, 'y');
+		assertEquals(1, bikeList.size());
 
 		// check if the list is empty after all the bike added is deleted
-		Bike remove = bikeList.get(0);
-		bikeList.remove(remove);
+		int remove = bikeList.get(0).getId();
+		Bike.deleteBike(bikeList, remove, 'y');
 		assertEquals(0, bikeList.size());
 		// An empty bike list cannot be deleted.
-		  assertNotEquals(-1, bikeList.size());
+		assertFalse(Bike.deleteBike(bikeList, 1, 'y'));
 	}
 
 	@Test

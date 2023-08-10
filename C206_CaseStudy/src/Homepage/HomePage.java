@@ -324,7 +324,7 @@ public class HomePage {
 					} else if (opt == VIEW_BIKE) {
 						Bike.viewAllBike(bikeList);
 					} else if (opt == DELETE_BIKE) {
-						Bike.deleteBike(bikeList);
+						Bike.deleteBike(bikeList,Bike.inputdelete(),Bike.confirmDelete());
 					} else {
 						System.out.println("Invalid input");
 					}

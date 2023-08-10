@@ -86,27 +86,35 @@ public class Bike {
 		return output;
 	}
 
-	public static void deleteBike(ArrayList<Bike> bikeList) {
-		viewAllBike(bikeList);
+	public static int inputdelete() {
 		int id = Helper.readInt("Enter id to delete > ");
-		boolean found = false;
+		return id;
+	}
 
+	public static char confirmDelete() {
+		char confirm = Helper.readChar("Are you sure you want to delete the event (y/n) > ");
+		return confirm;
+	}
+
+	public static boolean deleteBike(ArrayList<Bike> bikeList, int id, char confirm) {
+		viewAllBike(bikeList);
+		boolean found = false;
 		for (Bike bike : bikeList) {
 			if (bike.getId() == id) {
 				found = true;
-				char confirm = Helper.readChar("Are you sure you want to delete the event (y/n) > ");
+
 				if (Character.toLowerCase(confirm) == 'y') {
 					bikeList.remove(bike);
-					System.out.println("Event has been deleted successfully.");
+					System.out.println("Bike has been deleted successfully.");
 				} else {
-					System.out.println("hi.");
+					System.out.println("Bike has not been deleted");
 				}
 				break;
 			}
 		}
-
 		if (!found) {
 			System.out.println("Bike was not found.");
 		}
+		return found;
 	}
 }
