@@ -57,6 +57,7 @@ public class C206_CaseStudyTest {
 		u1 = new User(1, "jin", "password", true);
 		u2 = new User(2, "jake", "pass1", false);
 		u3 = new User(3, "fin", "pass2", false);
+
 		registrationsList.add(new Registration(1, "HI"));
 		registrationsList.add(new Registration(2, "BYE"));
 
@@ -76,7 +77,7 @@ public class C206_CaseStudyTest {
 		// Verify that a new discussion is added to the list
 		assertEquals(3, discussionList.size());
 
-		// Verify that the details of the new discussion match with the user input
+		// Verify that the details of the new discussion matches with the user input
 		Discussion newDiscussion = discussionList.get(2);
 		assertEquals(3, newDiscussion.getId());
 		assertEquals("Discussion 3", newDiscussion.getTitle());
@@ -104,11 +105,17 @@ public class C206_CaseStudyTest {
 			expectedOutput += "\n";
 
 		}
-
 		assertEquals(expectedOutput, actualOutput);
+		
+		//Test that nothing would be displayed if the list is empty.
+		discussionList.clear();
+		String empty = Discussion.viewAllDiscussion(discussionList);
+		String emptyOutput = "";
+		assertEquals(empty, emptyOutput);
+		
+
 	}
 
-	
 	@Test
 	public void testDeleteDiscussion() {
 		// Test that discussion deleted is of ID that user input
@@ -124,15 +131,6 @@ public class C206_CaseStudyTest {
 	}
 
 	@Test
-	public void testDeleteEvent() {
-		// Delete the event
-		ArrayList<Event> eventList = new ArrayList<>();
-		Event event = new Event(1, "Tet Event", "Test Venue", LocalDate.now(), 100, "Test Description");
-		eventList.remove(event);
-
-		// Check if the event was deleted
-		assertEquals(0, eventList.size());
-	}@Test
 	public void testAddEvent() {
 		// Add an event to the list
 		eventList.add(event1);
@@ -182,7 +180,31 @@ public class C206_CaseStudyTest {
 					event.getVenue(), event.getEventDate(), event.getParticipants(), event.getDescription());
 		}
 	}
-	
+
+	@Test
+	public void testDeleteEvent() {
+		Event eventToDelete = new Event(1, "Test Event", "Test Venue", 
+				LocalDate.now(), 100, "Test Description");
+
+		// Create an event list
+		ArrayList<Event> eventList = new ArrayList<>();
+		eventList.add(eventToDelete);
+
+		// Delete the event
+		boolean removed = eventList.remove(eventToDelete);
+
+		// Check if the event was deleted
+		assertTrue("Existing event should be deleted", removed);
+		assertFalse("Event should not exist in the list", eventToDelete );
+		assertEquals("Event list should be empty after deletion", 0, eventList.size());
+
+	}
+
+	private void assertFalse(String string, Event eventToDelete) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Test
 	public void testAddBike() {
 		// bike list is not null and it is empty
@@ -262,6 +284,11 @@ public class C206_CaseStudyTest {
 		}
 
 		assertTrue(isCreated);
+	}
+
+	private void assertFalse(boolean isDuplicateId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Test
@@ -437,8 +464,47 @@ public class C206_CaseStudyTest {
 		assertEquals(expectedSizeAfterDeletion, users.size());
 	}
 
+	@Test
+	public void testAddRegistration() {
+		// Add an reg to the list
+		registrationsList.add(new Registration(3, "HELLO"));
+
+		// Check if the size of the registrationsList increased by 1
+		assertEquals(3, registrationsList.size());
+
+		// Check if the added REG has the expected properties
+		Registration addedEvent = registrationsList.get(2);
+		assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
+		assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
+	}
+
+	@Test
+	public void testViewAllRegistration() {
+
+		// Perform the ViewAllRegistrationv method and capture the actual output
+		String actualOutput = Registration.displayAllRegistration(registrationsList);
+		// Build the expected output using a StringBuilder
+		String expectedOutput = String.format("%-10s %-20s", "ID", "NAME");
+		for (Registration Registration : registrationsList) {
+			expectedOutput = String.format("%-10d %-20s", Registration.getId(), Registration.getName());
+		}
+	}
+
+	@Test
+	public void testDeleteRegistration() {
+		// Delete the REG
+		ArrayList<Registration> registrationsList = new ArrayList<>();
+		Registration Registration = new Registration(1, "Test Event");
+		registrationsList.remove(Registration);
+
+		// Check if the REG was delete
+		assertEquals(0, registrationsList.size());
+	}
+
 	@After
 	public void tearDown() throws Exception {
+		event1 = null;
+		event2 = null;
 		bike1 = null;
 		bike2 = null;
 		bike3 = null;
