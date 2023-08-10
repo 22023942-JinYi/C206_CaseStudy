@@ -67,7 +67,7 @@ public class Discussion {
 	    String title = Helper.readString("Enter discussion title > ");
 	    String discussionDate = Helper.readString("Enter discussion date (yyyy-MM-dd) > ");
 	    String description = Helper.readString("Enter discussion description > ");
-	    while (description.length() > 200) {
+	    while (description.length() >= 200) {
 	        System.out.println("Discussion has to be less than 200 characters.");
 	        description = Helper.readString("Enter discussion description > ");
 	    }
@@ -85,7 +85,7 @@ public class Discussion {
 	        }
 	    }
 
-	    if (newDiscussion.getId() == 0 || newDiscussion.getTitle().isEmpty() || newDiscussion.getDescription().isEmpty()) {
+	    if (newDiscussion.getId() == 0 || newDiscussion.getTitle().isEmpty() || newDiscussion.getDescription().length() >= 200) {
 	        return false;
 	    } else {
 	        discussionList.add(newDiscussion);
