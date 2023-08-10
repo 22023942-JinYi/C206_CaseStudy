@@ -27,6 +27,9 @@ public class C206_CaseStudyTest {
 	private User u3;
 	private Friend f1;
 	private Friend f2;
+	private Registration r1;
+	private Registration r2;
+
 
 	private ArrayList<User> users;
 	private ArrayList<Friend> friends;
@@ -57,11 +60,11 @@ public class C206_CaseStudyTest {
 		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
 		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
 		u1 = new User(1, "jin", "password", true);
-		u2 = new User(2, "jake", "pass1", false);
-		u3 = new User(3, "fin", "pass2", false);
+		u2 = new User(2, "jake", "password1", false);
+		u3 = new User(3, "fin", "password2", false);
 
-		registrationsList.add(new Registration(1, "HI"));
-		registrationsList.add(new Registration(2, "BYE"));
+		r1 = new Registration(1, "HI");
+		r2 = new Registration(2, "BYE");
 
 		Friend f1 = new Friend("jake", 1, true);
 		Friend f2 = new Friend("jin", 2, true);
@@ -546,58 +549,72 @@ public class C206_CaseStudyTest {
 			assertEquals(expectedSizeAfterDeletion, users.size());
 			
 		}
-	@Test
-	public void testAddRegistration() {
-		// Add an reg to the list
-		registrationsList.add(new Registration(3, "HELLO"));
+		@Test
+		public void testAddRegistration() {
+			// Item list is not null, so that can add a new item - boundary
+			assertNotNull("Check if there is valid Registration arraylist to add to", registrationsList);
+			
+			// Given an empty list, after adding 1 item, the size of the list is 1 - normal
+			// The item just added is as same as the first item of the list
+			Registration.addEventRegistrations(registrationsList, r1);
+			assertEquals("Check that Registration arraylist size is 1", 1, registrationsList.size());
+			assertSame("Check that Registration is added", r1, registrationsList.get(0));
 
-		// Check if the size of the registrationsList increased by 1
-		assertEquals(3, registrationsList.size());
+			// Add another Registration. test The size of the list is 2? -normal
+			// The item just added is as same as the second item of the list
+			Registration.addEventRegistrations(registrationsList, r2);
+			assertEquals("Check that Registration arraylist size is 2", 2, registrationsList.size());
+			assertSame("Check that Registration is added", r2, registrationsList.get(1));
+		}
 
-		// Check if the added REG has the expected properties
-		Registration addedEvent = registrationsList.get(2);
-		assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
-		assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
-	}
 
-	@Test
-	public void testViewAllRegistration() {
+		@Test
+		public void testViewAllRegistration() {
+			/*r1 = new Registration(1, "HI");
+			r2 = new Registration(2, "BYE");*/
+			// Test if Registration list is not null but empty - boundary
+			assertNotNull("Check if there is a valid users arraylist to add to", registrationsList);
+			Registration.addEventRegistrations(registrationsList, r1);
+			Registration.addEventRegistrations(registrationsList, r2);
+			assertEquals("Check that Registration arraylist size is 2", 2, registrationsList.size());
+			
+			// Given an empty list, after adding 2 items, test if the size of the list is 2
+			// - normal
 
-		// Perform the ViewAllRegistrationv method and capture the actual output
-		String actualOutput = Registration.displayAllRegistration(registrationsList);
-		// Build the expected output using a StringBuilder
-		String expectedOutput = String.format("%-10s %-20s", "ID", "NAME");
-		for (Registration Registration : registrationsList) {
-			expectedOutput = String.format("%-10d %-20s", Registration.getId(), Registration.getName());
+			String testOutput = String.format("\n%-10d %-20s",1, "HI");
+			 testOutput += String.format("\n%-10d %-20s",2, "BYE");// Correctly formatted output of Registration
+			assertEquals("Test that ViewAllUsers list", testOutput, Registration.displayAllRegistration(registrationsList));
+		}
+
+		@Test
+		public void testDeleteRegistration() {
+			assertNotNull("Check if there is a valid registration arraylist to add to",registrationsList);
+			Registration.addEventRegistrations(registrationsList, r1);
+			Registration.addEventRegistrations(registrationsList, r2);
+			assertEquals("Check that Registration arraylist size is 2", 2, registrationsList.size());
+
+			Registration.deleteEventRegistration(registrationsList, 1, 'y');
+			
+			int expectedSizeAfterDeletion = 1;
+			assertEquals("Check that Registration arraylist size is 1",expectedSizeAfterDeletion, registrationsList.size());
+		}
+
+		@After
+		public void tearDown() throws Exception {
+			event1 = null;
+			event2 = null;
+			bike1 = null;
+			bike2 = null;
+			bike3 = null;
+			bikeList = null;
+			u1 = null;
+			u2 = null;
+			u3 = null;
+			f1 = null;
+			f2 = null;
+			users = null;
+			friends = null;
+			r1 = null;
+			r2 = null;
 		}
 	}
-
-	@Test
-	public void testDeleteRegistration() {
-		// Delete the REG
-		ArrayList<Registration> registrationsList = new ArrayList<>();
-		Registration Registration = new Registration(1, "Test Event");
-		registrationsList.remove(Registration);
-
-		// Check if the REG was deleted
-		assertEquals(0, registrationsList.size());
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		event1 = null;
-		event2 = null;
-		bike1 = null;
-		bike2 = null;
-		bike3 = null;
-		bikeList = null;
-		u1 = null;
-		u2 = null;
-		u3 = null;
-		f1 = null;
-		f2 = null;
-		users = null;
-		friends = null;
-		discussionList = null;
-	}
-}

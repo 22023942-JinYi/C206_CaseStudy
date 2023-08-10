@@ -51,7 +51,8 @@ public class Registration {
   }
   public static String displayAllRegistration (ArrayList <Registration> registrationsList) {
     // TODO Auto-generated method stub
-    String output = String.format("%-10s %-20s", "ID", "NAME");
+    System.out.println( String.format("%-10s %-20s", "ID", "NAME"));
+    String output ="";
 
       for (Registration NewEvent : registrationsList) {
            output += String.format("\n%-10d %-20s",NewEvent.getId(), NewEvent.getName());
@@ -62,14 +63,9 @@ public class Registration {
   }
 
 
-  public static void addEventRegistrations(ArrayList<Registration> registrationsList) {
+  public static void addEventRegistrations(ArrayList<Registration> registrationsList, Registration newEvent) {
     Helper.line(70, "-");
 
-  
-    int id = Helper.readInt("Enter event id  > ");
-  String name = Helper.readString("Enter event name > ");
-
-  Registration newEvent = new Registration(id, name);
   registrationsList.add(newEvent);
 
   System.out.println("New Event successfully added.");
@@ -78,28 +74,35 @@ public class Registration {
 
   
   
-   public static void deleteEventRegistration(ArrayList<Registration> registrationsList) {
+   public static void deleteEventRegistration(ArrayList<Registration> registrationsList, int registeredEventID, char confirm) {
           // Implement method to delete a bike
-          int registeredEventID = Helper.readInt("Enter the registeredEventID to delete: ");
+	   	
           boolean found = false;
 
           for (Registration r : registrationsList) {
             if (r.getId()==registeredEventID) {
                 found = true;
-                char confirm = Helper.readChar("Are you sure you want to delete the event (y/n) > ");
-                if (Character.toLowerCase(confirm) == 'y') {
-                  registrationsList.remove(r);
-                    System.out.println("Event has been deleted successfully.");
-                } else {
-                    System.out.println("hi.");
-                }
-                break; 
+	            if (confirm == 'n') {
+	                confirm = Helper.readChar("Are you sure you want to delete the event (y/n) > ");
+	                if (Character.toLowerCase(confirm) == 'y') {
+	                  registrationsList.remove(r);
+	                    System.out.println("Event has been deleted successfully.");
+	                } else {
+	                    System.out.println("hi.");
+	                }
+	                break; 
+	            }
+	            else if(confirm == 'y') {
+	            	registrationsList.remove(r);
+	            }
             }
+            
         }
 
         if (!found) {
             System.out.println("Event was not found.");
         }
     }
+  
 
   }

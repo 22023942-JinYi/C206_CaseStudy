@@ -415,11 +415,18 @@ public class HomePage {
 		        int opt = Helper.readInt("Choose your option: ");
 		        while (opt != 4) {
 		          if (opt == 1) {
-		            Registration.addEventRegistrations(registrationsList);
+
+		        	    int id = Helper.readInt("Enter event id  > ");
+		        	  String name = Helper.readString("Enter event name > ");
+		        	  Registration newEvent = new Registration(id, name);
+		        	  
+		            Registration.addEventRegistrations(registrationsList, newEvent);
 		          } else if (opt == 2) {
 		            Registration.displayAllRegistration(registrationsList);
 		          } else if (opt == 3) {
-		            Registration.deleteEventRegistration(registrationsList);
+		        	int registeredEventID = Helper.readInt("Enter the registeredEventID to delete: ");
+		        	char confirm = 'n';
+		            Registration.deleteEventRegistration(registrationsList,registeredEventID , confirm);
 		          } else {
 		            System.out.println("Invalid input");
 		          }
