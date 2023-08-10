@@ -315,8 +315,6 @@ public class C206_CaseStudyTest {
 		assertTrue(isCreated);
 	}
 
-	
-
 	@Test
 	public void testAddGroup_DupID() {
 
