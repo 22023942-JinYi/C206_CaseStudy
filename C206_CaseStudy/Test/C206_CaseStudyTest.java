@@ -182,7 +182,7 @@ public class C206_CaseStudyTest {
 	public void testViewAllEvent() {
 		// Test if Item list is not null but empty -boundary
 		assertNotNull("Test if there is valid Camcorder arraylist to retrieve item", eventList);
-		
+
 		// Perform the viewAllEvent method and capture the actual output
 		String actualOutput1 = Event.viewAllEvent(eventList);
 
@@ -192,12 +192,12 @@ public class C206_CaseStudyTest {
 
 		// Check if the actual output matches the expected output
 		// Check if the view was empty
-		assertEquals(expectedOutput1, actualOutput1);//-normal
+		assertEquals(expectedOutput1, actualOutput1);// -normal
 	}
 
 	@Test
 	public void testDeleteEvent() {
-		
+
 		Event eventToDelete = new Event(1, "Test Event", "Test Venue", LocalDate.now(), 100, "Test Description");
 
 		// Create an event list
@@ -210,13 +210,13 @@ public class C206_CaseStudyTest {
 		// Check if the event was deleted.-Normal
 		assertTrue("Existing event should be deleted", removed);
 		assertEquals("Event list should be empty after deletion", 0, eventList.size());
-		
-		// Attempt to delete the event again. -Boundry
-	    boolean removedAgain = eventList.remove(eventToDelete);
 
-	    // Check that no event was removed again
-	    assertFalse(removedAgain);
-	    assertEquals("Event list should still be empty", 0, eventList.size());
+		// Attempt to delete the event again. -Boundry
+		boolean removedAgain = eventList.remove(eventToDelete);
+
+		// Check that no event was removed again
+		assertFalse(removedAgain);
+		assertEquals("Event list should still be empty", 0, eventList.size());
 		// Check discussion list cannot be deleted. - Error
 		eventList.clear();
 		int x = eventList.size();
@@ -420,7 +420,6 @@ public class C206_CaseStudyTest {
 			assertNotEquals(groupNameToDelete, group.getName());
 		}
 	}
-
 
 	@Test
 	public void AddUser() {
