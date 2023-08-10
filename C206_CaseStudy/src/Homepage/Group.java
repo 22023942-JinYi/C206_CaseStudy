@@ -98,6 +98,7 @@ public class Group {
 	            }
 
 	            System.out.println(output);
+	            Helper.line(45, "=");
 
 	        } else if (choice == 2) {
 	            String groupName = Helper.readString("\nPlease enter the name of the group to view:\n");
