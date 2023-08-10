@@ -68,38 +68,44 @@ public class Event {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public static void addEvent(ArrayList<Event> eventList) {
-	    int id = Helper.readInt("Enter event id  > ");
-
-	    // Check for duplicate ID
-	    for (Event event : eventList) {
-	        if (event.getId() == id) {
-	            System.out.println("An event with the same ID already exists. Cannot add a duplicate event.");
-	            return;
-	        }
-	    }
-
-	    String name = Helper.readString("Enter event name > ");
+	
+	public static Event inputevent() {
+		int id = Helper.readInt("Enter event id  > ");
+		String name = Helper.readString("Enter event name > ");
 	    String venue = Helper.readString("Enter event venue > ");
 	    String eventDate = Helper.readString("Enter event date (yyyy-MM-dd) > ");
 	    int participants = Helper.readInt("Enter event number of participants > ");
 	    
-	    if (participants > 100) {
-	        System.out.println("Cannot add event. Participant count cannot exceed 100.");
-	        return;
-	    }
-
-
+	  
 	    String description = Helper.readString("Enter event description > ");
 
 	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	    LocalDate eDate = LocalDate.parse(eventDate, dtf);
 
 	    Event newEvent = new Event(id, name, venue, eDate, participants, description);
-	    eventList.add(newEvent);
+	    return newEvent;
 
-	    System.out.println("New Event successfully added.");
+	
+	}
+
+	public static boolean addEvent(ArrayList<Event> eventList,Event newEvent) {
+
+	    // Check for duplicate ID
+	    for (Event event : eventList) {
+	        if (event.getId() == newEvent.getId()) {
+	            System.out.println("An event with the same ID already exists. Cannot add a duplicate event.");
+	            return false;
+	        }
+	    }if (newEvent.getId() == 0 ||newEvent.getName().isEmpty() || newEvent.getVenue().isEmpty() ||newEvent.getParticipants()==1||newEvent.getDescription().isEmpty()) {
+			return false;
+		} else {
+			eventList.add(newEvent);
+			System.out.println("New Event successfully added.");
+			return true;
+		
+
+	  
+}
 	
 
 

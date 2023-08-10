@@ -31,6 +31,8 @@ public class C206_CaseStudyTest {
 	private Registration r2;
 	private Discussion d3;
 	private Discussion d4;
+	private Event e3;
+	private Event e4;
 
 	private ArrayList<User> users;
 	private ArrayList<Friend> friends;
@@ -72,90 +74,87 @@ public class C206_CaseStudyTest {
 		users = new ArrayList<User>();
 		friends = new ArrayList<Friend>();
 	}
-
 	@Test
-	public void testAddDiscussion() {
-		// New Discussion Added with user input - normal
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate discussionDate3 = LocalDate.parse("2023-08-08", dtf);
-		discussionList.add(new Discussion(3, "Discussion 3", discussionDate3, "Description for Discussion 3"));
-		// Verify that a new discussion is added to the list
-		assertEquals(3, discussionList.size());
+	  public void testAddDiscussion() {
+	    // New Discussion Added with user input - normal
+	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    LocalDate discussionDate3 = LocalDate.parse("2023-08-08", dtf);
+	    d3 = new Discussion(3, "Discussion 3", discussionDate3, "Description for Discussion 3");
+	    Discussion.addDiscussion(discussionList, d3);
+	    // Verify that a new discussion is added to the list
+	    assertEquals(3, discussionList.size());
 
-		// Verify that the details of the new discussion matches with the user input - Normal
-		Discussion newDiscussion = discussionList.get(2);
-		assertEquals(3, newDiscussion.getId());
-		assertEquals("Discussion 3", newDiscussion.getTitle());
-		assertEquals(LocalDate.parse("2023-08-08", DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-				newDiscussion.getDiscussionDate());
-		assertEquals("Description for Discussion 3", newDiscussion.getDescription());
-		
-		// Verify that the description is less than 200 characters. - Boundary
-		int limit = 200; 
-		int length = newDiscussion.getDescription().length();
-		assertTrue(length < limit);
-		
-		
-	}
+	    // Verify that the details of the new discussion matches with the user input - Normal
+	    Discussion newDiscussion = discussionList.get(2);
+	    assertEquals(3, newDiscussion.getId());
+	    assertEquals("Discussion 3", newDiscussion.getTitle());
+	    assertEquals(LocalDate.parse("2023-08-08", DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+	        newDiscussion.getDiscussionDate());
+	    assertEquals("Description for Discussion 3", newDiscussion.getDescription());
+	    
+	    // Verify that the description is less than 200 characters. - Boundary
+	        LocalDate discussionDate4 = LocalDate.parse("2023-08-09", dtf);
+	        String characters = "*".repeat(199);
 
-	@Test
-	public void testViewAllDiscussion() {
-		// Test that the discussions are formatted neatly - Normal
-		String actualOutput = Discussion.viewAllDiscussion(discussionList);
-		String expectedOutput = "";
-		String header = "-".repeat(150);
-		for (Discussion discussion : discussionList) {
-			expectedOutput += header;
-			expectedOutput += String.format("\n%-20s%-30s%-20s\n", "Id:", "Title of Discussion:",
-					"Date of Discussion:");
-			expectedOutput += header;
-			expectedOutput += String.format("\n%-20s%-30s%-20s", discussion.getId(), discussion.getTitle(),
-					discussion.getDiscussionDate());
-			expectedOutput += "\n";
-			expectedOutput += String.format("%-20s%-80s", "Description:", discussion.getDescription());
-			expectedOutput += "\n";
-			expectedOutput += "\n";
+	        // Call the addDiscussion method with the required parameters
+	        d4 = new Discussion(4, "Discussion 4", discussionDate4, characters);
+	        Discussion.addDiscussion(discussionList, d4);
+	        assertEquals(4, discussionList.size());
+	    }
 
-		}
-		assertEquals(expectedOutput, actualOutput);
-		
-		//Test that nothing would be displayed if the list is empty. - Boundary
-		discussionList.clear();
-		String empty = Discussion.viewAllDiscussion(discussionList);
-		String emptyOutput = "";
-		assertEquals(empty, emptyOutput);
-		
+	  @Test
+	  public void testViewAllDiscussion() {
+	    // Test that the discussions are formatted neatly - Normal
+	    String actualOutput = Discussion.viewAllDiscussion(discussionList);
+	    String expectedOutput = "";
+	    String header = "-".repeat(150);
+	    for (Discussion discussion : discussionList) {
+	      expectedOutput += header;
+	      expectedOutput += String.format("\n%-20s%-30s%-20s\n", "Id:", "Title of Discussion:",
+	          "Date of Discussion:");
+	      expectedOutput += header;
+	      expectedOutput += String.format("\n%-20s%-30s%-20s", discussion.getId(), discussion.getTitle(),
+	          discussion.getDiscussionDate());
+	      expectedOutput += "\n";
+	      expectedOutput += String.format("%-20s%-80s", "Description:", discussion.getDescription());
+	      expectedOutput += "\n";
+	      expectedOutput += "\n";
+	    }
+	    assertEquals(expectedOutput, actualOutput);
+	    //Test that nothing would be displayed if the list is empty. - Boundary
+	    discussionList.clear();
+	    String empty = Discussion.viewAllDiscussion(discussionList);
+	    String emptyOutput = "";
+	    assertEquals(empty, emptyOutput);
+	    
+	  }
 
-	}
+	  @Test
+	  public void testDeleteDiscussion() {
+	    // Test that discussion deleted is of the ID that the user input - Normal
+	    int input1 = 1;
+	    assertEquals(input1, discussionList.get(0).getId());
 
-	@Test
-	public void testDeleteDiscussion() {
-		// Test that discussion deleted is of the ID that the user input - Normal
-		int input1 = 1;
-		assertEquals(input1, discussionList.get(0).getId());
-
-		// After deletion, the size of the list should be 1 (since we only removed one - Normal
-		// discussion)
-		int removal = discussionList.get(0).getId() - 1;
-		discussionList.remove(removal);
-		int expectedSizeAfterDeletion = 1;
-		assertEquals(expectedSizeAfterDeletion, discussionList.size());
-		
-		//After another deletion, the size of the list should be 0 - Boundary
-		discussionList.remove(0);
-		assertEquals(0, discussionList.size());
-		
-		// An empty discussion list cannot be deleted. - Error
-		discussionList.clear();
-		int actualSize = discussionList.size();
-		int expSizeAftDeletion = -1;
-		assertNotEquals(expSizeAftDeletion, actualSize);
-		System.out.println(discussionList.size());
-
-		
-		
-		
-	}
+	    // After deletion, the size of the list should be 1 (since we only removed one - Normal
+	    // discussion)
+	    Discussion.deleteDiscussion(discussionList, input1, 'y');
+	    int expectedSizeAfterDeletion = 1;
+	    assertEquals(expectedSizeAfterDeletion, discussionList.size());
+	    
+	    //After another deletion, the size of the list should be 0 - Boundary
+	    Discussion.deleteDiscussion(discussionList, 2, 'y');
+	    assertEquals(0, discussionList.size());
+	    
+	    // An empty discussion list cannot be deleted. - Error
+	    discussionList.clear();
+	    Discussion.deleteDiscussion(discussionList, input1, 'y');
+	    int actualSize = discussionList.size();
+	    int expSizeAftDeletion = -1;
+	    assertNotEquals(expSizeAftDeletion, actualSize);
+	    
+	    
+	    
+	  }
 	@Test
 	public void testAddEvent() {
 		// Item list is not null, so that can add a new item - boundary
@@ -165,7 +164,8 @@ public class C206_CaseStudyTest {
 		eventList.add(event2);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate eventDate3 = LocalDate.parse("2022-12-22", dtf);
-		eventList.add(new Event(3, "HELLO", "Taman E", eventDate3, 7, "Mark"));
+		e3 =new Event(3, "HELLO", "Taman E", eventDate3, 7, "Mark");
+		Event.addEvent(eventList, e3);
 
 		// Check if the size of the eventList increased by 1
 		assertTrue(eventList.size() == 3);
@@ -179,7 +179,8 @@ public class C206_CaseStudyTest {
 		assertEquals("Test the duration of the added event.", 7, addedEvent.getParticipants());
 		assertEquals("Test the organizer of the added event.", "Mark", addedEvent.getDescription());
 		LocalDate eventDate2 = LocalDate.parse("2023-01-15", dtf);
-		eventList.add(new Event(4, "Meeting", "Conference Room", eventDate2, 12, "Jane"));
+		e4=new Event(4, "Meeting", "Conference Room", eventDate2, 12, "Jane") ;
+		Event.addEvent(eventList, e4);
 
 		// Check if the size of the eventList increased by the number of added events
 		assertEquals(4, eventList.size()); // The initial size was 2, so 2 + 2 = 4

@@ -394,7 +394,7 @@ public class HomePage {
 				int opt = Helper.readInt("Choose your option: ");
 				while (opt != 4) {
 					if (opt == ADD_EVENT) {
-						Event.addEvent(eventList);
+						Event.addEvent(eventList,Event.inputevent());
 					} else if (opt == VIEW_EVENT) {
 						Event.viewAllEvent(eventList);
 					} else if (opt == DELETE_EVENT) {
