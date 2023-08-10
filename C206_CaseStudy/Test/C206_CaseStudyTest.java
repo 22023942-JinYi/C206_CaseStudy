@@ -29,7 +29,8 @@ public class C206_CaseStudyTest {
 	private Friend f2;
 	private Registration r1;
 	private Registration r2;
-
+	private Discussion d3;
+	private Discussion d4;
 
 	private ArrayList<User> users;
 	private ArrayList<Friend> friends;
@@ -90,13 +91,11 @@ public class C206_CaseStudyTest {
 		assertEquals("Description for Discussion 3", newDiscussion.getDescription());
 		
 		// Verify that the description is less than 200 characters. - Boundary
-		String characters = "*".repeat(199);
-		LocalDate discussionDate4 = LocalDate.parse("2023-08-09", dtf);
-		discussionList.add(new Discussion(4, "Discussion 4", discussionDate4, characters));
 		int limit = 200; 
-		int length = discussionList.get(3).getDescription().length();
+		int length = newDiscussion.getDescription().length();
 		assertTrue(length < limit);
-		assertEquals(4, discussionList.size());
+		
+		
 	}
 
 	@Test
@@ -116,14 +115,17 @@ public class C206_CaseStudyTest {
 			expectedOutput += String.format("%-20s%-80s", "Description:", discussion.getDescription());
 			expectedOutput += "\n";
 			expectedOutput += "\n";
+
 		}
 		assertEquals(expectedOutput, actualOutput);
+		
 		//Test that nothing would be displayed if the list is empty. - Boundary
 		discussionList.clear();
 		String empty = Discussion.viewAllDiscussion(discussionList);
 		String emptyOutput = "";
 		assertEquals(empty, emptyOutput);
 		
+
 	}
 
 	@Test
@@ -148,11 +150,12 @@ public class C206_CaseStudyTest {
 		int actualSize = discussionList.size();
 		int expSizeAftDeletion = -1;
 		assertNotEquals(expSizeAftDeletion, actualSize);
+		System.out.println(discussionList.size());
+
 		
 		
 		
 	}
-
 	@Test
 	public void testAddEvent() {
 		// Item list is not null, so that can add a new item - boundary

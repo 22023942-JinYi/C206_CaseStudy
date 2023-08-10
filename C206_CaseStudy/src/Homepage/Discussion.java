@@ -62,23 +62,39 @@ public class Discussion {
 	}
 	
 	
-	public static void addDiscussion(ArrayList<Discussion> discussionList) {
-		int id = Helper.readInt("Enter discussion id  > ");
-		String title = Helper.readString("Enter discussion title > ");
-		String discussionDate = Helper.readString("Enter discussion date (yyyy-MM-dd) > ");
-		String description = Helper.readString("Enter discussion description > ");
-		while(description.length() > 200) {
-			System.out.println("Discussion have to be less than 200 characters.");
-			description = Helper.readString("Enter discussion description > ");
-		}
+	public static Discussion inputDiscussion() {
+	    int id = Helper.readInt("Enter discussion id > ");
+	    String title = Helper.readString("Enter discussion title > ");
+	    String discussionDate = Helper.readString("Enter discussion date (yyyy-MM-dd) > ");
+	    String description = Helper.readString("Enter discussion description > ");
+	    while (description.length() > 200) {
+	        System.out.println("Discussion has to be less than 200 characters.");
+	        description = Helper.readString("Enter discussion description > ");
+	    }
 
-		
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDate dDate = LocalDate.parse(discussionDate, dtf);
-			Discussion newDiscussion = new Discussion(id, title, dDate, description);
-			discussionList.add(newDiscussion);
-		System.out.println("New Discussion successfully added.");
-		}
+	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    LocalDate dDate = LocalDate.parse(discussionDate, dtf);
+	    Discussion discussion = new Discussion(id, title, dDate, description);
+	    return discussion;
+	}
+	
+	public static boolean addDiscussion(ArrayList<Discussion> discussionList, Discussion newDiscussion) {
+	    for (Discussion discussion : discussionList) {
+	        if (discussion.getId() == newDiscussion.getId()) {
+	            return false;
+	        }
+	    }
+
+	    if (newDiscussion.getId() == 0 || newDiscussion.getTitle().isEmpty() || newDiscussion.getDescription().isEmpty()) {
+	        return false;
+	    } else {
+	        discussionList.add(newDiscussion);
+	        System.out.println("Discussion has been successfully added");
+	        return true;
+	    }
+	}
+
+
 		
 		
 	public static String viewAllDiscussion(ArrayList<Discussion> discussionList) {
@@ -99,15 +115,22 @@ public class Discussion {
 		    System.out.println(output);
 		    return output;
 		}
-		public static void deleteDiscussion(ArrayList<Discussion> discussionList) {
-		    int id = Helper.readInt("Enter id to delete > ");
+	
+	public static int inputDeleteDiscussion() {
+	    int id = Helper.readInt("Enter ID of the discussion to delete > ");
+		return id;
+	}
+	public static char inputConfirmation() {
+		char YesorNo = Helper.readChar("Are you sure you want to delete the discussion (y/n) > ");
+		return YesorNo;
+	}
+	
+		public static boolean deleteDiscussion(ArrayList<Discussion> discussionList, int ID, char confirmation) {
 		    boolean found = false; 
-
 		    for (Discussion discussion: discussionList) {
-		        if (discussion.getId()== (id)) {
+		        if (discussion.getId()== (ID)) {
 		            found = true;
-		            char confirm = Helper.readChar("Are you sure you want to delete the discussion (y/n) > ");
-		            if (Character.toLowerCase(confirm) == 'y') {
+		            if (Character.toLowerCase(confirmation) == 'y') {
 		            	discussionList.remove(discussion);
 		                System.out.println("Discussion has been deleted successfully.");
 		            } else {
@@ -120,5 +143,6 @@ public class Discussion {
 		    if (!found) {
 		        System.out.println("Discussions was not found.");
 		    }
+			return found;
 		}
 }

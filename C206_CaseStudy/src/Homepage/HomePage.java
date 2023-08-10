@@ -342,17 +342,20 @@ public class HomePage {
 				int opt = Helper.readInt("Choose your option: ");
 				while (opt != 4) {
 					if (opt == ADD_DIS) {
-						Discussion.addDiscussion(discussionList);
+						Discussion.addDiscussion(discussionList, Discussion.inputDiscussion());
 					} else if (opt == VIEW_DIS) {
 						Discussion.viewAllDiscussion(discussionList);
 					} else if (opt == DELETE_DIS) {
-						Discussion.deleteDiscussion(discussionList);
+						Discussion.deleteDiscussion(discussionList, Discussion.inputDeleteDiscussion(), Discussion.inputConfirmation());
 					} else {
 						System.out.println("Invalid input");
 					}
 					// Prompt for the next option within the loop
 					dismenu();
 					opt = Helper.readInt("Choose your option: ");
+				}
+				if (opt == 4) {
+					System.out.println("See you next time!!");
 				}
 				if (opt == 4) {
 					System.out.println("See you next time!!");
