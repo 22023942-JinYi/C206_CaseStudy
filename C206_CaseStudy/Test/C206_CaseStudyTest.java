@@ -276,6 +276,8 @@ public class C206_CaseStudyTest {
 		Bike remove = bikeList.get(0);
 		bikeList.remove(remove);
 		assertEquals(0, bikeList.size());
+		// An empty bike list cannot be deleted.
+		  assertNotEquals(-1, bikeList.size());
 	}
 
 	@Test
