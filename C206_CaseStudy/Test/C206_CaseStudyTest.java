@@ -218,7 +218,7 @@ public class C206_CaseStudyTest {
 		// Check that no event was removed again
 		assertFalse(removedAgain);
 		assertEquals("Event list should still be empty", 0, eventList.size());
-		// Check discussion list cannot be deleted. - Error
+		// Check  list cannot be deleted. - Error
 		eventList.clear();
 		int x = eventList.size();
 		int y = -1;
