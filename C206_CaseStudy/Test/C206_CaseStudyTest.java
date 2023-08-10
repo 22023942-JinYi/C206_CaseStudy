@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.junit.After;
-import org.junit.Assert;
+//import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -202,10 +202,7 @@ public class C206_CaseStudyTest {
 
 	}
 
-	private void assertFalse(String string, Event eventToDelete) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Test
 	public void testAddBike() {
@@ -222,9 +219,9 @@ public class C206_CaseStudyTest {
 		// The bike just added is as same as the last item in the list
 		assertSame("Test that Bike is added to the end of the list.", bike2, bikeList.get(1));
 		//Try to add bike that has an empty string
-		Assert.assertFalse(bikeList.add(bike3));
+		assertFalse(bikeList.add(bike3));
 		//Try to add the same bike again
-		Assert.assertFalse(bikeList.add(bike1));
+		assertFalse(bikeList.add(bike1));
 	}
 
 	@Test
@@ -248,10 +245,16 @@ public class C206_CaseStudyTest {
 
 		// After deletion, the size of the list should be 1 (since we only removed one
 		// bike)
-		int removal = bikeList.get(0).getId();
+		Bike removal = bikeList.get(0);
 		bikeList.remove(removal);
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, bikeList.size());
+		
+		//check if the list is empty after all the bike added is deleted
+		Bike remove = bikeList.get(0);
+		bikeList.remove(remove);
+		assertEquals(0,bikeList.size());
+		
 	}
 
 	@Test
@@ -270,7 +273,7 @@ public class C206_CaseStudyTest {
 			}
 		}
 
-		Assert.assertFalse(isDuplicateId);
+		assertFalse(isDuplicateId);
 
 		// Add the new group if ID is not duplicate
 		if (!isDuplicateId) {
