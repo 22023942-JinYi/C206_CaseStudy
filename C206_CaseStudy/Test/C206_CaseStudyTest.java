@@ -153,7 +153,7 @@ public class C206_CaseStudyTest {
 	@Test
 	public void testAddEvent() {
 		// Item list is not null, so that can add a new item - boundary
-		assertNotNull("Check if there is valid Camcorder arraylist to add to", eventList);
+		assertNotNull("Check if there is valid Event arraylist to add to", eventList);
 		// Add an event to the list
 		eventList.add(event1);
 		eventList.add(event2);
@@ -182,7 +182,7 @@ public class C206_CaseStudyTest {
 	@Test
 	public void testViewAllEvent() {
 		// Test if Item list is not null but empty -boundary
-		assertNotNull("Test if there is valid Camcorder arraylist to retrieve item", eventList);
+		assertNotNull("Test if there is valid Event arraylist to retrieve item", eventList);
 
 		// Perform the viewAllEvent method and capture the actual output
 		String actualOutput1 = Event.viewAllEvent(eventList);
