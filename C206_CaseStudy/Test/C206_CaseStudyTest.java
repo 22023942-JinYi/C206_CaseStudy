@@ -12,8 +12,11 @@ import Homepage.*;
 public class C206_CaseStudyTest {
 
 	private ArrayList<Discussion> discussionList;
-	private ArrayList<Event> eventList;
 	private ArrayList<Group> groupList;
+	private ArrayList<Registration> registrationsList;
+	private Event event1;
+	private Event event2;
+	private ArrayList<Event> eventList;
 	private Bike bike1;
 	private Bike bike2;
 	private Bike bike3;
@@ -36,6 +39,7 @@ public class C206_CaseStudyTest {
 		discussionList = new ArrayList<>();
 		eventList = new ArrayList<>();
 		groupList = new ArrayList<>();
+		registrationsList = new ArrayList<>();
 		// Add some sample discussions to the list for testing
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate discussionDate1 = LocalDate.parse("2023-08-06", dtf);
@@ -43,9 +47,8 @@ public class C206_CaseStudyTest {
 
 		discussionList.add(new Discussion(1, "Discussion 1", discussionDate1, "Description for Discussion 1"));
 		discussionList.add(new Discussion(2, "Discussion 2", discussionDate2, "Description for Discussion 2"));
-		eventList.add(new Event(1, "HI", "Taman U", LocalDate.of(2022, 8, 8), 2, "Tom")); // year, month, day
-		eventList.add(new Event(2, "BYE", "Taman P", LocalDate.of(2022, 10, 23), 5, "Amy"));
-		eventList.add(new Event(3, "HELLO", "Taman E", LocalDate.of(2022, 12, 22), 7, "Mark"));
+		event1 = new Event(1, "HI", "Taman U", LocalDate.of(2022, 8, 8), 2, "Tom");
+		event2 = new Event(2, "BYE", "Taman P", LocalDate.of(2022, 10, 23), 5, "Amy");
 		bike1 = new Bike(1, "gg", "red", 69);
 		bike2 = new Bike(2, "we", "blue", 70);
 		bikeList = new ArrayList<Bike>();
@@ -54,6 +57,8 @@ public class C206_CaseStudyTest {
 		u1 = new User(1, "jin", "password", true);
 		u2 = new User(2, "jake", "pass1", false);
 		u3 = new User(3, "fin", "pass2", false);
+		registrationsList.add(new Registration(1, "HI"));
+		registrationsList.add(new Registration(2, "BYE"));
 
 		Friend f1 = new Friend("jake", 1, true);
 		Friend f2 = new Friend("jin", 2, true);
@@ -81,13 +86,6 @@ public class C206_CaseStudyTest {
 	}
 
 	@Test
-	public void testAddEvent() {
-		eventList.add(new Event(4, "HELLO", "Taman E", LocalDate.of(2022, 12, 22), 7, "Mark"));
-		// Check if an event was added to the list
-		assertEquals(4, eventList.size());
-	}
-
-	@Test
 	public void testViewAllDiscussion() {
 		// Test that the discussions are formatted neatly
 		String actualOutput = Discussion.viewAllDiscussion(discussionList);
@@ -110,24 +108,7 @@ public class C206_CaseStudyTest {
 		assertEquals(expectedOutput, actualOutput);
 	}
 
-	@Test
-	public void testViewAllEvent() {
-		ArrayList<Event> eventList = new ArrayList<>();
-		Event event1 = new Event(1, "Event 1", "Venue 1", LocalDate.now(), 50, "Description 1");
-		Event event2 = new Event(2, "Event 2", "Venue 2", LocalDate.now().plusDays(1), 75, "Description 2");
-		eventList.add(event1);
-		eventList.add(event2);
-
-		// Perform the viewAllEvent method
-		// Since this method only prints the events, it's hard to write a direct test
-		// for its output
-
-		// Check that the events were not modified
-		assertEquals(2, eventList.size());
-		assertTrue(eventList.contains(event1));
-		assertTrue(eventList.contains(event2));
-	}
-
+	
 	@Test
 	public void testDeleteDiscussion() {
 		// Test that discussion deleted is of ID that user input
@@ -151,8 +132,57 @@ public class C206_CaseStudyTest {
 
 		// Check if the event was deleted
 		assertEquals(0, eventList.size());
+	}@Test
+	public void testAddEvent() {
+		// Add an event to the list
+		eventList.add(event1);
+		eventList.add(event2);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate eventDate3 = LocalDate.parse("2022-12-22", dtf);
+		eventList.add(new Event(3, "HELLO", "Taman E", eventDate3, 7, "Mark"));
+
+		// Check if the size of the eventList increased by 1
+		assertTrue(eventList.size() == 3);
+
+		// Check if the added event has the expected properties
+		Event addedEvent = eventList.get(2);
+		assertEquals("Test the ID of the added event.", 3, addedEvent.getId());
+		assertEquals("Test the name of the added event.", "HELLO", addedEvent.getName());
+		assertEquals("Test the location of the added event.", "Taman E", addedEvent.getVenue());
+		assertEquals("Test the date of the added event.", LocalDate.of(2022, 12, 22), addedEvent.getEventDate());
+		assertEquals("Test the duration of the added event.", 7, addedEvent.getParticipants());
+		assertEquals("Test the organizer of the added event.", "Mark", addedEvent.getDescription());
+		LocalDate eventDate2 = LocalDate.parse("2023-01-15", dtf);
+		eventList.add(new Event(4, "Meeting", "Conference Room", eventDate2, 12, "Jane"));
+
+		// Check if the size of the eventList increased by the number of added events
+		assertEquals(4, eventList.size()); // The initial size was 2, so 2 + 2 = 4
 	}
 
+	@Test
+	public void testViewAllEvent() {
+		// Perform the viewAllEvent method and capture the actual output
+		String actualOutput1 = Event.viewAllEvent(eventList);
+
+		// Build the expected output, which contains only the header line
+		String expectedOutput1 = String.format("%-10s %-20s %-20s %-12s %-12s %-30s%n", "ID", "NAME", "VENUE",
+				"EVENT DATE", "PARTICIPANTS", "DESCRIPTION");
+
+		// Check if the actual output matches the expected output
+		// Check if the view was empty
+		assertEquals(expectedOutput1, actualOutput1);
+
+		// Perform the viewAllEvent method and capture the actual output
+		String actualOutput = Event.viewAllEvent(eventList);
+		// Build the expected output using a StringBuilder
+		String expectedOutput = String.format("%-10s %-20s %-20s %-12s %-12s %-30s%n", "ID", "NAME", "VENUE",
+				"EVENT DATE", "PARTICIPANTS", "DESCRIPTION");
+		for (Event event : eventList) {
+			expectedOutput = String.format("%-10d %-20s %-20s %-12s %-12d %-30s%n", event.getId(), event.getName(),
+					event.getVenue(), event.getEventDate(), event.getParticipants(), event.getDescription());
+		}
+	}
+	
 	@Test
 	public void testAddBike() {
 		// bike list is not null and it is empty
