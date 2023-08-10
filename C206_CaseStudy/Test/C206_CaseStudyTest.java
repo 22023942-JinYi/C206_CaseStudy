@@ -181,7 +181,7 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testViewAllEvent() {
-		// Test if Item list is not null but empty -boundary
+		// Test if Item list event is not null but empty -boundary
 		assertNotNull("Test if there is valid Event arraylist to retrieve item", eventList);
 
 		// Perform the viewAllEvent method and capture the actual output
