@@ -51,6 +51,7 @@ public class C206_CaseStudyTest {
 		event2 = new Event(2, "BYE", "Taman P", LocalDate.of(2022, 10, 23), 5, "Amy");
 		bike1 = new Bike(1, "gg", "red", 69);
 		bike2 = new Bike(2, "we", "blue", 70);
+		bike3 = new Bike(3,"","blue",71);
 		bikeList = new ArrayList<Bike>();
 		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
 		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
@@ -219,6 +220,10 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that the Bike arraylist size is now 2.", 2, bikeList.size());
 		// The bike just added is as same as the last item in the list
 		assertSame("Test that Bike is added to the end of the list.", bike2, bikeList.get(1));
+		//Try to add bike that has an empty string
+		assertFalse(bikeList.add(bike3));
+		//Try to add the same bike again
+		assertFalse(bikeList.add(bike1));
 	}
 
 	@Test
@@ -241,7 +246,7 @@ public class C206_CaseStudyTest {
 		assertEquals(input1, bikeList.get(0).getId());
 
 		// After deletion, the size of the list should be 1 (since we only removed one
-		// discussion)
+		// bike)
 		int removal = bikeList.get(0).getId();
 		bikeList.remove(removal);
 		int expectedSizeAfterDeletion = 1;
