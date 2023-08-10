@@ -424,73 +424,128 @@ public class C206_CaseStudyTest {
 		}
 	}
 
-	@Test
-	public void AddUser() {
-		// Item list is not null, so that can add a new item - boundary
-		assertNotNull("Check if there is valid users arraylist to add to", users);
-		// Given an empty list, after adding 1 item, the size of the list is 1 - normal
-		// The item just added is as same as the first item of the list
-		HomePage.adduser(users, u1);
-		assertEquals("Check that users arraylist size is 1", 1, users.size());
-		assertSame("Check that user is added", u1, users.get(0));
+	//Jin Yi
+		@Test
+		public void AddUser() {
+			// Item list is not null, so that can add a new item - boundary
+			assertNotNull("Check if there is valid users arraylist to add to", users);
+			// Given an empty list, after adding 1 item, the size of the list is 1 - normal
+			// The item just added is as same as the first item of the list
+			HomePage.adduser(users, u1);
+			assertEquals("Check that users arraylist size is 1", 1, users.size());
+			assertSame("Check that user is added", u1, users.get(0));
 
-		// Add another item. test The size of the list is 2? -normal
-		// The item just added is as same as the second item of the list
-		HomePage.adduser(users, u2);
-		assertEquals("Check that users arraylist size is 2", 2, users.size());
-		assertSame("Check that user is added", u2, users.get(1));
-	}
+			// Add another item. test The size of the list is 2? -normal
+			// The item just added is as same as the second item of the list
+			HomePage.adduser(users, u2);
+			assertEquals("Check that users arraylist size is 2", 2, users.size());
+			assertSame("Check that user is added", u2, users.get(1));
+		}
 
-	@Test
-	public void testsignup() {
-		assertNotNull("Check if there is valid users arraylist to add to", users);
+		//Jin Yi
+		@Test
+		public void testsignup() {
+			assertNotNull("Check if there is valid users arraylist to add to", users);
 
-		String user = "Hmm";
-		String password = "123";
-		HomePage.signup(users, user, password);
-		for (User u : users) {
-			if (u.getUsername().equals(user)) {
-				assertEquals("Check that users arraylist size is 1", 1, users.size());
-				assertSame("Check that user is added", u, users.get(0));
+			String user = "Hmm";
+			String password = "12345678"; 
+			for (User u : users) {
+					//check if password is acceptable when its 8 char
+					HomePage.signup(users, user, password);
+					assertEquals("Check that users arraylist size is 1", 1, users.size());
+					assertSame("Check that user is added", u, user);
+					break;
+			}
+			
+			String user2 = "lol";
+			password = "123"; 
+			//check if password is unacceptable when its below 8 char
+			HomePage.signup(users, user2, password);
+			assertSame("Check that users arraylist size is empty", 0, users.size());;
+			
+			String user3 = "lol1";
+			password = "12345678910";
+			for (User u : users) {
+				//check if password is acceptable when its more than 8 char
+				HomePage.signup(users, user, password);
+				assertEquals("Check that users arraylist size is 2", 2, users.size());
+				assertSame("Check that user is added", u, user3);
 				break;
-			}
 		}
-	}
-
-	@Test
-	public void viewall() {
-		// Test if User list is not null but empty - boundary
-		assertNotNull("Check if there is a valid users arraylist to add to", users);
-
-		// Given an empty list, after adding 2 items, test if the size of the list is 2
-		// - normal
-		HomePage.adduser(users, u1);
-		HomePage.adduser(users, u2);
-		assertEquals("Test that users arraylist size is 2", 2, users.size());
-
-		assertNotNull("Check if there are users in the users arraylist to add to", users);
-
-		String userslist = HomePage.viewUsers(users);
-		String testOutput = "jin\njake\n"; // Correctly formatted output of users
-		assertEquals("Test that ViewAllUsers list", testOutput, userslist);
-	}
-
-	@Test
-	public void checkdeleteUser() {
-		assertNotNull("Check if there is a valid users arraylist to add to", users);
-		HomePage.adduser(users, u1);
-		HomePage.adduser(users, u2);
-
-		assertEquals("Test that users arraylist size is 2", 2, users.size());
-		for (User u : users) {
-			if (u.getId() == 1) {
-				HomePage.deleteuser(users, 1);
-			}
 		}
-		int expectedSizeAfterDeletion = 1;
-		assertEquals(expectedSizeAfterDeletion, users.size());
-	}
 
+		//Jin Yi
+		@Test
+		public void viewalluser() {
+			// Test if User list is not null but empty - boundary
+			assertNotNull("Check if there is a valid users arraylist to add to", users);
+
+			// Given an empty list, after adding 2 items, test if the size of the list is 2
+			// - normal
+			HomePage.adduser(users, u1);
+			HomePage.adduser(users, u2);
+			assertEquals("Test that users arraylist size is 2", 2, users.size());
+
+			assertNotNull("Check if there are users in the users arraylist to add to", users);
+
+			String userslist = HomePage.viewUsers(users);
+			String testOutput = "jin\njake\n"; // Correctly formatted output of users
+			assertEquals("Test that ViewAllUsers list", testOutput, userslist);
+		}
+
+		//Jin Yi
+		@Test
+		public void checkdeleteOwnUser() {
+			assertNotNull("Check if there is a valid users arraylist to add to", users);
+			HomePage.adduser(users, u1);
+			HomePage.adduser(users, u2);
+
+			assertEquals("Test that users arraylist size is 2", 2, users.size());
+			// delete own user
+			for (User u : users) {
+				if (u.getId() == 1) {
+					HomePage.deleteuser(users, 1);
+				}
+			}
+			int expectedSizeAfterDeletion = 1;
+			assertEquals(expectedSizeAfterDeletion, users.size());
+		
+		}
+		
+		//Jin Yi
+		@Test
+		public void checkdeleteuserADMIN() {
+			assertNotNull("Check if there is a valid users arraylist to add to", users);
+			HomePage.adduser(users, u2);
+			HomePage.adduser(users, u3);
+
+			assertEquals("Test that users arraylist size is 2", 2, users.size());
+			
+			//delete other users
+			String user = "fin";
+			char choose = 'y';
+			HomePage.admindeleteuser(users, friends, user, choose);
+			int expectedSizeAfterDeletion = 1;
+			assertEquals(expectedSizeAfterDeletion, users.size());
+			
+			HomePage.adduser(users, u2);
+			assertEquals("Test that users arraylist size is 2", 2, users.size());
+			
+			//delete user that is not inside the arraylist
+			user = "wee";
+			choose = 'y';
+			HomePage.admindeleteuser(users, friends, user, choose);
+			expectedSizeAfterDeletion = 2;
+			assertEquals(expectedSizeAfterDeletion, users.size());
+			
+			//user not deleted when admin choose n
+			user = "hmm";
+			choose = 'n';
+			HomePage.admindeleteuser(users, friends, user, choose);
+			expectedSizeAfterDeletion = 2;
+			assertEquals(expectedSizeAfterDeletion, users.size());
+			
+		}
 	@Test
 	public void testAddRegistration() {
 		// Add an reg to the list
@@ -543,5 +598,6 @@ public class C206_CaseStudyTest {
 		f2 = null;
 		users = null;
 		friends = null;
+		discussionList = null;
 	}
 }

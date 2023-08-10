@@ -26,9 +26,9 @@ public class HomePage {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		User u1 = new User(1, "jin", "password", true);
-		User u2 = new User(2, "jake", "pass1", false);
-		User u3 = new User(3, "fin", "pass2", false);
-		User u4 = new User(4, "batman", "pass3", false);
+		User u2 = new User(2, "jake", "password1", false);
+		User u3 = new User(3, "fin", "password2", false);
+		User u4 = new User(4, "batman", "password3", false);
 
 		Friend f1 = new Friend("jake", 1, true);
 		Friend f2 = new Friend("jin", 2, true);
@@ -47,31 +47,11 @@ public class HomePage {
 			if (option == 1) {
 				String uuser = Helper.readString("Enter your username: ");
 				String password = Helper.readString("Enter your password: ");
-				boolean found = false;
-				for (User u : users) {
-					if (u.getUsername().equals(uuser) && u.getPassword().equals(password) && u.getAdmin() == false) {
-						int myid = u.getId();
-						login(users, myid, friends, uuser);
-						found = true;
-						break;
-					} else if (u.getUsername().equals(uuser) && u.getPassword().equals(password)
-							&& u.getAdmin() == true) {
-						int myid = u.getId();
-						adminlogin(users, myid, friends, uuser);
-						found = true;
-						break;
-					} else if (u.getUsername().equals(uuser) && !u.getPassword().equals(password)) {
-						System.out.println("Your password is wrong. Please try again.");
-						found = true;
-						break;
-					}
-				}
-				if (!found) {
-					System.out.println("User not found.");
-				}
+				checklogin(uuser,password,users,friends);
 			}  else if (option == 2) {
+				String pattern = ".{8,}";
 				String user = Helper.readString("Enter your username: ");
-				String password = Helper.readString("Enter your password: ");
+				String password = Helper.readStringRegEx("Enter your password: ", pattern);
 				signup(users, user, password);
 			}
 			menu();
@@ -171,6 +151,31 @@ public class HomePage {
 		System.out.println("4. Exit");
 		Helper.line(40, "=");
 	}
+	public static void checklogin(String uuser, String password, ArrayList<User> users, ArrayList<Friend> friends) {
+		boolean found = false;
+		for (User u : users) {
+			if (u.getUsername().equals(uuser) && u.getPassword().equals(password) && u.getAdmin() == false) {
+				int myid = u.getId();
+				login(users, myid, friends, uuser);
+				found = true;
+				break;
+			} else if (u.getUsername().equals(uuser) && u.getPassword().equals(password)
+					&& u.getAdmin() == true) {
+				int myid = u.getId();
+				adminlogin(users, myid, friends, uuser);
+				found = true;
+				break;
+			} else if (u.getUsername().equals(uuser) && !u.getPassword().equals(password)) {
+				System.out.println("Your password is wrong. Please try again.");
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			System.out.println("User not found.");
+		}
+	}
+	
 	public static void adduser(ArrayList<User> users, User u) {
 		users.add(u);
 	}
@@ -178,21 +183,31 @@ public class HomePage {
 	public static void signup(ArrayList<User> users, String user, String password) {
 		Random random = new Random();
 		int x = random.nextInt(99) + 1;
+		String pattern = ".{8,}";
+		
+		if (password.matches(pattern)) {
+			boolean usernameExists = false;
+			for (User u : users) {
+				if (u.getUsername().equals(user)) {
+					usernameExists = true;
+					break;
+				}
+			}
 
-		boolean usernameExists = false;
-		for (User u : users) {
-			if (u.getUsername().equals(user)) {
-				usernameExists = true;
-				break;
+			if ((!usernameExists) && password.matches(pattern)) {
+				User u = (new User(x, user, password, false));
+				adduser(users, u);
+				System.out.println("Account is created");
+			}
+			else {
+				System.out.println("Choose another username.");
 			}
 		}
-
-		if (!usernameExists) {
-			User u = (new User(x, user, password, false));
-			adduser(users, u);
-		} else {
-			System.out.println("Choose another username.");
+		else {
+			System.out.println("Password must have minimum 8 characters");
 		}
+		
+		
 	}
 	public static void deleteuser(ArrayList<User> users, int uindex) {
 		// Remove the user from users list
@@ -434,42 +449,45 @@ public class HomePage {
 			} else if (option == 2) {
 				String user = Helper.readString("Search username: ");
 				char choose = Helper.readChar("Delete user? (y/n)");
-
-				if (choose == 'y') {
-					// Temporary lists to store users and friends to be removed
-					ArrayList<User> usersToRemove = new ArrayList<>();
-					ArrayList<Friend> friendsToRemove = new ArrayList<>();
-
-					for (User u : users) {
-						if (user.equalsIgnoreCase(u.getUsername())) {
-							usersToRemove.add(u);
-
-							for (Friend f : friends) {
-								if (f.getId() == u.getId() || f.getUsername().equals(u.getUsername())) {
-									friendsToRemove.add(f);
-								}
-							}
-						}
-					}
-
-					if (!usersToRemove.isEmpty()) {
-						// Remove users
-						users.removeAll(usersToRemove);
-						System.out.println("User deleted");
-
-						// Remove friends
-						friends.removeAll(friendsToRemove);
-						System.out.println("User's friend list is deleted");
-					} else {
-						System.out.println("There is no such user");
-					}
-				} else if (choose == 'n') {
-					System.out.println("User Account is not deleted");
-				} else {
-					System.out.println("Invalid input");
-				}
+				admindeleteuser(users, friends, user, choose);
+				
 			}
 		} while (option != 3);
+	}
+	public static void admindeleteuser(ArrayList<User> users,ArrayList<Friend> friends,  String user, char choose) {
+		if (choose == 'y') {
+			// Temporary lists to store users and friends to be removed
+			ArrayList<User> usersToRemove = new ArrayList<>();
+			ArrayList<Friend> friendsToRemove = new ArrayList<>();
+	
+			for (User u : users) {
+				if (user.equals(u.getUsername())) {
+					usersToRemove.add(u);
+	
+					for (Friend f : friends) {
+						if (f.getId() == u.getId() || f.getUsername().equals(u.getUsername())) {
+							friendsToRemove.add(f);
+						}
+					}
+				}
+			}
+	
+			if (!usersToRemove.isEmpty()) {
+				// Remove users
+				users.removeAll(usersToRemove);
+				System.out.println("User deleted");
+	
+				// Remove friends
+				friends.removeAll(friendsToRemove);
+				System.out.println("User's friend list is deleted");
+			} else {
+				System.out.println("There is no such user");
+			}
+		} else if (choose == 'n') {
+			System.out.println("User Account is not deleted");
+		} else {
+			System.out.println("Invalid input");
+		}
 	}
 
 }
