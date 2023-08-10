@@ -78,20 +78,22 @@ public class C206_CaseStudyTest {
 		// Verify that a new discussion is added to the list
 		assertEquals(3, discussionList.size());
 
-		// Verify that the details of the new discussion matches with the user input -
-		// Normal
+		// Verify that the details of the new discussion matches with the user input - Normal
 		Discussion newDiscussion = discussionList.get(2);
 		assertEquals(3, newDiscussion.getId());
 		assertEquals("Discussion 3", newDiscussion.getTitle());
 		assertEquals(LocalDate.parse("2023-08-08", DateTimeFormatter.ofPattern("yyyy-MM-dd")),
 				newDiscussion.getDiscussionDate());
 		assertEquals("Description for Discussion 3", newDiscussion.getDescription());
-
+		
 		// Verify that the description is less than 200 characters. - Boundary
-		int limit = 200;
-		int length = newDiscussion.getDescription().length();
+		String characters = "*".repeat(199);
+		LocalDate discussionDate4 = LocalDate.parse("2023-08-09", dtf);
+		discussionList.add(new Discussion(4, "Discussion 4", discussionDate4, characters));
+		int limit = 200; 
+		int length = discussionList.get(3).getDescription().length();
 		assertTrue(length < limit);
-
+		assertEquals(4, discussionList.size());
 	}
 
 	@Test
@@ -111,16 +113,14 @@ public class C206_CaseStudyTest {
 			expectedOutput += String.format("%-20s%-80s", "Description:", discussion.getDescription());
 			expectedOutput += "\n";
 			expectedOutput += "\n";
-
 		}
 		assertEquals(expectedOutput, actualOutput);
-
-		// Test that nothing would be displayed if the list is empty. - Boundary
+		//Test that nothing would be displayed if the list is empty. - Boundary
 		discussionList.clear();
 		String empty = Discussion.viewAllDiscussion(discussionList);
 		String emptyOutput = "";
 		assertEquals(empty, emptyOutput);
-
+		
 	}
 
 	@Test
@@ -129,24 +129,25 @@ public class C206_CaseStudyTest {
 		int input1 = 1;
 		assertEquals(input1, discussionList.get(0).getId());
 
-		// After deletion, the size of the list should be 1 (since we only removed one -
-		// Normal
+		// After deletion, the size of the list should be 1 (since we only removed one - Normal
 		// discussion)
 		int removal = discussionList.get(0).getId() - 1;
 		discussionList.remove(removal);
 		int expectedSizeAfterDeletion = 1;
 		assertEquals(expectedSizeAfterDeletion, discussionList.size());
-
-		// After another deletion, the size of the list should be 0 - Boundary
+		
+		//After another deletion, the size of the list should be 0 - Boundary
 		discussionList.remove(0);
 		assertEquals(0, discussionList.size());
-
+		
 		// An empty discussion list cannot be deleted. - Error
 		discussionList.clear();
 		int actualSize = discussionList.size();
 		int expSizeAftDeletion = -1;
 		assertNotEquals(expSizeAftDeletion, actualSize);
-
+		
+		
+		
 	}
 
 	@Test
