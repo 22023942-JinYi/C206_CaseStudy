@@ -205,34 +205,27 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testDeleteEvent() {
+		Event.addEvent(eventList, event1);
+		Event.addEvent(eventList, event2);
 
-		Event eventToDelete = new Event(1, "Test Event", "Test Venue", LocalDate.now(), 100, "Test Description");
-
-		// Create an event list
-		ArrayList<Event> eventList = new ArrayList<>();
-		eventList.add(eventToDelete);
 
 		// Delete the event
-		boolean removed = eventList.remove(eventToDelete);
+		int removal = eventList.get(0).getId();
+		Event.deleteEvent(eventList, removal, 'y');
 
 		// Check if the event was deleted.-Normal
-		assertTrue("Existing event should be deleted", removed);
-		assertEquals("Event list should be empty after deletion", 0, eventList.size());
+		assertEquals(1, eventList.size());
 
-		// Attempt to delete the event again. -Boundry
-		boolean removedAgain = eventList.remove(eventToDelete);
+		// Attempt to delete all the bike in the list. -Boundry
+		int remove = eventList.get(0).getId();
+		Event.deleteEvent(eventList, remove, 'y');
+		assertEquals(0,eventList.size());
 
-		// Check that no event was removed again
-		assertFalse(removedAgain);
-		assertEquals("Event list should still be empty", 0, eventList.size());
-		// Check  list cannot be deleted. - Error
-		eventList.clear();
-		int x = eventList.size();
-		int y = -1;
-		assertNotEquals(y, x);
-
+		//Check  list cannot be deleted. - Error
+		assertFalse(Event.deleteEvent(eventList, 1, 'y'));
+		
+		
 	}
-
 	@Test
 	public void testAddBike() {
 		// bike list is not null and it is empty

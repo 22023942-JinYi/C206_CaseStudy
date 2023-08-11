@@ -398,7 +398,7 @@ public class HomePage {
 					} else if (opt == VIEW_EVENT) {
 						Event.viewAllEvent(eventList);
 					} else if (opt == DELETE_EVENT) {
-						Event.deleteEvent(eventList);
+						Event.deleteEvent(eventList,Event.iptEvtDel(),Event.confEvtDel());
 					} else {
 						System.out.println("Invalid input");
 					}
