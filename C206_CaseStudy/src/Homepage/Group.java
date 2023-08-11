@@ -1,5 +1,7 @@
 package Homepage;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import Helper.Helper;
@@ -47,34 +49,44 @@ public class Group {
 		this.description = description;
 	}
 
-	public static boolean addGroup(ArrayList<Group> groupList) {
-	    boolean isFound = false;
+	public static Group inputGroup() {
+		String groupID = Helper.readString("Enter the group ID >"); 
+	    String groupName = Helper.readString("Enter the group name > ");
+	    int groupPart= Helper.readInt("Enter the number of participants > ");
+	    String groupDescription = Helper.readString("Enter the group description > "); 
+	  
 
-	    String groupId = Helper.readString("Enter group id  > ");
-	    
-	    // Check if the group with the provided ID already exists
+	    Group group = new Group(groupID, groupName, groupPart, groupDescription);
+	    return group;
+	}
+	
+	public static boolean addGroup(ArrayList<Group> groupList, Group newGroup) {
 	    for (Group group : groupList) {
-	        if (groupId.equalsIgnoreCase(group.getId())) {
-	            System.out.println("Group has already been created!");
-	            isFound = true;
-	            break;
+	        if (group.getId() == newGroup.getId()) {
+	            return false;
 	        }
 	    }
 
-	    if (!isFound) {
-	        String name = Helper.readString("Enter group name > ");
-	        int participants = Helper.readInt("Enter group number of participant > ");
-	        String description = Helper.readString("Enter group description > ");
-
-	        Group newGroup = new Group(groupId, name, participants, description);
+	    if (newGroup.getId().isEmpty() || newGroup.getName().isEmpty() || newGroup.getParticipants() == 0) {
+	        return false;
+	    } else {
 	        groupList.add(newGroup);
-
-	        System.out.println("New Group has been successfully added.");
+	        System.out.println("Group has been successfully added");
+	        return true;
 	    }
-
-	    return isFound;
 	}
 
+	public static String showallgrp(ArrayList<Group> groupList) {
+		Helper.line(45, "=");
+        System.out.println(String.format("%-5s %-10s %-15s %s", "ID", "NAME", "PARTICIPANTS", "DESCRIPTION"));
+String output = "";
+        for (Group group : groupList) {
+            output += String.format("%-5s %-10s %-15d %s\n", group.getId(), group.getName(),
+                    group.getParticipants(), group.getDescription());
+        }
+        return output;
+
+	}
 
 	public static void viewAllGroup(ArrayList<Group> groupList) {
 
@@ -89,15 +101,7 @@ public class Group {
 	        int choice = Helper.readInt("Enter your choice:");
 
 	        if (choice == 1) {
-	            Helper.line(45, "=");
-	            String output = String.format("%-5s %-10s %-15s %s\n", "ID", "NAME", "PARTICIPANTS", "DESCRIPTION");
-
-	            for (Group group : groupList) {
-	                output += String.format("%-5s %-10s %-15d %s\n", group.getId(), group.getName(),
-	                        group.getParticipants(), group.getDescription());
-	            }
-
-	            System.out.println(output);
+	            System.out.println(showallgrp(groupList));
 	            Helper.line(45, "=");
 
 	        } else if (choice == 2) {
@@ -131,28 +135,35 @@ public class Group {
 	}
 
 
-	public static void deleteGroup(ArrayList<Group> groupList) {
-		String idDel = Helper.readString("Enter id of group to delete > ");
-		boolean found = false;
-
-		for (Group group : groupList) {
-			if (group.getId().equals(idDel)) {
-				found = true;
-				char confirm = Helper.readChar("Are you sure you want to delete the group (y/n) > ");
-				if (Character.toLowerCase(confirm) == 'y') {
-					groupList.remove(group);
-					System.out.println("Group has been deleted successfully.");
-				} else {
-					System.out.println("Group has not been deleted");
-				}
-				break;
-			}
-		}
-
-		if (!found) {
-			System.out.println("Group was not found.");
-		}
+	public static String inputGroupID() {
+	    String id = Helper.readString("Enter ID of the group to delete > ");
+		return id;
 	}
+	public static char inputConfirmation() {
+		char YesorNo = Helper.readChar("Are you sure you want to delete the group (y/n) > ");
+		return YesorNo;
+	}
+	
+		public static boolean deleteGroup(ArrayList<Group> groupList, String ID, char confirmation) {
+		    boolean found = false; 
+		    for (Group group: groupList) {
+		        if (group.getId().equals(ID)) {
+		            found = true;
+		            if (Character.toLowerCase(confirmation) == 'y') {
+		            	groupList.remove(group);
+		                System.out.println("Group has been deleted successfully.");
+		            } else {
+		                System.out.println("Group has not been deleted.");
+		            }
+		            break; 
+		        }
+		    }
+		    
+		    if (!found) {
+		        System.out.println("Group was not found.");
+		    }
+			return found;
+		}
 
 
 

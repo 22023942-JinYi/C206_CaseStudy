@@ -367,11 +367,11 @@ public class HomePage {
 				int opt = Helper.readInt("Choose your option: ");
 				while (opt != 4) {
 					if (opt == ADD_GROUP) {
-						Group.addGroup(groupList);
+						Group.addGroup(groupList,Group.inputGroup());
 					} else if (opt == VIEW_GROUP) {
 						Group.viewAllGroup(groupList);
 					} else if (opt == DELETE_GROUP) {
-						Group.deleteGroup(groupList);
+						Group.deleteGroup(groupList,Group.inputGroupID(),Group.inputConfirmation());
 					} else {
 						System.out.println("Invalid input");
 					}

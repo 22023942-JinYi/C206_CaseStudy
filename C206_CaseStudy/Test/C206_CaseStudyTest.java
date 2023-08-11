@@ -60,8 +60,7 @@ public class C206_CaseStudyTest {
 		bike2 = new Bike(2, "we", "blue", 70);
 		bike3 = new Bike(3, "", "blue", 71);
 		bikeList = new ArrayList<Bike>();
-		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
-		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
+		
 		u1 = new User(1, "jin", "password", true);
 		u2 = new User(2, "jake", "password1", false);
 		u3 = new User(3, "fin", "password2", false);
@@ -74,87 +73,89 @@ public class C206_CaseStudyTest {
 		users = new ArrayList<User>();
 		friends = new ArrayList<Friend>();
 	}
+
 	@Test
-	  public void testAddDiscussion() {
-	    // New Discussion Added with user input - normal
-	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	    LocalDate discussionDate3 = LocalDate.parse("2023-08-08", dtf);
-	    d3 = new Discussion(3, "Discussion 3", discussionDate3, "Description for Discussion 3");
-	    Discussion.addDiscussion(discussionList, d3);
-	    // Verify that a new discussion is added to the list
-	    assertEquals(3, discussionList.size());
+	public void testAddDiscussion() {
+		// New Discussion Added with user input - normal
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate discussionDate3 = LocalDate.parse("2023-08-08", dtf);
+		d3 = new Discussion(3, "Discussion 3", discussionDate3, "Description for Discussion 3");
+		Discussion.addDiscussion(discussionList, d3);
+		// Verify that a new discussion is added to the list
+		assertEquals(3, discussionList.size());
 
-	    // Verify that the details of the new discussion matches with the user input - Normal
-	    Discussion newDiscussion = discussionList.get(2);
-	    assertEquals(3, newDiscussion.getId());
-	    assertEquals("Discussion 3", newDiscussion.getTitle());
-	    assertEquals(LocalDate.parse("2023-08-08", DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-	        newDiscussion.getDiscussionDate());
-	    assertEquals("Description for Discussion 3", newDiscussion.getDescription());
-	    
-	    // Verify that the description is less than 200 characters. - Boundary
-	        LocalDate discussionDate4 = LocalDate.parse("2023-08-09", dtf);
-	        String characters = "*".repeat(199);
+		// Verify that the details of the new discussion matches with the user input -
+		// Normal
+		Discussion newDiscussion = discussionList.get(2);
+		assertEquals(3, newDiscussion.getId());
+		assertEquals("Discussion 3", newDiscussion.getTitle());
+		assertEquals(LocalDate.parse("2023-08-08", DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+				newDiscussion.getDiscussionDate());
+		assertEquals("Description for Discussion 3", newDiscussion.getDescription());
 
-	        // Call the addDiscussion method with the required parameters
-	        d4 = new Discussion(4, "Discussion 4", discussionDate4, characters);
-	        Discussion.addDiscussion(discussionList, d4);
-	        assertEquals(4, discussionList.size());
-	    }
+		// Verify that the description is less than 200 characters. - Boundary
+		LocalDate discussionDate4 = LocalDate.parse("2023-08-09", dtf);
+		String characters = "*".repeat(199);
 
-	  @Test
-	  public void testViewAllDiscussion() {
-	    // Test that the discussions are formatted neatly - Normal
-	    String actualOutput = Discussion.viewAllDiscussion(discussionList);
-	    String expectedOutput = "";
-	    String header = "-".repeat(150);
-	    for (Discussion discussion : discussionList) {
-	      expectedOutput += header;
-	      expectedOutput += String.format("\n%-20s%-30s%-20s\n", "Id:", "Title of Discussion:",
-	          "Date of Discussion:");
-	      expectedOutput += header;
-	      expectedOutput += String.format("\n%-20s%-30s%-20s", discussion.getId(), discussion.getTitle(),
-	          discussion.getDiscussionDate());
-	      expectedOutput += "\n";
-	      expectedOutput += String.format("%-20s%-80s", "Description:", discussion.getDescription());
-	      expectedOutput += "\n";
-	      expectedOutput += "\n";
-	    }
-	    assertEquals(expectedOutput, actualOutput);
-	    //Test that nothing would be displayed if the list is empty. - Boundary
-	    discussionList.clear();
-	    String empty = Discussion.viewAllDiscussion(discussionList);
-	    String emptyOutput = "";
-	    assertEquals(empty, emptyOutput);
-	    
-	  }
+		// Call the addDiscussion method with the required parameters
+		d4 = new Discussion(4, "Discussion 4", discussionDate4, characters);
+		Discussion.addDiscussion(discussionList, d4);
+		assertEquals(4, discussionList.size());
+	}
 
-	  @Test
-	  public void testDeleteDiscussion() {
-	    // Test that discussion deleted is of the ID that the user input - Normal
-	    int input1 = 1;
-	    assertEquals(input1, discussionList.get(0).getId());
+	@Test
+	public void testViewAllDiscussion() {
+		// Test that the discussions are formatted neatly - Normal
+		String actualOutput = Discussion.viewAllDiscussion(discussionList);
+		String expectedOutput = "";
+		String header = "-".repeat(150);
+		for (Discussion discussion : discussionList) {
+			expectedOutput += header;
+			expectedOutput += String.format("\n%-20s%-30s%-20s\n", "Id:", "Title of Discussion:",
+					"Date of Discussion:");
+			expectedOutput += header;
+			expectedOutput += String.format("\n%-20s%-30s%-20s", discussion.getId(), discussion.getTitle(),
+					discussion.getDiscussionDate());
+			expectedOutput += "\n";
+			expectedOutput += String.format("%-20s%-80s", "Description:", discussion.getDescription());
+			expectedOutput += "\n";
+			expectedOutput += "\n";
+		}
+		assertEquals(expectedOutput, actualOutput);
+		// Test that nothing would be displayed if the list is empty. - Boundary
+		discussionList.clear();
+		String empty = Discussion.viewAllDiscussion(discussionList);
+		String emptyOutput = "";
+		assertEquals(empty, emptyOutput);
 
-	    // After deletion, the size of the list should be 1 (since we only removed one - Normal
-	    // discussion)
-	    Discussion.deleteDiscussion(discussionList, input1, 'y');
-	    int expectedSizeAfterDeletion = 1;
-	    assertEquals(expectedSizeAfterDeletion, discussionList.size());
-	    
-	    //After another deletion, the size of the list should be 0 - Boundary
-	    Discussion.deleteDiscussion(discussionList, 2, 'y');
-	    assertEquals(0, discussionList.size());
-	    
-	    // An empty discussion list cannot be deleted. - Error
-	    discussionList.clear();
-	    Discussion.deleteDiscussion(discussionList, input1, 'y');
-	    int actualSize = discussionList.size();
-	    int expSizeAftDeletion = -1;
-	    assertNotEquals(expSizeAftDeletion, actualSize);
-	    
-	    
-	    
-	  }
+	}
+
+	@Test
+	public void testDeleteDiscussion() {
+		// Test that discussion deleted is of the ID that the user input - Normal
+		int input1 = 1;
+		assertEquals(input1, discussionList.get(0).getId());
+
+		// After deletion, the size of the list should be 1 (since we only removed one -
+		// Normal
+		// discussion)
+		Discussion.deleteDiscussion(discussionList, input1, 'y');
+		int expectedSizeAfterDeletion = 1;
+		assertEquals(expectedSizeAfterDeletion, discussionList.size());
+
+		// After another deletion, the size of the list should be 0 - Boundary
+		Discussion.deleteDiscussion(discussionList, 2, 'y');
+		assertEquals(0, discussionList.size());
+
+		// An empty discussion list cannot be deleted. - Error
+		discussionList.clear();
+		Discussion.deleteDiscussion(discussionList, input1, 'y');
+		int actualSize = discussionList.size();
+		int expSizeAftDeletion = -1;
+		assertNotEquals(expSizeAftDeletion, actualSize);
+
+	}
+
 	@Test
 	public void testAddEvent() {
 		// Item list is not null, so that can add a new item - boundary
@@ -164,7 +165,7 @@ public class C206_CaseStudyTest {
 		eventList.add(event2);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate eventDate3 = LocalDate.parse("2022-12-22", dtf);
-		e3 =new Event(3, "HELLO", "Taman E", eventDate3, 7, "Mark");
+		e3 = new Event(3, "HELLO", "Taman E", eventDate3, 7, "Mark");
 		Event.addEvent(eventList, e3);
 
 		// Check if the size of the eventList increased by 1
@@ -179,7 +180,7 @@ public class C206_CaseStudyTest {
 		assertEquals("Test the duration of the added event.", 7, addedEvent.getParticipants());
 		assertEquals("Test the organizer of the added event.", "Mark", addedEvent.getDescription());
 		LocalDate eventDate2 = LocalDate.parse("2023-01-15", dtf);
-		e4=new Event(4, "Meeting", "Conference Room", eventDate2, 12, "Jane") ;
+		e4 = new Event(4, "Meeting", "Conference Room", eventDate2, 12, "Jane");
 		Event.addEvent(eventList, e4);
 
 		// Check if the size of the eventList increased by the number of added events
@@ -208,7 +209,6 @@ public class C206_CaseStudyTest {
 		Event.addEvent(eventList, event1);
 		Event.addEvent(eventList, event2);
 
-
 		// Delete the event
 		int removal = eventList.get(0).getId();
 		Event.deleteEvent(eventList, removal, 'y');
@@ -219,13 +219,13 @@ public class C206_CaseStudyTest {
 		// Attempt to delete all the bike in the list. -Boundry
 		int remove = eventList.get(0).getId();
 		Event.deleteEvent(eventList, remove, 'y');
-		assertEquals(0,eventList.size());
+		assertEquals(0, eventList.size());
 
-		//Check  list cannot be deleted. - Error
+		// Check list cannot be deleted. - Error
 		assertFalse(Event.deleteEvent(eventList, 1, 'y'));
-		
-		
+
 	}
+
 	@Test
 	public void testAddBike() {
 		// bike list is not null and it is empty
@@ -294,72 +294,37 @@ public class C206_CaseStudyTest {
 		String newGroupName = "RoadBike";
 		int newGroupParticipants = 12;
 		String newGroupDescription = "Conquering roads on two wheels.";
+		Group newGroup = new Group(newGroupId, newGroupName, newGroupParticipants, newGroupDescription);
 
-		// Check for duplicate ID
-		boolean isDuplicateId = false;
-		for (Group group : groupList) {
-			if (group.getId().equals(newGroupId)) {
-				isDuplicateId = true;
-				break;
-			}
-		}
-
-		assertFalse(isDuplicateId);
-
-		// Add the new group if ID is not duplicate
-		if (!isDuplicateId) {
-			Group newGroup = new Group(newGroupId, newGroupName, newGroupParticipants, newGroupDescription);
-			groupList.add(newGroup);
-		}
-
+		// Test that there is no duplicated ID and add the Group into the list
+		Group.addGroup(groupList, newGroup);
 		// Verify that the group is created
-		boolean isCreated = false;
-		for (Group group : groupList) {
-			if (group.getId().equals(newGroupId) && group.getName().equals(newGroupName)
-					&& group.getParticipants() == newGroupParticipants
-					&& group.getDescription().equals(newGroupDescription)) {
-				isCreated = true;
-				break;
-			}
-		}
-
-		assertTrue(isCreated);
+		assertEquals(1, groupList.size());
 	}
 
-	@Test
-	public void testAddGroup_DupID() {
-
-		// Simulate creating a new group with a duplicate ID
-		String newid = "2"; // This ID already exists
-		String newGroupName = "Road Warriors";
-		int newGroupParticipants = 15;
-		String newGroupDescription = "Conquering roads.";
-
-		boolean isDuplicateId = false;
-		for (Group group : groupList) {
-			if (group.getId().equals(newid)) {
-				isDuplicateId = true;
-				break;
-			}
-		}
-
-		assertTrue(isDuplicateId); // The ID is indeed a duplicate
-	}
-
-	@Test
-	public void testViewAllGroup() {
-
-		StringBuilder output = new StringBuilder();
-		for (Group group : groupList) {
-			output.append(group.getName()).append("\n");
-		}
-
-		String expectedOutput = "Bikers\nMountBike\n";
-		assertEquals(expectedOutput, output.toString());
-	}
-
+	@Test 
+	 public void testViewGroups() { 
+	  // Test that initially, the groupList has a size of 2 
+	  assertNotNull("Check that if there is any groups to add",groupList); 
+	  String newGroupId = "3"; 
+	  String newGroupName = "Biking";
+	  int newGroupParticipants = 150;
+	  String newGroupDescription = "Biking nerds"; 
+	  Group newGroup = new Group(newGroupId, newGroupName, newGroupParticipants, newGroupDescription);
+	  Group.addGroup(groupList,newGroup); 
+	  assertEquals("Test that group arrayList size is 1",1,groupList.size()); 
+	   
+	  
+	   
+	  String testOutput=String.format("%-5s %-10s %-15d %s\n", "3", "Biking",150,"Biking nerds"); 
+	   
+	  assertEquals("Test that testViewGroups list is the expected output", testOutput,Group.showallgrp(groupList)); 
+	     
+	 } 
 	@Test
 	public void testSearchGroup() {
+		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
+		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
 
 		Group foundGroup = null;
 		String searchGroupName = "Bikers";
@@ -386,240 +351,225 @@ public class C206_CaseStudyTest {
 
 	@Test
 	public void testDeleteGroup() {
+		// Test that group deleted is of the ID that the user input - Normal
+		
+		groupList.add(new Group("1", "Bikers", 10, "A group for biking enthusiasts"));
+		groupList.add(new Group("2", "MountBike", 15, "For those who love mountain biking"));
+		String input1 = "1";
+		assertEquals(input1, groupList.get(0).getId());
 
-		String groupNameToDelete = "MountBike";
-		Group groupToDelete = null;
+		// After deletion, the size of the list should be 1 (since we only removed one -
+		// Normal
+		// group)
+		Group.deleteGroup(groupList, input1, 'y');
+		int expectedSizeAfterDeletion = 1;
+		assertEquals(expectedSizeAfterDeletion, groupList.size());
 
-		for (Group group : groupList) {
-			if (group.getName().equalsIgnoreCase(groupNameToDelete)) {
-				groupToDelete = group;
-				break;
-			}
+		// After another deletion, the size of the list should be 0 - Boundary
+		Group.deleteGroup(groupList, "2", 'y');
+		assertEquals(0, groupList.size());
+
+		// An empty group list cannot be deleted. - Error
+		groupList.clear();
+		Group.deleteGroup(groupList, input1, 'y');
+		int actualSize = groupList.size();
+		int expSizeAftDeletion = -1;
+		assertNotEquals(expSizeAftDeletion, actualSize);
+
+	}
+
+	// Jin Yi
+	@Test
+	public void AddUser() {
+		// Item list is not null, so that can add a new item - boundary
+		assertNotNull("Check if there is valid users arraylist to add to", users);
+		// Given an empty list, after adding 1 item, the size of the list is 1 - normal
+		// The item just added is as same as the first item of the list
+		HomePage.adduser(users, u1);
+		assertEquals("Check that users arraylist size is 1", 1, users.size());
+		assertSame("Check that user is added", u1, users.get(0));
+
+		// Add another item. test The size of the list is 2? -normal
+		// The item just added is as same as the second item of the list
+		HomePage.adduser(users, u2);
+		assertEquals("Check that users arraylist size is 2", 2, users.size());
+		assertSame("Check that user is added", u2, users.get(1));
+	}
+
+	// Jin Yi
+	@Test
+	public void testsignup() {
+		assertNotNull("Check if there is valid users arraylist to add to", users);
+
+		String user = "Hmm";
+		String password = "12345678";
+		for (User u : users) {
+			// check if password is acceptable when its 8 char
+			HomePage.signup(users, user, password);
+			assertEquals("Check that users arraylist size is 1", 1, users.size());
+			assertSame("Check that user is added", u, user);
+			break;
 		}
 
-		assertNotNull(groupToDelete);
-		groupList.remove(groupToDelete);
+		String user2 = "lol";
+		password = "123";
+		// check if password is unacceptable when its below 8 char
+		HomePage.signup(users, user2, password);
+		assertSame("Check that users arraylist size is empty", 0, users.size());
+		;
 
-		// Verify that the group is deleted
-		boolean isDeleted = true;
-		for (Group group : groupList) {
-			if (group.getName().equalsIgnoreCase(groupNameToDelete)) {
-				isDeleted = false;
-				break;
+		String user3 = "lol1";
+		password = "12345678910";
+		for (User u : users) {
+			// check if password is acceptable when its more than 8 char
+			HomePage.signup(users, user, password);
+			assertEquals("Check that users arraylist size is 2", 2, users.size());
+			assertSame("Check that user is added", u, user3);
+			break;
+		}
+	}
+
+	// Jin Yi
+	@Test
+	public void viewalluser() {
+		// Test if User list is not null but empty - boundary
+		assertNotNull("Check if there is a valid users arraylist to add to", users);
+
+		// Given an empty list, after adding 2 items, test if the size of the list is 2
+		// - normal
+		HomePage.adduser(users, u1);
+		HomePage.adduser(users, u2);
+		assertEquals("Test that users arraylist size is 2", 2, users.size());
+
+		assertNotNull("Check if there are users in the users arraylist to add to", users);
+
+		String userslist = HomePage.viewUsers(users);
+		String testOutput = "jin\njake\n"; // Correctly formatted output of users
+		assertEquals("Test that ViewAllUsers list", testOutput, userslist);
+	}
+
+	// Jin Yi
+	@Test
+	public void checkdeleteOwnUser() {
+		assertNotNull("Check if there is a valid users arraylist to add to", users);
+		HomePage.adduser(users, u1);
+		HomePage.adduser(users, u2);
+
+		assertEquals("Test that users arraylist size is 2", 2, users.size());
+		// delete own user
+		for (User u : users) {
+			if (u.getId() == 1) {
+				HomePage.deleteuser(users, 1);
 			}
 		}
+		int expectedSizeAfterDeletion = 1;
+		assertEquals(expectedSizeAfterDeletion, users.size());
 
-		assertTrue(isDeleted);
+	}
+
+	// Jin Yi
+	@Test
+	public void checkdeleteuserADMIN() {
+		assertNotNull("Check if there is a valid users arraylist to add to", users);
+		HomePage.adduser(users, u2);
+		HomePage.adduser(users, u3);
+
+		assertEquals("Test that users arraylist size is 2", 2, users.size());
+
+		// delete other users
+		String user = "fin";
+		char choose = 'y';
+		HomePage.admindeleteuser(users, friends, user, choose);
+		int expectedSizeAfterDeletion = 1;
+		assertEquals(expectedSizeAfterDeletion, users.size());
+
+		HomePage.adduser(users, u2);
+		assertEquals("Test that users arraylist size is 2", 2, users.size());
+
+		// delete user that is not inside the arraylist
+		user = "wee";
+		choose = 'y';
+		HomePage.admindeleteuser(users, friends, user, choose);
+		expectedSizeAfterDeletion = 2;
+		assertEquals(expectedSizeAfterDeletion, users.size());
+
+		// user not deleted when admin choose n
+		user = "hmm";
+		choose = 'n';
+		HomePage.admindeleteuser(users, friends, user, choose);
+		expectedSizeAfterDeletion = 2;
+		assertEquals(expectedSizeAfterDeletion, users.size());
+
 	}
 
 	@Test
-	public void testShowDeleteGroup() {
-		String groupNameToDelete = "MountBike";
-		boolean deleted = false;
+	public void testAddRegistration() {
+		// Item list is not null, so that can add a new item - boundary
+		assertNotNull("Check if there is valid Registration arraylist to add to", registrationsList);
 
-		for (int i = 0; i < groupList.size(); i++) {
-			if (groupList.get(i).getName().equalsIgnoreCase(groupNameToDelete)) {
-				groupList.remove(i);
-				deleted = true;
-				break;
-			}
-		}
-		assertTrue(deleted);
+		// Given an empty list, after adding 1 item, the size of the list is 1 - normal
+		// The item just added is as same as the first item of the list
+		Registration.addEventRegistrations(registrationsList, r1);
+		assertEquals("Check that Registration arraylist size is 1", 1, registrationsList.size());
+		assertSame("Check that Registration is added", r1, registrationsList.get(0));
 
-		// Verify that the group is deleted
-		for (Group group : groupList) {
-			assertNotEquals(groupNameToDelete, group.getName());
-		}
+		// Add another Registration. test The size of the list is 2? -normal
+		// The item just added is as same as the second item of the list
+		Registration.addEventRegistrations(registrationsList, r2);
+		assertEquals("Check that Registration arraylist size is 2", 2, registrationsList.size());
+		assertSame("Check that Registration is added", r2, registrationsList.get(1));
 	}
 
-	//Jin Yi
-		@Test
-		public void AddUser() {
-			// Item list is not null, so that can add a new item - boundary
-			assertNotNull("Check if there is valid users arraylist to add to", users);
-			// Given an empty list, after adding 1 item, the size of the list is 1 - normal
-			// The item just added is as same as the first item of the list
-			HomePage.adduser(users, u1);
-			assertEquals("Check that users arraylist size is 1", 1, users.size());
-			assertSame("Check that user is added", u1, users.get(0));
+	@Test
+	public void testViewAllRegistration() {
+		/*
+		 * r1 = new Registration(1, "HI"); r2 = new Registration(2, "BYE");
+		 */
+		// Test if Registration list is not null but empty - boundary
+		assertNotNull("Check if there is a valid users arraylist to add to", registrationsList);
+		Registration.addEventRegistrations(registrationsList, r1);
+		Registration.addEventRegistrations(registrationsList, r2);
+		assertEquals("Check that Registration arraylist size is 2", 2, registrationsList.size());
 
-			// Add another item. test The size of the list is 2? -normal
-			// The item just added is as same as the second item of the list
-			HomePage.adduser(users, u2);
-			assertEquals("Check that users arraylist size is 2", 2, users.size());
-			assertSame("Check that user is added", u2, users.get(1));
-		}
+		// Given an empty list, after adding 2 items, test if the size of the list is 2
+		// - normal
 
-		//Jin Yi
-		@Test
-		public void testsignup() {
-			assertNotNull("Check if there is valid users arraylist to add to", users);
-
-			String user = "Hmm";
-			String password = "12345678"; 
-			for (User u : users) {
-					//check if password is acceptable when its 8 char
-					HomePage.signup(users, user, password);
-					assertEquals("Check that users arraylist size is 1", 1, users.size());
-					assertSame("Check that user is added", u, user);
-					break;
-			}
-			
-			String user2 = "lol";
-			password = "123"; 
-			//check if password is unacceptable when its below 8 char
-			HomePage.signup(users, user2, password);
-			assertSame("Check that users arraylist size is empty", 0, users.size());;
-			
-			String user3 = "lol1";
-			password = "12345678910";
-			for (User u : users) {
-				//check if password is acceptable when its more than 8 char
-				HomePage.signup(users, user, password);
-				assertEquals("Check that users arraylist size is 2", 2, users.size());
-				assertSame("Check that user is added", u, user3);
-				break;
-		}
-		}
-
-		//Jin Yi
-		@Test
-		public void viewalluser() {
-			// Test if User list is not null but empty - boundary
-			assertNotNull("Check if there is a valid users arraylist to add to", users);
-
-			// Given an empty list, after adding 2 items, test if the size of the list is 2
-			// - normal
-			HomePage.adduser(users, u1);
-			HomePage.adduser(users, u2);
-			assertEquals("Test that users arraylist size is 2", 2, users.size());
-
-			assertNotNull("Check if there are users in the users arraylist to add to", users);
-
-			String userslist = HomePage.viewUsers(users);
-			String testOutput = "jin\njake\n"; // Correctly formatted output of users
-			assertEquals("Test that ViewAllUsers list", testOutput, userslist);
-		}
-
-		//Jin Yi
-		@Test
-		public void checkdeleteOwnUser() {
-			assertNotNull("Check if there is a valid users arraylist to add to", users);
-			HomePage.adduser(users, u1);
-			HomePage.adduser(users, u2);
-
-			assertEquals("Test that users arraylist size is 2", 2, users.size());
-			// delete own user
-			for (User u : users) {
-				if (u.getId() == 1) {
-					HomePage.deleteuser(users, 1);
-				}
-			}
-			int expectedSizeAfterDeletion = 1;
-			assertEquals(expectedSizeAfterDeletion, users.size());
-		
-		}
-		
-		//Jin Yi
-		@Test
-		public void checkdeleteuserADMIN() {
-			assertNotNull("Check if there is a valid users arraylist to add to", users);
-			HomePage.adduser(users, u2);
-			HomePage.adduser(users, u3);
-
-			assertEquals("Test that users arraylist size is 2", 2, users.size());
-			
-			//delete other users
-			String user = "fin";
-			char choose = 'y';
-			HomePage.admindeleteuser(users, friends, user, choose);
-			int expectedSizeAfterDeletion = 1;
-			assertEquals(expectedSizeAfterDeletion, users.size());
-			
-			HomePage.adduser(users, u2);
-			assertEquals("Test that users arraylist size is 2", 2, users.size());
-			
-			//delete user that is not inside the arraylist
-			user = "wee";
-			choose = 'y';
-			HomePage.admindeleteuser(users, friends, user, choose);
-			expectedSizeAfterDeletion = 2;
-			assertEquals(expectedSizeAfterDeletion, users.size());
-			
-			//user not deleted when admin choose n
-			user = "hmm";
-			choose = 'n';
-			HomePage.admindeleteuser(users, friends, user, choose);
-			expectedSizeAfterDeletion = 2;
-			assertEquals(expectedSizeAfterDeletion, users.size());
-			
-		}
-		@Test
-		public void testAddRegistration() {
-			// Item list is not null, so that can add a new item - boundary
-			assertNotNull("Check if there is valid Registration arraylist to add to", registrationsList);
-			
-			// Given an empty list, after adding 1 item, the size of the list is 1 - normal
-			// The item just added is as same as the first item of the list
-			Registration.addEventRegistrations(registrationsList, r1);
-			assertEquals("Check that Registration arraylist size is 1", 1, registrationsList.size());
-			assertSame("Check that Registration is added", r1, registrationsList.get(0));
-
-			// Add another Registration. test The size of the list is 2? -normal
-			// The item just added is as same as the second item of the list
-			Registration.addEventRegistrations(registrationsList, r2);
-			assertEquals("Check that Registration arraylist size is 2", 2, registrationsList.size());
-			assertSame("Check that Registration is added", r2, registrationsList.get(1));
-		}
-
-
-		@Test
-		public void testViewAllRegistration() {
-			/*r1 = new Registration(1, "HI");
-			r2 = new Registration(2, "BYE");*/
-			// Test if Registration list is not null but empty - boundary
-			assertNotNull("Check if there is a valid users arraylist to add to", registrationsList);
-			Registration.addEventRegistrations(registrationsList, r1);
-			Registration.addEventRegistrations(registrationsList, r2);
-			assertEquals("Check that Registration arraylist size is 2", 2, registrationsList.size());
-			
-			// Given an empty list, after adding 2 items, test if the size of the list is 2
-			// - normal
-
-			String testOutput = String.format("\n%-10d %-20s",1, "HI");
-			 testOutput += String.format("\n%-10d %-20s",2, "BYE");// Correctly formatted output of Registration
-			assertEquals("Test that ViewAllUsers list", testOutput, Registration.displayAllRegistration(registrationsList));
-		}
-
-		@Test
-		public void testDeleteRegistration() {
-			assertNotNull("Check if there is a valid registration arraylist to add to",registrationsList);
-			Registration.addEventRegistrations(registrationsList, r1);
-			Registration.addEventRegistrations(registrationsList, r2);
-			assertEquals("Check that Registration arraylist size is 2", 2, registrationsList.size());
-
-			Registration.deleteEventRegistration(registrationsList, 1, 'y');
-			
-			int expectedSizeAfterDeletion = 1;
-			assertEquals("Check that Registration arraylist size is 1",expectedSizeAfterDeletion, registrationsList.size());
-		}
-
-		@After
-		public void tearDown() throws Exception {
-			event1 = null;
-			event2 = null;
-			bike1 = null;
-			bike2 = null;
-			bike3 = null;
-			bikeList = null;
-			u1 = null;
-			u2 = null;
-			u3 = null;
-			f1 = null;
-			f2 = null;
-			users = null;
-			friends = null;
-			r1 = null;
-			r2 = null;
-		}
+		String testOutput = String.format("\n%-10d %-20s", 1, "HI");
+		testOutput += String.format("\n%-10d %-20s", 2, "BYE");// Correctly formatted output of Registration
+		assertEquals("Test that ViewAllUsers list", testOutput, Registration.displayAllRegistration(registrationsList));
 	}
+
+	@Test
+	public void testDeleteRegistration() {
+		assertNotNull("Check if there is a valid registration arraylist to add to", registrationsList);
+		Registration.addEventRegistrations(registrationsList, r1);
+		Registration.addEventRegistrations(registrationsList, r2);
+		assertEquals("Check that Registration arraylist size is 2", 2, registrationsList.size());
+
+		Registration.deleteEventRegistration(registrationsList, 1, 'y');
+
+		int expectedSizeAfterDeletion = 1;
+		assertEquals("Check that Registration arraylist size is 1", expectedSizeAfterDeletion,
+				registrationsList.size());
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		event1 = null;
+		event2 = null;
+		bike1 = null;
+		bike2 = null;
+		bike3 = null;
+		bikeList = null;
+		u1 = null;
+		u2 = null;
+		u3 = null;
+		f1 = null;
+		f2 = null;
+		users = null;
+		friends = null;
+		r1 = null;
+		r2 = null;
+		groupList = null;
+	}
+}
